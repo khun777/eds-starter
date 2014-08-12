@@ -37,7 +37,8 @@ import ch.rasc.eds.starter.web.MdcFilter;
 import ch.rasc.edsutil.optimizer.WebResourceProcessor;
 
 @Configuration
-@ComponentScan(basePackageClasses = { RouterController.class, ApiCache.class, Application.class })
+@ComponentScan(basePackageClasses = { RouterController.class, ApiCache.class,
+		Application.class })
 @EnableAutoConfiguration
 @EnableScheduling
 @PropertySource("classpath:/version.properties")
