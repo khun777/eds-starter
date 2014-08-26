@@ -64,25 +64,11 @@ public class HtmlController {
 
 	@RequestMapping(value = { "/login.html" }, produces = MediaType.TEXT_HTML_VALUE)
 	@ResponseBody
-	public String login(HttpSession session, HttpServletResponse response, Locale locale) {
+	public String login(HttpServletResponse response, Locale locale) {
 		response.setContentType("text/html; charset=utf-8");
 		return indexHtml + createI18nScript(environment, locale) + loginJs
 				+ createExtJSLocale(environment, locale)
-				+ createLoginErrorScript(session) + "</body></html>";
-	}
-
-	private static String createLoginErrorScript(HttpSession session) {
-		StringBuilder sb = new StringBuilder(100);
-		sb.append("<script>");
-		sb.append("Ext.onReady(function() {");
-		sb.append("Ext.fly('cssloader').destroy();");
-		if (session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION) != null) {
-			sb.append("Start.ux.window.Notification.error(i18n.error, i18n.login_failed);");
-			session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
-		}
-		sb.append("});");
-		sb.append("</script>");
-		return sb.toString();
+				+ "</body></html>";
 	}
 
 	private static String createExtJSLocale(Environment environment, Locale locale) {

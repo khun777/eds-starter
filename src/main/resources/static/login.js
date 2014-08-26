@@ -6,7 +6,7 @@ Ext.onReady(function() {
 			+ i18n.login_capslockwarning_line1 + '</div><br />' + '<div>' + i18n.login_capslockwarning_line2 + '</div>';
 
 	headerContainer = new Ext.container.Container({
-		border: '0 0 2 0',
+	    border: '0 0 2 0',
 		style: {
 		    borderColor: 'black',
 		    borderStyle: 'solid'
@@ -155,7 +155,7 @@ Ext.onReady(function() {
 	new Ext.container.Container({
 		plugins: 'viewport',
 		style: {
-			backgroundColor: 'rgb(225, 225, 225)'
+			backgroundColor: 'white'
 		},
 		layout: {
 			type: 'border',
@@ -166,5 +166,9 @@ Ext.onReady(function() {
 
 	loginPanel.getForm().findField('username').focus();
 
+	Ext.fly('cssloader').destroy();
+	if (location.search === '?error') {
+		Ext.toast(i18n.login_failed, i18n.error, 't');
+	}
 
 });

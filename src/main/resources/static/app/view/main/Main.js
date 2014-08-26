@@ -3,11 +3,11 @@ Ext.define('Start.view.main.Main', {
     requires: ['Start.view.main.MainController', 'Start.view.main.MainModel'],
     
     controller: {
-    	xtype: 'Start.view.main.MainController'
+    	xclass: 'Start.view.main.MainController'
     },
     
     viewModel: {
-        xtype: 'Start.view.main.MainModel'
+    	xclass: 'Start.view.main.MainModel'
     },
 
     layout: {

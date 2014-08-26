@@ -1,9 +1,7 @@
 .appHeader .x-panel-body {
-	background-color: transparent;
 	background-image: url(../images/favicon-32x32.png);
 	background-repeat: no-repeat;
 	padding: 8px 0px 0px 40px;
-	color: black;
 	font-size: 22px;
 	font-weight: 200;
 	white-space: nowrap;

@@ -7,6 +7,7 @@ Ext.define('Start.Application', {
 	],
 
 	launch: function() {
+		Ext.fly('cssloader').destroy();
 		// TODO - Launch the application
 	}
 });

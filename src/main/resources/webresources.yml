@@ -13,7 +13,7 @@
     dev: ignore
     prod: script
     
-  - path: /resources/ext/{ext.version}/ext-theme-crisp/ext-theme-crisp.js
+  - path: /resources/ext/{ext.version}/ext-theme-neptune/ext-theme-neptune.js
     dev: script
     prod: script
   
@@ -37,7 +37,7 @@
     dev: script
     prod: script
   
-  - path: /resources/ext/{ext.version}/ext-theme-crisp/ext-theme-crisp.js
+  - path: /resources/ext/{ext.version}/ext-theme-neptune/ext-theme-neptune.js
     dev: script
     prod: script
   
@@ -62,10 +62,10 @@
 ---
   variable: app_css
   resources:
-  - path: /resources/ext/{ext.version}/ext-theme-crisp/ext-theme-crisp-all_01.css
+  - path: /resources/ext/{ext.version}/ext-theme-neptune/ext-theme-neptune-all_01.css
     dev: link
     prod: link
-  - path: /resources/ext/{ext.version}/ext-theme-crisp/ext-theme-crisp-all_02.css
+  - path: /resources/ext/{ext.version}/ext-theme-neptune/ext-theme-neptune-all_02.css
     dev: link
     prod: link
   - path: /resources/fontello/css/custom.css

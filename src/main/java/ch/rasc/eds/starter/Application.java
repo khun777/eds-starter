@@ -29,16 +29,14 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.LocaleResolver;
 
-import ch.ralscha.extdirectspring.controller.RouterController;
-import ch.ralscha.extdirectspring.util.ApiCache;
+import ch.ralscha.extdirectspring.ExtDirectSpring;
 import ch.rasc.eds.starter.config.AppLocaleResolver;
 import ch.rasc.eds.starter.entity.User;
 import ch.rasc.eds.starter.web.MdcFilter;
 import ch.rasc.edsutil.optimizer.WebResourceProcessor;
 
 @Configuration
-@ComponentScan(basePackageClasses = { RouterController.class, ApiCache.class,
-		Application.class })
+@ComponentScan(basePackageClasses = { ExtDirectSpring.class, Application.class })
 @EnableAutoConfiguration
 @EnableScheduling
 @PropertySource("classpath:/version.properties")

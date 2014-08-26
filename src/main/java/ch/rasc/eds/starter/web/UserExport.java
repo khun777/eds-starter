@@ -53,89 +53,90 @@ public class UserExport {
 		response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 		response.addHeader("Content-disposition", "attachment;filename=users.xlsx");
 
-		Workbook workbook = new XSSFWorkbook();
+		try (Workbook workbook = new XSSFWorkbook()) {
 
-		Font font = workbook.createFont();
-		Font titleFont = workbook.createFont();
+			Font font = workbook.createFont();
+			Font titleFont = workbook.createFont();
 
-		font.setColor(IndexedColors.BLACK.getIndex());
-		font.setFontName("Arial");
-		font.setFontHeightInPoints((short) 10);
-		font.setBoldweight(Font.BOLDWEIGHT_NORMAL);
+			font.setColor(IndexedColors.BLACK.getIndex());
+			font.setFontName("Arial");
+			font.setFontHeightInPoints((short) 10);
+			font.setBoldweight(Font.BOLDWEIGHT_NORMAL);
 
-		titleFont.setColor(IndexedColors.BLACK.getIndex());
-		titleFont.setFontName("Arial");
-		titleFont.setFontHeightInPoints((short) 10);
-		titleFont.setBoldweight(Font.BOLDWEIGHT_BOLD);
+			titleFont.setColor(IndexedColors.BLACK.getIndex());
+			titleFont.setFontName("Arial");
+			titleFont.setFontHeightInPoints((short) 10);
+			titleFont.setBoldweight(Font.BOLDWEIGHT_BOLD);
 
-		CellStyle normalStyle = workbook.createCellStyle();
-		normalStyle.setFont(font);
+			CellStyle normalStyle = workbook.createCellStyle();
+			normalStyle.setFont(font);
 
-		CellStyle titleStyle = workbook.createCellStyle();
-		titleStyle.setFont(titleFont);
+			CellStyle titleStyle = workbook.createCellStyle();
+			titleStyle.setFont(titleFont);
 
-		Sheet sheet = workbook.createSheet(messageSource.getMessage("user_users", null,
-				locale));
+			Sheet sheet = workbook.createSheet(messageSource.getMessage("user_users",
+					null, locale));
 
-		Row row = sheet.createRow(0);
-		createCell(row, 0, messageSource.getMessage("user_username", null, locale),
-				titleStyle);
-		createCell(row, 1, messageSource.getMessage("user_firstname", null, locale),
-				titleStyle);
-		createCell(row, 2, messageSource.getMessage("user_lastname", null, locale),
-				titleStyle);
-		createCell(row, 3, messageSource.getMessage("user_email", null, locale),
-				titleStyle);
-		createCell(row, 4, messageSource.getMessage("user_enabled", null, locale),
-				titleStyle);
+			Row row = sheet.createRow(0);
+			createCell(row, 0, messageSource.getMessage("user_username", null, locale),
+					titleStyle);
+			createCell(row, 1, messageSource.getMessage("user_firstname", null, locale),
+					titleStyle);
+			createCell(row, 2, messageSource.getMessage("user_lastname", null, locale),
+					titleStyle);
+			createCell(row, 3, messageSource.getMessage("user_email", null, locale),
+					titleStyle);
+			createCell(row, 4, messageSource.getMessage("user_enabled", null, locale),
+					titleStyle);
 
-		BooleanBuilder bb = new BooleanBuilder();
-		if (StringUtils.hasText(filter)) {
-			bb.or(QUser.user.userName.contains(filter));
-			bb.or(QUser.user.name.contains(filter));
-			bb.or(QUser.user.firstName.contains(filter));
-			bb.or(QUser.user.email.contains(filter));
-		}
+			BooleanBuilder bb = new BooleanBuilder();
+			if (StringUtils.hasText(filter)) {
+				bb.or(QUser.user.userName.contains(filter));
+				bb.or(QUser.user.name.contains(filter));
+				bb.or(QUser.user.firstName.contains(filter));
+				bb.or(QUser.user.email.contains(filter));
+			}
 
-		int rowNo = 1;
-		for (User user : userRepository.findAll(bb)) {
-			row = sheet.createRow(rowNo);
-			rowNo++;
+			int rowNo = 1;
+			for (User user : userRepository.findAll(bb)) {
+				row = sheet.createRow(rowNo);
+				rowNo++;
 
-			Cell cell = row.createCell(0);
-			cell.setCellType(Cell.CELL_TYPE_STRING);
-			cell.setCellValue(user.getUserName());
-			cell.setCellStyle(normalStyle);
+				Cell cell = row.createCell(0);
+				cell.setCellType(Cell.CELL_TYPE_STRING);
+				cell.setCellValue(user.getUserName());
+				cell.setCellStyle(normalStyle);
 
-			cell = row.createCell(1);
-			cell.setCellType(Cell.CELL_TYPE_STRING);
-			cell.setCellValue(user.getFirstName());
-			cell.setCellStyle(normalStyle);
+				cell = row.createCell(1);
+				cell.setCellType(Cell.CELL_TYPE_STRING);
+				cell.setCellValue(user.getFirstName());
+				cell.setCellStyle(normalStyle);
 
-			cell = row.createCell(2);
-			cell.setCellType(Cell.CELL_TYPE_STRING);
-			cell.setCellValue(user.getName());
-			cell.setCellStyle(normalStyle);
+				cell = row.createCell(2);
+				cell.setCellType(Cell.CELL_TYPE_STRING);
+				cell.setCellValue(user.getName());
+				cell.setCellStyle(normalStyle);
 
-			cell = row.createCell(3);
-			cell.setCellType(Cell.CELL_TYPE_STRING);
-			cell.setCellValue(user.getEmail());
-			cell.setCellStyle(normalStyle);
+				cell = row.createCell(3);
+				cell.setCellType(Cell.CELL_TYPE_STRING);
+				cell.setCellValue(user.getEmail());
+				cell.setCellStyle(normalStyle);
 
-			cell = row.createCell(4);
-			cell.setCellType(Cell.CELL_TYPE_BOOLEAN);
-			cell.setCellValue(user.isEnabled());
-			cell.setCellStyle(normalStyle);
-		}
+				cell = row.createCell(4);
+				cell.setCellType(Cell.CELL_TYPE_BOOLEAN);
+				cell.setCellValue(user.isEnabled());
+				cell.setCellStyle(normalStyle);
+			}
 
-		sheet.autoSizeColumn(0);
-		sheet.autoSizeColumn(1);
-		sheet.autoSizeColumn(2);
-		sheet.autoSizeColumn(3);
-		sheet.autoSizeColumn(4);
+			sheet.autoSizeColumn(0);
+			sheet.autoSizeColumn(1);
+			sheet.autoSizeColumn(2);
+			sheet.autoSizeColumn(3);
+			sheet.autoSizeColumn(4);
 
-		try (OutputStream out = response.getOutputStream()) {
-			workbook.write(out);
+			try (OutputStream out = response.getOutputStream()) {
+				workbook.write(out);
+			}
 		}
 	}
 
