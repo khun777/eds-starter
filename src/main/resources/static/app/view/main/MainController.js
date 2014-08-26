@@ -1,13 +1,12 @@
 Ext.define('Start.view.main.MainController', {
 	extend: 'Ext.app.ViewController',
-
-	onClickButton: function() {
-		Ext.Msg.confirm('Confirm', 'Are you sure?', 'onConfirm', this);
+	
+	init: function() {		
+		securityService.getLoggedOnUser(this.afterLoggedOnUserReceived, this);
 	},
 
-	onConfirm: function(choice) {
-		if (choice === 'yes') {
-			//
-		}
+	afterLoggedOnUserReceived: function(user) {
+		this.getViewModel().set('loggedOnUser', user.firstName + ' ' + user.name);
 	}
+
 });

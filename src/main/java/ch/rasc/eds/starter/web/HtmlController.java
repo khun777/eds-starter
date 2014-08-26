@@ -7,13 +7,11 @@ import java.util.Locale;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
-import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -67,8 +65,7 @@ public class HtmlController {
 	public String login(HttpServletResponse response, Locale locale) {
 		response.setContentType("text/html; charset=utf-8");
 		return indexHtml + createI18nScript(environment, locale) + loginJs
-				+ createExtJSLocale(environment, locale)
-				+ "</body></html>";
+				+ createExtJSLocale(environment, locale) + "</body></html>";
 	}
 
 	private static String createExtJSLocale(Environment environment, Locale locale) {
