@@ -13,7 +13,14 @@ Ext.define('Start.view.main.MainModel', {
 				type: 'direct',
 				directFn: 'navigationService.getNavigation'
 			}
+		},
+
+		logLevels: {
+			type: 'array',
+			fields: [ 'level' ],
+			data: [ [ 'ERROR' ], [ 'WARN' ], [ 'INFO' ], [ 'DEBUG' ] ]
 		}
+
 	}
 
 });

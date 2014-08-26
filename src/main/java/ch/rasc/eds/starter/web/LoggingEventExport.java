@@ -85,7 +85,7 @@ public class LoggingEventExport {
 
 				String timestampText = messageSource.getMessage("logevents_timestamp",
 						null, locale);
-				String userText = messageSource.getMessage("user", null, locale);
+				String userText = messageSource.getMessage("logevents_user", null, locale);
 				String ipText = messageSource.getMessage("logevents_ip", null, locale);
 				String levelText = messageSource.getMessage("logevents_level", null,
 						locale);

@@ -19,15 +19,21 @@ Ext.define('Start.view.main.Main', {
 	items: [ {
 		xclass: 'Start.view.main.SideBar',
 		region: 'west',
+		reference: 'navigationTree',
 		split: true
 	}, {
 		xclass: 'Start.view.main.Header',
 		region: 'north',
-		split: false		
-	}, {		
+		split: false
+	}, {
 		xtype: 'tabpanel',
 		region: 'center',
+		reference: 'centerTabPanel',
 		split: true,
-		plain: true
+		plain: true,
+		listeners: {
+			tabchange: 'onTabChange',
+			remove: 'onTabRemove'
+		}
 	} ]
 });

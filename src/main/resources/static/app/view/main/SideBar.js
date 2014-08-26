@@ -9,7 +9,10 @@ Ext.define('Start.view.main.SideBar', {
 	rootVisible: false,
 	animate: false,
 	viewConfig: {
-		scroll:false
+		scroll: false
 	},
-	bind: '{navigationStore}'
+	bind: '{navigationStore}',
+	listeners: {
+		selectionchange: 'onNavigationTreeSelectionchange'
+	}
 });
