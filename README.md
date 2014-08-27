@@ -17,5 +17,5 @@ __TODO__:
 - [ ] Session Timeout Handling / Access Denied Handling  
 - [ ] History / Back-Button / Routing
 - [ ] Enhance toast windows (color, shadow, ...)
-- [ ] Passwort reset
+- [ ] Password reset
    
