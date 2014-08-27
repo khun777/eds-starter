@@ -14,6 +14,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.context.embedded.ServletContextInitializer;
+import org.springframework.boot.context.embedded.ServletListenerRegistrationBean;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.boot.orm.jpa.EntityScan;
@@ -26,6 +27,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.LocaleResolver;
 
@@ -80,6 +82,11 @@ public class Application extends SpringBootServletInitializer {
 		AppLocaleResolver resolver = new AppLocaleResolver();
 		resolver.setDefaultLocale(Locale.ENGLISH);
 		return resolver;
+	}
+	
+	@Bean
+	public ServletListenerRegistrationBean<HttpSessionEventPublisher> sessionListener() {
+		return new ServletListenerRegistrationBean<>(new HttpSessionEventPublisher());
 	}
 
 	@Bean
