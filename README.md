@@ -12,8 +12,10 @@ __TODO__:
 - [ ] System
   - [x] ~~Access Log~~
   - [x] ~~Log Events~~
-  - [ ] Configuration
+  - [x] ~~Configuration~~
   
 - [ ] Session Timeout Handling / Access Denied Handling  
 - [ ] History / Back-Button / Routing
+- [ ] Enhance toast windows (color, shadow, ...)
+- [ ] Passwort reset
    

@@ -202,15 +202,15 @@ public class AccessLogService {
 			Long count = tuple.get(accessLog.count());
 			total = total + count;
 		}
-		
+
 		BigDecimal totalBd = new BigDecimal(total);
-		
+
 		for (Tuple tuple : queryResult) {
 			String os = tuple.get(accessLog.operatingSystem);
 			Long count = tuple.get(accessLog.count());
 			Map<String,Object> row = new HashMap<>();
 			row.put("name", os);
-			row.put("value", count);			
+			row.put("value", count);
 			row.put("percent", new BigDecimal(count*100).divide(totalBd, 2, BigDecimal.ROUND_HALF_UP));
 			result.add(row);
 		}

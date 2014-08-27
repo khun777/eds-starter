@@ -64,7 +64,7 @@ public class NavigationService {
 				.addChild(new MenuNode(
 						"navigation_system_config",
 						"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAABF0lEQVR4AXXPIUuDURTG8cchY2GILI0xxDCGisG0ZJBhMJnEYBQRm4JVBIMYFg0isrBg+J+7l0WDGIYMP8GCwWCQIbIsY84ruzB4X9Tf4cI9l+ccuJqwAjs2p780U1aQuMRzPQ5GKSVxxYAuPlSXAfXfAR+vZGC87iuc46lFHYb7t+LohKmGAm5C99Sc1gTD8FRTwEXoRrGAy9PG825lyUr08HRcQWqlWxkp4DRMDXlmEG7nUdq2ueXBttysJO7xiWq7eTx93vBUJVmePSvRDsvL7FqRBt6KLkufR02wirM1q9qRLXOAt02r8ElNcbbBCxFdt8SI8BvWFccJ9WaaD1twOfY5s5ySrMIrPe6ijP7jZtyKyyrmB9IlukeQunFqAAAAAElFTkSuQmCC",
-						"Start.view.config.Edit", Role.ADMIN));
+						"Start.view.config.Form", Role.ADMIN));
 		root.addChild(systemNode);
 	}
 

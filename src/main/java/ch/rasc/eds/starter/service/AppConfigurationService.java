@@ -50,8 +50,8 @@ public class AppConfigurationService {
 		ConfigurationDto dto = new ConfigurationDto();
 
 		LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
-		ch.qos.logback.classic.Logger logger = lc.getLogger("ch.rasc.Start");
-		String level = logger != null && logger.getLevel() != null ? logger.getLevel()
+		ch.qos.logback.classic.Logger logger = lc.getLogger("ch.rasc.eds.starter");
+		String level = logger != null && logger.getEffectiveLevel() != null ? logger.getEffectiveLevel()
 				.toString() : "ERROR";
 
 		dto.setLogLevel(level);
@@ -88,7 +88,7 @@ public class AppConfigurationService {
 	@Transactional
 	public void save(ConfigurationDto data) {
 		LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
-		ch.qos.logback.classic.Logger logger = lc.getLogger("ch.rasc.Start");
+		ch.qos.logback.classic.Logger logger = lc.getLogger("ch.rasc.eds.starter");
 		Level level = Level.toLevel(data.getLogLevel());
 		if (level != null) {
 			logger.setLevel(level);
