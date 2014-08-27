@@ -95,7 +95,13 @@ Ext.define('Start.view.loggingevent.Grid', {
 			queryMode: 'local',
 			forceSelection: true,
 			listeners: {
-				select: 'filterLogLevel'
+				change: 'filterLogLevel'
+			},
+			triggers: {
+			    clear: {
+			      type: 'clear',
+			      weight: -1
+			    }
 			}
 		} ]
 	}, {

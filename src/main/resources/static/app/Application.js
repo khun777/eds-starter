@@ -1,9 +1,10 @@
 Ext.define('Start.Application', {
 	extend: 'Ext.app.Application',
 	name: 'Start',
-
+	requires: [ 'Start.ux.form.trigger.Clear' ],
+	
 	stores: [
-	// TODO: add global / shared stores here
+	    // add global / shared stores here
 	],
 
 	constructor: function() {
@@ -49,7 +50,6 @@ Ext.define('Start.Application', {
 	},
 
 	globalErrorHandler: function(msg, url, line) {
-		console.log(msg, line);
 		var message = msg + "-->" + url + "::" + line;
 		logService.error(message);
 	}

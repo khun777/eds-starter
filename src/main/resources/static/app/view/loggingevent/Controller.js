@@ -1,13 +1,16 @@
 Ext.define('Start.view.loggingevent.Controller', {
 	extend: 'Ext.app.ViewController',
 	
-	filterLogLevel: function(cb, selected) {
-		if (selected && selected.length === 1) {
-			this.getViewModel().set('levelFilter', selected[0].data.level);
+	filterLogLevel: function(cb, newValue) {
+		var store = this.getStore('loggingEvents');
+		if (newValue) {
+			this.getViewModel().set('levelFilter', newValue);
+			store.filter('level', newValue);
 		} 
-		else {
+		else {			
 			this.getViewModel().set('levelFilter', null);
-		}
+			store.clearFilter();
+		}	
 	},
 
 	deleteAll: function() {
