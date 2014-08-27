@@ -57,7 +57,7 @@ public class UserService extends BaseCRUDService<User> {
 			StringFilter filter = (StringFilter) request.getFilters().iterator().next();
 
 			BooleanBuilder bb = new BooleanBuilder();
-			bb.or(QUser.user.userName.contains(filter.getValue()));
+			bb.or(QUser.user.email.contains(filter.getValue()));
 			bb.or(QUser.user.name.contains(filter.getValue()));
 			bb.or(QUser.user.firstName.contains(filter.getValue()));
 			bb.or(QUser.user.email.contains(filter.getValue()));
@@ -143,17 +143,17 @@ public class UserService extends BaseCRUDService<User> {
 			validations.add(validationError);
 		}
 
-		// Check uniqueness of userName and email
-		if (StringUtils.hasText(entity.getUserName())) {
+		// Check uniqueness of email
+		if (StringUtils.hasText(entity.getEmail())) {
 			BooleanBuilder bb = new BooleanBuilder(
-					QUser.user.userName.equalsIgnoreCase(entity.getUserName()));
+					QUser.user.email.equalsIgnoreCase(entity.getEmail()));
 			if (entity.getId() != null) {
 				bb.and(QUser.user.id.ne(entity.getId()));
 			}
 			if (new JPAQuery(entityManager).from(QUser.user).where(bb).exists()) {
 				ValidationError validationError = new ValidationError();
-				validationError.setField("userName");
-				validationError.setMessage(messageSource.getMessage("user_usernametaken",
+				validationError.setField("email");
+				validationError.setMessage(messageSource.getMessage("user_emailtaken",
 						null, locale));
 				validations.add(validationError);
 			}

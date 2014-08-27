@@ -1,13 +1,13 @@
 Ext.define('Start.view.accesslog.Controller', {
 	extend: 'Ext.app.ViewController',
 
-	onUsernameFilterSpecialKey: function(tf, e) {
+	onUserFilterSpecialKey: function(tf, e) {
 		if (e.getKey() === e.ENTER) {
-			this.onUsernameFilter(tf);
+			this.onUserFilter(tf);
 		}
 	},
 
-	onUsernameFilter: function(tf, trigger) {
+	onUserFilter: function(tf, trigger) {
 		if (trigger && trigger.id === 'clear') {
 			tf.setValue('');
 		}

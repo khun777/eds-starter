@@ -94,10 +94,6 @@
 				<constraints nullable="false" primaryKey="true" primaryKeyName="PK_AppUser" />
 			</column>
 
-			<column name="userName" type="varchar(100)">
-				<constraints nullable="false" unique="true" />
-			</column>
-
 			<column name="name" type="varchar(255)" />
 			<column name="firstName" type="varchar(255)" />
 
@@ -121,7 +117,7 @@
 			</column>	
 			
 			<column name="sessionId" type="varchar(100)" />
-			<column name="userName" type="varchar(100)" />
+			<column name="email" type="varchar(255)" />
 			<column name="logIn" type="DATETIME" />
 			<column name="logOut" type="DATETIME" />
 			<column name="userAgent" type="varchar(255)" />
@@ -139,7 +135,7 @@
 				<constraints nullable="false" primaryKey="true" primaryKeyName="pk_persistent_logins" />
 			</column>	
 						
-			<column name="username" type="varchar(100)">
+			<column name="username" type="varchar(255)">
                <constraints nullable="false"/>
 			</column>
 

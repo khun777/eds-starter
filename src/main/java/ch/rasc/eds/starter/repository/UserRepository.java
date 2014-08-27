@@ -7,5 +7,5 @@ import ch.rasc.eds.starter.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long>,
 		QueryDslPredicateExecutor<User> {
-	User findByUserName(String userName);
+	User findByEmail(String email);
 }

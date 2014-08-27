@@ -74,10 +74,10 @@ public class AccessLogService {
 		JPQLQuery query = new JPAQuery(entityManager).from(accessLog);
 
 		if (!request.getFilters().isEmpty()) {
-			StringFilter userNameFilter = (StringFilter) request.getFilters().iterator()
+			StringFilter emailFilter = (StringFilter) request.getFilters().iterator()
 					.next();
-			String userName = userNameFilter.getValue();
-			query.where(accessLog.userName.contains(userName));
+			String email = emailFilter.getValue();
+			query.where(accessLog.email.containsIgnoreCase(email));
 		}
 
 		QueryUtil
@@ -224,8 +224,8 @@ public class AccessLogService {
 	public void addTestData() {
 		if (!environment.acceptsProfiles("default")) {
 
-			String[] users = { "admin", "user1", "user2", "user3", "user4", "user5",
-					"user6" };
+			String[] users = { "admin@start.com", "user1@start.com", "user2@start.com", "user3@start.com", "user4@start.com", "user5@start.com",
+					"user6@start.com" };
 			String[] userAgent = {
 					"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36",
 					"Mozilla/5.0 (Windows NT 6.3; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0",
@@ -244,7 +244,7 @@ public class AccessLogService {
 				try {
 					AccessLog log = new AccessLog();
 					int rnd = random.nextInt(users.length);
-					log.setUserName(users[rnd]);
+					log.setEmail(users[rnd]);
 
 					String ua = userAgent[rnd];
 					log.setUserAgent(ua);

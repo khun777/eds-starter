@@ -78,7 +78,7 @@ public class UserExport {
 					null, locale));
 
 			Row row = sheet.createRow(0);
-			createCell(row, 0, messageSource.getMessage("user_username", null, locale),
+			createCell(row, 0, messageSource.getMessage("user_email", null, locale),
 					titleStyle);
 			createCell(row, 1, messageSource.getMessage("user_firstname", null, locale),
 					titleStyle);
@@ -91,7 +91,7 @@ public class UserExport {
 
 			BooleanBuilder bb = new BooleanBuilder();
 			if (StringUtils.hasText(filter)) {
-				bb.or(QUser.user.userName.contains(filter));
+				bb.or(QUser.user.email.contains(filter));
 				bb.or(QUser.user.name.contains(filter));
 				bb.or(QUser.user.firstName.contains(filter));
 				bb.or(QUser.user.email.contains(filter));
@@ -104,7 +104,7 @@ public class UserExport {
 
 				Cell cell = row.createCell(0);
 				cell.setCellType(Cell.CELL_TYPE_STRING);
-				cell.setCellValue(user.getUserName());
+				cell.setCellValue(user.getEmail());
 				cell.setCellStyle(normalStyle);
 
 				cell = row.createCell(1);

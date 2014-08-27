@@ -22,7 +22,7 @@ public class JpaUserDetails implements UserDetails {
 
 	private final String password;
 
-	private final String username;
+	private final String email;
 
 	private final boolean enabled;
 
@@ -38,7 +38,7 @@ public class JpaUserDetails implements UserDetails {
 		this.userDbId = user.getId();
 
 		this.password = user.getPasswordHash();
-		this.username = user.getUserName();
+		this.email = user.getEmail();
 		this.enabled = user.isEnabled();
 		this.fullName = String.join(" ", user.getFirstName(), user.getName());
 
@@ -72,7 +72,7 @@ public class JpaUserDetails implements UserDetails {
 
 	@Override
 	public String getUsername() {
-		return username;
+		return email;
 	}
 
 	public Long getUserDbId() {

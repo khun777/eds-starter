@@ -5,8 +5,8 @@ Ext.define('Start.view.accesslog.Grid', {
 	bind: '{accessLogs}',
 	
 	columns: [ {
-		text: i18n.accesslog_username,
-		dataIndex: 'userName',
+		text: i18n.accesslog_user,
+		dataIndex: 'email',
 		width: 200
 	}, {
 		text: i18n.accesslog_userAgent,
@@ -51,21 +51,21 @@ Ext.define('Start.view.accesslog.Grid', {
 			glyph: 0xe807,
 			handler: 'addTestData'
 		}, /* </debug> */'->', {
-			fieldLabel: i18n.accesslog_username,
+			fieldLabel: i18n.accesslog_user,
 			xtype: 'textfield',
 			triggers: {
 		      search: {
 		        cls: Ext.baseCSSPrefix + 'form-search-trigger',
-		        handler: 'onUsernameFilter'
+		        handler: 'onUserFilter'
 		      },
 			  clear: {
 			    type: 'clear',
 				hideWhenEmpty: false,
-				handler: 'onUsernameFilter'
+				handler: 'onUserFilter'
 		      }		      
 			},
 			listeners: {
-				specialKey: 'onUsernameFilterSpecialKey'
+				specialKey: 'onUserFilterSpecialKey'
 			}
 		} ]
 	}, {

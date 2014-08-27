@@ -3,7 +3,7 @@ Ext.define("Start.model.AccessLog",
   extend : "Ext.data.Model",
   requires : [ "Ext.data.proxy.Direct", "Ext.data.validator.Length" ],
   fields : [ {
-    name : "userName",
+    name : "email",
     type : "string",
     validators : [ {
       type : "length",

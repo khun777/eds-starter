@@ -70,13 +70,13 @@ public class LoggingEventExport {
 			}
 
 			for (LoggingEvent event : events) {
-				String userName = "";
+				String user = "";
 				String ip = "";
 
 				Set<LoggingEventProperty> properties = event.getLoggingEventProperty();
 				for (LoggingEventProperty prop : properties) {
-					if ("userName".equals(prop.getId().getMappedKey())) {
-						userName = prop.getMappedValue();
+					if ("user".equals(prop.getId().getMappedKey())) {
+						user = prop.getMappedValue();
 					}
 					else if ("ip".equals(prop.getId().getMappedKey())) {
 						ip = prop.getMappedValue();
@@ -118,7 +118,7 @@ public class LoggingEventExport {
 								Instant.ofEpochMilli(event.getTimestmp().longValue()),
 								ZoneOffset.UTC));
 
-				pw.println(userText + ": " + userName);
+				pw.println(userText + ": " + user);
 				pw.println(ipText + ": " + ip);
 				pw.println(levelText + ": " + event.getLevelString());
 				pw.println(classText + ": " + event.getCallerClass());

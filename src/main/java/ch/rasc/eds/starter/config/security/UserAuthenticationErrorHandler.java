@@ -29,7 +29,7 @@ public class UserAuthenticationErrorHandler implements
 		Object principal = event.getAuthentication().getPrincipal();
 		if (principal instanceof String) {
 			User user = new JPAQuery(entityManager).from(QUser.user)
-					.where(QUser.user.userName.eq((String) principal))
+					.where(QUser.user.email.eq((String) principal))
 					.singleResult(QUser.user);
 			if (user != null) {
 				if (user.getFailedLogins() == null) {

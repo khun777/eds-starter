@@ -23,11 +23,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 		destroyMethod = "userService.destroy", paging = true)
 public class User extends AbstractPersistable {
 
-	@NotEmpty(message = "{user_missing_username}")
-	@Size(max = 100)
-	@Column(unique = true)
-	private String userName;
-
 	@Size(max = 255)
 	private String name;
 
@@ -65,14 +60,6 @@ public class User extends AbstractPersistable {
 
 	@JsonIgnore
 	private LocalDateTime lockedOut;
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
 
 	public String getName() {
 		return name;

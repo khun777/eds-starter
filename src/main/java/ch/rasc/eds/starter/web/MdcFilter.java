@@ -33,7 +33,7 @@ public class MdcFilter implements Filter {
 		Authentication authentication = SecurityContextHolder.getContext()
 				.getAuthentication();
 		if (authentication != null) {
-			MDC.put("userName", authentication.getName());
+			MDC.put("user", authentication.getName());
 		}
 
 		MDC.put("ip", request.getRemoteAddr());
@@ -43,7 +43,7 @@ public class MdcFilter implements Filter {
 			chain.doFilter(request, response);
 		}
 		finally {
-			MDC.remove("userName");
+			MDC.remove("user");
 			MDC.remove("ip");
 			MDC.remove("userAgent");
 		}

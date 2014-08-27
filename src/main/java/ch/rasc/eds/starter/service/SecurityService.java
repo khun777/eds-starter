@@ -50,7 +50,7 @@ public class SecurityService {
 					.findOne(((JpaUserDetails) principal).getUserDbId());
 
 			AccessLog accessLog = new AccessLog();
-			accessLog.setUserName(user.getUserName());
+			accessLog.setEmail(user.getEmail());
 			accessLog.setSessionId(session.getId());
 			accessLog.setLogIn(LocalDateTime.now());
 			String ua = request.getHeader("User-Agent");
