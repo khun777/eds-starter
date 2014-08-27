@@ -100,7 +100,7 @@ public class LoggingEventService {
 	@ExtDirectMethod
 	@PreAuthorize("hasRole('ADMIN')")
 	public void addTestData() {
-		if (!environment.acceptsProfiles("production")) {
+		if (!environment.acceptsProfiles("default")) {
 			Logger logger = LoggerFactory.getLogger(getClass());
 
 			logger.debug("a simple debug log entry");

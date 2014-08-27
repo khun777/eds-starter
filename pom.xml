@@ -171,7 +171,7 @@
 
 		<dependency>
 			<groupId>resources</groupId>
-			<artifactId>ext-theme-neptune</artifactId>
+			<artifactId>ext-theme-crisp</artifactId>
 			<version>${ext.version}</version>
 		</dependency>
 

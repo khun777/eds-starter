@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -187,19 +188,31 @@ public class AccessLogService {
 	@ExtDirectMethod(STORE_READ)
 	@PreAuthorize("hasRole('ADMIN')")
 	@Transactional(readOnly = true)
-	public List<Map<String, ?>> readOsStats(int queryYear) {
+	public List<Map<String,Object>> readOsStats(int queryYear) {
 		JPQLQuery query = new JPAQuery(entityManager).from(accessLog);
 		query.where(accessLog.logIn.year().eq(queryYear));
 		query.groupBy(accessLog.operatingSystem);
 		List<Tuple> queryResult = query
 				.list(accessLog.operatingSystem, accessLog.count());
 
-		List<Map<String, ?>> result = new ArrayList<>();
+		List<Map<String,Object>> result = new ArrayList<>();
 
+		long total = 0;
+		for (Tuple tuple : queryResult) {
+			Long count = tuple.get(accessLog.count());
+			total = total + count;
+		}
+		
+		BigDecimal totalBd = new BigDecimal(total);
+		
 		for (Tuple tuple : queryResult) {
 			String os = tuple.get(accessLog.operatingSystem);
 			Long count = tuple.get(accessLog.count());
-			result.add(ImmutableMap.of("name", os, "value", count));
+			Map<String,Object> row = new HashMap<>();
+			row.put("name", os);
+			row.put("value", count);			
+			row.put("percent", new BigDecimal(count*100).divide(totalBd, 2, BigDecimal.ROUND_HALF_UP));
+			result.add(row);
 		}
 
 		return result;
@@ -209,7 +222,7 @@ public class AccessLogService {
 	@PreAuthorize("hasRole('ADMIN')")
 	@Transactional
 	public void addTestData() {
-		if (!environment.acceptsProfiles("production")) {
+		if (!environment.acceptsProfiles("default")) {
 
 			String[] users = { "admin", "user1", "user2", "user3", "user4", "user5",
 					"user6" };

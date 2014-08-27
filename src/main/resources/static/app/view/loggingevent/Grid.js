@@ -100,7 +100,7 @@ Ext.define('Start.view.loggingevent.Grid', {
 			triggers: {
 			    clear: {
 			      type: 'clear',
-			      weight: -1
+			      hideWhenEmpty: false
 			    }
 			}
 		} ]

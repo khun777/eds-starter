@@ -30,7 +30,6 @@ Ext.define('Start.view.main.Main', {
 		region: 'center',
 		reference: 'centerTabPanel',
 		split: true,
-		plain: true,
 		listeners: {
 			tabchange: 'onTabChange',
 			remove: 'onTabRemove'

@@ -10,7 +10,10 @@ __TODO__:
 - [ ] Administration
   - [ ] User Management 
 - [ ] System
-  - [ ] Access Log
-  - [ ] Log Events
+  - [x] ~~Access Log~~
+  - [x] ~~Log Events~~
   - [ ] Configuration
+  
+- [ ] Session Timeout Handling / Access Denied Handling  
+- [ ] History / Back-Button / Routing
    
