@@ -51,8 +51,8 @@ public class AppConfigurationService {
 
 		LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
 		ch.qos.logback.classic.Logger logger = lc.getLogger("ch.rasc.eds.starter");
-		String level = logger != null && logger.getEffectiveLevel() != null ? logger.getEffectiveLevel()
-				.toString() : "ERROR";
+		String level = logger != null && logger.getEffectiveLevel() != null ? logger
+				.getEffectiveLevel().toString() : "ERROR";
 
 		dto.setLogLevel(level);
 

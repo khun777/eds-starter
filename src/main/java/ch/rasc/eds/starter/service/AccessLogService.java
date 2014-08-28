@@ -188,14 +188,14 @@ public class AccessLogService {
 	@ExtDirectMethod(STORE_READ)
 	@PreAuthorize("hasRole('ADMIN')")
 	@Transactional(readOnly = true)
-	public List<Map<String,Object>> readOsStats(int queryYear) {
+	public List<Map<String, Object>> readOsStats(int queryYear) {
 		JPQLQuery query = new JPAQuery(entityManager).from(accessLog);
 		query.where(accessLog.logIn.year().eq(queryYear));
 		query.groupBy(accessLog.operatingSystem);
 		List<Tuple> queryResult = query
 				.list(accessLog.operatingSystem, accessLog.count());
 
-		List<Map<String,Object>> result = new ArrayList<>();
+		List<Map<String, Object>> result = new ArrayList<>();
 
 		long total = 0;
 		for (Tuple tuple : queryResult) {
@@ -208,10 +208,11 @@ public class AccessLogService {
 		for (Tuple tuple : queryResult) {
 			String os = tuple.get(accessLog.operatingSystem);
 			Long count = tuple.get(accessLog.count());
-			Map<String,Object> row = new HashMap<>();
+			Map<String, Object> row = new HashMap<>();
 			row.put("name", os);
 			row.put("value", count);
-			row.put("percent", new BigDecimal(count*100).divide(totalBd, 2, BigDecimal.ROUND_HALF_UP));
+			row.put("percent", new BigDecimal(count * 100).divide(totalBd, 2,
+					BigDecimal.ROUND_HALF_UP));
 			result.add(row);
 		}
 
@@ -224,7 +225,8 @@ public class AccessLogService {
 	public void addTestData() {
 		if (!environment.acceptsProfiles("default")) {
 
-			String[] users = { "admin@start.com", "user1@start.com", "user2@start.com", "user3@start.com", "user4@start.com", "user5@start.com",
+			String[] users = { "admin@start.com", "user1@start.com", "user2@start.com",
+					"user3@start.com", "user4@start.com", "user5@start.com",
 					"user6@start.com" };
 			String[] userAgent = {
 					"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36",
