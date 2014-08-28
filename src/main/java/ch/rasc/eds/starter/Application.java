@@ -83,7 +83,7 @@ public class Application extends SpringBootServletInitializer {
 		resolver.setDefaultLocale(Locale.ENGLISH);
 		return resolver;
 	}
-	
+
 	@Bean
 	public ServletListenerRegistrationBean<HttpSessionEventPublisher> sessionListener() {
 		return new ServletListenerRegistrationBean<>(new HttpSessionEventPublisher());
