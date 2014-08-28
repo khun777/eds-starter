@@ -2,14 +2,21 @@ Ext.onReady(function() {
 	Ext.setGlyphFontFamily('custom');
 
 	var headerContainer, loginPanel;
-	var capslockwarningText = '<div style="font-weight: bold;">' + i18n.login_capslockwarning_title + '</div><br />' + '<div>'
-			+ i18n.login_capslockwarning_line1 + '</div><br />' + '<div>' + i18n.login_capslockwarning_line2 + '</div>';
+	var capslockwarningText = '<div style="font-weight: bold;">' 
+		  + i18n.login_capslockwarning_title 
+		+ '</div><br />' 
+		+ '<div>' 
+		  + i18n.login_capslockwarning_line1 
+		+ '</div><br />' 
+		+ '<div>' 
+		  + i18n.login_capslockwarning_line2 
+		+ '</div>';
 
 	headerContainer = new Ext.container.Container({
-	    border: '0 0 2 0',
+		border: '0 0 2 0',
 		style: {
-		    borderColor: 'black',
-		    borderStyle: 'solid'
+			borderColor: 'black',
+			borderStyle: 'solid'
 		},
 		region: 'north',
 		height: 35,
@@ -93,7 +100,8 @@ Ext.onReady(function() {
 						if ((e.shiftKey && charCode >= 97 && charCode <= 122) || (!e.shiftKey && charCode >= 65 && charCode <= 90)) {
 							field.capsWarningTooltip.enable();
 							field.capsWarningTooltip.show();
-						} else {
+						}
+						else {
 							if (field.capsWarningTooltip.hidden === false) {
 								field.capsWarningTooltip.disable();
 								field.capsWarningTooltip.hide();
@@ -113,61 +121,63 @@ Ext.onReady(function() {
 			name: 'remember-me',
 			xtype: 'checkbox'
 		} ],
-		
-		dockedItems: [{
-		    xtype: 'toolbar',
-		    dock: 'bottom',
-		    items: ['->', {
-		    	text: 'I forgot my Password',
-		    	handler: function() {
-		    		loginPanel.hide();		    		
-		    		passwordResetPanel.show();
-		    		passwordResetPanel.getForm().setValues({email: loginPanel.getValues().username});
-		    	}
-		    }]
+
+		dockedItems: [ {
+			xtype: 'toolbar',
+			dock: 'bottom',
+			items: [ '->', {
+				text: i18n.login_passwordreset_forgotpw,
+				handler: function() {
+					loginPanel.hide();
+					passwordResetPanel.show();					
+					passwordResetPanel.getForm().setValues({
+						email: loginPanel.getValues().username
+					});
+					passwordResetPanel.getForm().findField('email').focus();
+				}
+			} ]
 		}, {
-		    xtype: 'toolbar',
-		    dock: 'bottom',
-		    items: ['->',
-			    /* <_debug> */
-			    {
-					text: i18n.login_as_user,
-					glyph: 0xe801,
-					handler: function() {
-						var form = this.up('form').getForm();
-						form.setValues({
-							username: 'user@start.com',
-							password: 'user'
-						});
-						form.submit();
-					}
-				}, {
-					text: i18n.login_as_admin,
-					glyph: 0xe801,
-					handler: function() {
-						var form = this.up('form').getForm();
-						form.setValues({
-							username: 'admin@start.com',
-							password: 'admin'
-						});
-						form.submit();
-					}
-				},/* </debug> */ 
-				{
-					text: i18n.login,
-					glyph: 0xe801,
-					handler: function() {
-						submitForm();
-					}
-				}		            
-		    ]
-		}]		
-		
+			xtype: 'toolbar',
+			dock: 'bottom',
+			items: [ '->',
+			/* <_debug> */
+			{
+				text: i18n.login_as_user,
+				glyph: 0xe801,
+				handler: function() {
+					var form = this.up('form').getForm();
+					form.setValues({
+						username: 'user@start.com',
+						password: 'user'
+					});
+					form.submit();
+				}
+			}, {
+				text: i18n.login_as_admin,
+				glyph: 0xe801,
+				handler: function() {
+					var form = this.up('form').getForm();
+					form.setValues({
+						username: 'admin@start.com',
+						password: 'admin'
+					});
+					form.submit();
+				}
+			},/* </debug> */
+			{
+				text: i18n.login,
+				glyph: 0xe801,
+				handler: function() {
+					submitForm();
+				}
+			} ]
+		} ]
+
 	});
 
 	var passwordResetPanel = new Ext.form.Panel({
 		frame: true,
-		title: 'Password Reset',
+		title: i18n.login_passwordreset,
 		width: 400,
 		hidden: true,
 		padding: 5,
@@ -176,34 +186,43 @@ Ext.onReady(function() {
 			align: 'stretch'
 		},
 
-		items: [{
-	      xtype: 'displayfield',
-		  value: 'Please enter your email address and we send you an email with<br>a link to a page where you can reset your password.'	
+		items: [ {
+			xtype: 'displayfield',
+			value: i18n.login_passwordreset_description 
 		}, {
 			xtype: 'textfield',
-			fieldLabel: 'Email',
+			fieldLabel: i18n.login_email,
+			vtype: 'email',
+			allowBlank: false,
 			name: 'email',
 			anchor: '100%'
-		}],
-		dockedItems: [{
-		    xtype: 'toolbar',
-		    dock: 'bottom',
-		    items: ['->', {
-		    	text: 'Send me the link',
-		    	handler: function() {
-		    		passwordResetPanel.removeAll();		
-		    		var di = passwordResetPanel.getDockedItems();
-		    		passwordResetPanel.removeDocked(di[0]);
-		    		passwordResetPanel.removeDocked(di[1]);
-		    		passwordResetPanel.add({
-		    			 xtype: 'displayfield',
-		    			 value: 'We have sent you an email. Please check your inbox'
-		    		});
-		    	}
-		    }]
-		}]
+		} ],
+		dockedItems: [ {
+			xtype: 'toolbar',
+			dock: 'bottom',
+			items: [ '->', {
+				text: i18n.login_passwordreset_sendlink,
+				formBind: true,
+				handler: function(btn) {
+					Ext.Ajax.request({
+						url: 'passwordresetEmail',
+						params: btn.up('form').getValues(),
+						success: function(response) {
+							passwordResetPanel.removeAll();
+							var di = passwordResetPanel.getDockedItems();
+							passwordResetPanel.removeDocked(di[0]);
+							passwordResetPanel.removeDocked(di[1]);
+							passwordResetPanel.add({
+								xtype: 'displayfield',
+								value: i18n.login_passwordreset_linksent
+							});
+						}
+					});
+				}
+			} ]
+		} ]
 	});
-	
+
 	var centerContainer = new Ext.container.Container({
 		xtype: 'container',
 		region: 'center',
@@ -215,7 +234,7 @@ Ext.onReady(function() {
 			items: [ loginPanel, passwordResetPanel ]
 		} ]
 	});
-	
+
 	new Ext.container.Container({
 		plugins: 'viewport',
 		style: {

@@ -49,8 +49,8 @@ public class JpaUserDetails implements UserDetails {
 			this.locale = Locale.ENGLISH;
 		}
 
-		locked = user.getLockedOut() != null
-				&& user.getLockedOut().isAfter(LocalDateTime.now());
+		locked = user.getLockedOutUntil() != null
+				&& user.getLockedOutUntil().isAfter(LocalDateTime.now());
 
 		Set<GrantedAuthority> builder = new HashSet<>();
 		for (String role : user.getRole().split(",")) {

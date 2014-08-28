@@ -21,6 +21,25 @@
     classpath: /static
     dev: script
     prod: concat_minify  
+---
+  variable: passwordreset_js
+  resources:
+  - path: /resources/ext/{ext.version}/ext-all-debug.js
+    dev: script
+    prod: ignore
+    
+  - path: /resources/ext/{ext.version}/ext-all.js
+    dev: ignore
+    prod: script
+    
+  - path: /resources/ext/{ext.version}/ext-theme-crisp/ext-theme-crisp.js
+    dev: script
+    prod: script
+  
+  - path: /passwordreset.js
+    classpath: /static
+    dev: script
+    prod: concat_minify  
 
 --- 
   variable: app_js

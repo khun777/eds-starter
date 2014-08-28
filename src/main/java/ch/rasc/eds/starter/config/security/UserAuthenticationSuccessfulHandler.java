@@ -1,5 +1,7 @@
 package ch.rasc.eds.starter.config.security;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -24,8 +26,9 @@ public class UserAuthenticationSuccessfulHandler implements
 		if (principal instanceof JpaUserDetails) {
 			User user = entityManager.find(User.class,
 					((JpaUserDetails) principal).getUserDbId());
-			user.setLockedOut(null);
+			user.setLockedOutUntil(null);
 			user.setFailedLogins(null);
+			user.setLastLogin(LocalDateTime.now());
 		}
 	}
 }

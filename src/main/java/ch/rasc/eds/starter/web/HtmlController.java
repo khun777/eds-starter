@@ -14,17 +14,22 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StreamUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class HtmlController {
 
+	private static final String END_TAGS = "</body></html>";
+
 	private final String indexHtml;
 
 	private final String appJs;
 
 	private final String loginJs;
+
+	private final String passwordResetJs;
 
 	private final Environment environment;
 
@@ -50,6 +55,7 @@ public class HtmlController {
 
 		appJs = (String) servletContext.getAttribute("app_js");
 		loginJs = (String) servletContext.getAttribute("login_js");
+		passwordResetJs = (String) servletContext.getAttribute("passwordreset_js");
 	}
 
 	@RequestMapping(value = { "/", "/index.html" }, produces = MediaType.TEXT_HTML_VALUE)
@@ -57,7 +63,7 @@ public class HtmlController {
 	public String index(HttpServletResponse response, Locale locale) {
 		response.setContentType("text/html; charset=utf-8");
 		return indexHtml + createI18nScript(environment, locale) + appJs
-				+ createExtJSLocale(environment, locale) + "</body></html>";
+				+ createExtJSLocale(environment, locale) + END_TAGS;
 	}
 
 	@RequestMapping(value = { "/login.html" }, produces = MediaType.TEXT_HTML_VALUE)
@@ -65,7 +71,22 @@ public class HtmlController {
 	public String login(HttpServletResponse response, Locale locale) {
 		response.setContentType("text/html; charset=utf-8");
 		return indexHtml + createI18nScript(environment, locale) + loginJs
-				+ createExtJSLocale(environment, locale) + "</body></html>";
+				+ createExtJSLocale(environment, locale) + END_TAGS;
+	}
+
+	@RequestMapping(value = { "/passwordreset.html" },
+			produces = MediaType.TEXT_HTML_VALUE)
+	@ResponseBody
+	public String passwordreset(HttpServletResponse response, Locale locale, String token)
+			throws IOException {
+		if (!StringUtils.hasText(token)) {
+			response.sendRedirect("/index.html");
+		}
+
+		response.setContentType("text/html; charset=utf-8");
+		return indexHtml + createI18nScript(environment, locale)
+				+ "<script>var passwordResetToken = '" + token + "';</script>"
+				+ passwordResetJs + createExtJSLocale(environment, locale) + END_TAGS;
 	}
 
 	private static String createExtJSLocale(Environment environment, Locale locale) {

@@ -27,7 +27,7 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			    .headers()
 			      .disable()
 			    .authorizeRequests()
-			      .antMatchers("/login*.js", "/i18n*.js").permitAll()
+			      .antMatchers("/login*.js", "/i18n*.js", "/passwordreset.js").permitAll()
 				  .anyRequest().authenticated()
 				  .and()
 				.csrf()
@@ -45,8 +45,7 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		@Override
 		public void configure(WebSecurity builder) throws Exception {
-			builder.ignoring().antMatchers("/resources/**", "/app*.css",
-					"/app/ux/window/Notification.js");
+			builder.ignoring().antMatchers("/resources/**", "/app*.css");
 		}
 
 		@Override
@@ -67,6 +66,7 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.addHeaderWriter(new XFrameOptionsHeaderWriter(XFrameOptionsMode.SAMEORIGIN))
 			    .and()
 			  .authorizeRequests()
+			    .antMatchers("/passwordresetEmail", "/passwordreset.html", "/passwordreset.action").permitAll()
 			    .anyRequest().authenticated()
 			    .and()
 			  .formLogin()

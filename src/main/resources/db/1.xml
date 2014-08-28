@@ -106,7 +106,10 @@
 			<column name="locale" type="varchar(8)" />
 			<column name="enabled" type="BOOLEAN" />
             <column name="failedLogins" type="INT" />            
-            <column name="lockedOut" type="datetime" />
+            <column name="lockedOutUntil" type="datetime" />
+            <column name="lastLogin" type="datetime" />
+            <column name="passwordResetToken" type="varchar(36)" />
+            <column name="passwordResetTokenValidUntil" type="datetime" />
 		</createTable>
 	</changeSet>
 

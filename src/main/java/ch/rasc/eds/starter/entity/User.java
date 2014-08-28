@@ -59,7 +59,17 @@ public class User extends AbstractPersistable {
 	private Integer failedLogins;
 
 	@JsonIgnore
-	private LocalDateTime lockedOut;
+	private LocalDateTime lockedOutUntil;
+
+	@JsonIgnore
+	private LocalDateTime lastLogin;
+
+	@Size(max = 36)
+	@JsonIgnore
+	private String passwordResetToken;
+
+	@JsonIgnore
+	private LocalDateTime passwordResetTokenValidUntil;
 
 	public String getName() {
 		return name;
@@ -125,12 +135,36 @@ public class User extends AbstractPersistable {
 		this.failedLogins = failedLogins;
 	}
 
-	public LocalDateTime getLockedOut() {
-		return lockedOut;
+	public LocalDateTime getLockedOutUntil() {
+		return lockedOutUntil;
 	}
 
-	public void setLockedOut(LocalDateTime lockedOut) {
-		this.lockedOut = lockedOut;
+	public void setLockedOutUntil(LocalDateTime lockedOutUntil) {
+		this.lockedOutUntil = lockedOutUntil;
+	}
+
+	public LocalDateTime getLastLogin() {
+		return lastLogin;
+	}
+
+	public void setLastLogin(LocalDateTime lastLogin) {
+		this.lastLogin = lastLogin;
+	}
+
+	public String getPasswordResetToken() {
+		return passwordResetToken;
+	}
+
+	public void setPasswordResetToken(String passwordResetToken) {
+		this.passwordResetToken = passwordResetToken;
+	}
+
+	public LocalDateTime getPasswordResetTokenValidUntil() {
+		return passwordResetTokenValidUntil;
+	}
+
+	public void setPasswordResetTokenValidUntil(LocalDateTime passwordResetTokenValidUntil) {
+		this.passwordResetTokenValidUntil = passwordResetTokenValidUntil;
 	}
 
 	public String getPasswordNew() {

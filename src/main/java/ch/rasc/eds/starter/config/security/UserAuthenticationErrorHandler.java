@@ -40,7 +40,7 @@ public class UserAuthenticationErrorHandler implements
 				}
 
 				if (user.getFailedLogins() > 10) {
-					user.setLockedOut(LocalDateTime.now().plusMinutes(10));
+					user.setLockedOutUntil(LocalDateTime.now().plusMinutes(10));
 				}
 
 			}
