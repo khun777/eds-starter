@@ -3,7 +3,7 @@ Ext.define('Start.view.accesslog.Grid', {
 
 	title: i18n.accesslog_log,
 	bind: '{accessLogs}',
-	
+
 	columns: [ {
 		text: i18n.accesslog_user,
 		dataIndex: 'email',
@@ -54,15 +54,15 @@ Ext.define('Start.view.accesslog.Grid', {
 			fieldLabel: i18n.accesslog_user,
 			xtype: 'textfield',
 			triggers: {
-		      search: {
-		        cls: Ext.baseCSSPrefix + 'form-search-trigger',
-		        handler: 'onUserFilter'
-		      },
-			  clear: {
-			    type: 'clear',
-				hideWhenEmpty: false,
-				handler: 'onUserFilter'
-		      }		      
+				search: {
+					cls: Ext.baseCSSPrefix + 'form-search-trigger',
+					handler: 'onUserFilter'
+				},
+				clear: {
+					type: 'clear',
+					hideWhenEmpty: false,
+					handler: 'onUserFilter'
+				}
 			},
 			listeners: {
 				specialKey: 'onUserFilterSpecialKey'
@@ -72,7 +72,7 @@ Ext.define('Start.view.accesslog.Grid', {
 		xtype: 'pagingtoolbar',
 		dock: 'bottom',
 		bind: {
-	      store: '{accessLogs}'
+			store: '{accessLogs}'
 		}
 	} ]
 

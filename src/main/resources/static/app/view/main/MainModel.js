@@ -20,7 +20,6 @@ Ext.define('Start.view.main.MainModel', {
 			fields: [ 'level' ],
 			data: [ [ 'ERROR' ], [ 'WARN' ], [ 'INFO' ], [ 'DEBUG' ] ]
 		}
-
 	}
 
 });

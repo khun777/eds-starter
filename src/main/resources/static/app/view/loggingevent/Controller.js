@@ -1,16 +1,16 @@
 Ext.define('Start.view.loggingevent.Controller', {
 	extend: 'Ext.app.ViewController',
-	
+
 	filterLogLevel: function(cb, newValue) {
 		var store = this.getStore('loggingEvents');
 		if (newValue) {
 			this.getViewModel().set('levelFilter', newValue);
 			store.filter('level', newValue);
-		} 
-		else {			
+		}
+		else {
 			this.getViewModel().set('levelFilter', null);
 			store.clearFilter();
-		}	
+		}
 	},
 
 	deleteAll: function() {
@@ -20,7 +20,7 @@ Ext.define('Start.view.loggingevent.Controller', {
 			this.getStore('loggingEvents').load();
 		}, this);
 	}
-	
+
 	/* <debug> */
 	,
 	addTestData: function() {
@@ -28,6 +28,6 @@ Ext.define('Start.view.loggingevent.Controller', {
 			this.getStore('loggingEvents').load();
 		}, this);
 	}
-	/* </debug> */	
+/* </debug> */
 
 });

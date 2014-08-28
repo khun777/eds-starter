@@ -51,14 +51,12 @@ Ext.define('Start.view.accesslog.Controller', {
 		if (accessLogYearsStore.getCount() > 0) {
 			if (newCard.xclass === 'Start.view.accesslog.UaGraph') {
 				Ext.Function.defer(function() {
-					this.lookupReference('uaYearsCombobox').select(
-							accessLogYearsStore.first());
+					this.lookupReference('uaYearsCombobox').select(accessLogYearsStore.first());
 				}, 1, this);
 			}
 			else if (newCard.xclass === 'Start.view.accesslog.OsGraph') {
 				Ext.Function.defer(function() {
-					this.lookupReference('osYearsCombobox').select(
-							accessLogYearsStore.first());
+					this.lookupReference('osYearsCombobox').select(accessLogYearsStore.first());
 				}, 1, this);
 			}
 		}

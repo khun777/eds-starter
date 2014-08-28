@@ -26,14 +26,13 @@ Ext.define('Start.view.main.MainController', {
 					tab = tabPanel.add(viewObject);
 				}
 				this.activeTab = tab;
-				tabPanel.setActiveTab(tab);				
+				tabPanel.setActiveTab(tab);
 			}
 		}
 	},
 
 	getPath: function(node) {
-		return node.parentNode ? this.getPath(node.parentNode) + "/" + node.getId() : "/"
-				+ node.getId();
+		return node.parentNode ? this.getPath(node.parentNode) + "/" + node.getId() : "/" + node.getId();
 	},
 
 	onTabChange: function(tabPanel, newCard) {
@@ -46,7 +45,8 @@ Ext.define('Start.view.main.MainController', {
 			navigationTree.suspendEvents();
 			navigationTree.selectPath(newCard.treePath);
 			navigationTree.resumeEvents();
-		} else {
+		}
+		else {
 			console.log('no tab change');
 		}
 	},

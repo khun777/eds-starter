@@ -70,7 +70,7 @@ Ext.define('Start.view.accesslog.ViewModel', {
 			remoteSort: false,
 			remoteFilter: false,
 			pageSize: 0,
-			
+
 			fields: [ {
 				name: "year",
 				type: "int"
@@ -84,7 +84,7 @@ Ext.define('Start.view.accesslog.ViewModel', {
 			proxy: {
 				type: 'direct',
 				directFn: 'accessLogService.readAccessLogYears'
-			}			
+			}
 		}
 	}
 

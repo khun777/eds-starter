@@ -1,7 +1,6 @@
 Ext.define('Start.view.main.Main', {
 	extend: 'Ext.container.Container',
-	requires: [ 'Start.view.main.MainController', 'Start.view.main.MainModel',
-			'Start.view.main.SideBar', 'Start.view.main.Header' ],
+	requires: [ 'Start.view.main.MainController', 'Start.view.main.MainModel', 'Start.view.main.SideBar', 'Start.view.main.Header' ],
 
 	controller: {
 		xclass: 'Start.view.main.MainController'

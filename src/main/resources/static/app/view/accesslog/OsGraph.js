@@ -37,8 +37,7 @@ Ext.define('Start.view.accesslog.OsGraph', {
 			tooltip: {
 				trackMouse: true,
 				renderer: function(storeItem, item) {
-					this.setHtml(storeItem.get('name') + ': ' + storeItem.get('percent')
-							+ ' %');
+					this.setHtml(storeItem.get('name') + ': ' + storeItem.get('percent') + ' %');
 				}
 			}
 		} ],

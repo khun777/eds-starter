@@ -101,7 +101,7 @@ Ext.define('Start.view.config.Form', {
 				bind: {
 					value: '{testEmailReceiver}'
 				},
-				emptyText: i18n.config_testReceiver,				
+				emptyText: i18n.config_testReceiver,
 				listeners: {
 					change: 'onTestEmailReceiverChange'
 				}

@@ -1,8 +1,8 @@
 Ext.define('Start.view.loggingevent.Grid', {
 	extend: 'Ext.grid.Panel',
-	requires: ['Start.view.loggingevent.Controller', 'Start.view.loggingevent.ViewModel'],
+	requires: [ 'Start.view.loggingevent.Controller', 'Start.view.loggingevent.ViewModel' ],
 	title: i18n.navigation_system_logevents,
-	closable: true,	
+	closable: true,
 
 	controller: {
 		xclass: 'Start.view.loggingevent.Controller'
@@ -10,10 +10,10 @@ Ext.define('Start.view.loggingevent.Grid', {
 
 	viewModel: {
 		xclass: 'Start.view.loggingevent.ViewModel'
-	},		
-	
+	},
+
 	bind: '{loggingEvents}',
-	
+
 	columns: [ {
 		text: i18n.logevents_timestamp,
 		dataIndex: 'dateTime',
@@ -40,21 +40,16 @@ Ext.define('Start.view.loggingevent.Grid', {
 		sortable: false,
 		width: 110
 	} ],
-	
-	plugins : [ {
+
+	plugins: [ {
 		ptype: 'rowexpander',
 		expandOnEnter: false,
 		expandOnDblClick: false,
-		selectRowOnExpand: true,			
-		rowBodyTpl: [ '<tpl if="stacktrace">',
-		                '<p>{stacktrace}</p>',
-		              '</tpl>',
-		              '<tpl if="!stacktrace">',
-				         '<p>{message}</p>',
-				      '</tpl>' ]
-	} ],	
-	
-	dockedItems: [{
+		selectRowOnExpand: true,
+		rowBodyTpl: [ '<tpl if="stacktrace">', '<p>{stacktrace}</p>', '</tpl>', '<tpl if="!stacktrace">', '<p>{message}</p>', '</tpl>' ]
+	} ],
+
+	dockedItems: [ {
 		xtype: 'toolbar',
 		dock: 'top',
 		items: [ {
@@ -72,17 +67,15 @@ Ext.define('Start.view.loggingevent.Grid', {
 			glyph: 0xe806,
 			handler: 'deleteAll'
 		},
-		/* <debug> */ 
-		'-', 
-		{
+		/* <debug> */
+		'-', {
 			text: i18n.logevents_addtest,
 			itemId: 'testButton',
 			glyph: 0xe807,
 			handler: 'addTestData'
 		},
-		/* </debug> */ 
-		'->', 
-		{
+		/* </debug> */
+		'->', {
 			xtype: 'combobox',
 			fieldLabel: i18n.filter,
 			labelWidth: 40,
@@ -98,18 +91,18 @@ Ext.define('Start.view.loggingevent.Grid', {
 				change: 'filterLogLevel'
 			},
 			triggers: {
-			    clear: {
-			      type: 'clear',
-			      hideWhenEmpty: false
-			    }
+				clear: {
+					type: 'clear',
+					hideWhenEmpty: false
+				}
 			}
 		} ]
 	}, {
 		xtype: 'pagingtoolbar',
 		dock: 'bottom',
 		bind: {
-		  store: '{loggingEvents}'
+			store: '{loggingEvents}'
 		}
-	}]
+	} ]
 
 });
