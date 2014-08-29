@@ -3,7 +3,7 @@ Ext.define("Start.model.User",
   extend : "Ext.data.Model",
   requires : [ "Ext.data.proxy.Direct", "Ext.data.validator.Email", "Ext.data.validator.Length", "Ext.data.validator.Presence" ],
   fields : [ {
-    name : "name",
+    name : "lastName",
     type : "string",
     validators : [ {
       type : "length",
