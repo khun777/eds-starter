@@ -9,6 +9,7 @@ Ext.define('Start.view.accesslog.UaGraph', {
 
 	items: [ {
 		xtype: 'cartesian',
+		theme: 'default-gradients',
 		insetPadding: 10,
 		bind: {
 			store: '{accessLogUserAgents}'
