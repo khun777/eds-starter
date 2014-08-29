@@ -94,7 +94,7 @@
 				<constraints nullable="false" primaryKey="true" primaryKeyName="PK_AppUser" />
 			</column>
 
-			<column name="name" type="varchar(255)" />
+			<column name="lastName" type="varchar(255)" />
 			<column name="firstName" type="varchar(255)" />
 
 			<column name="email" type="varchar(255)">

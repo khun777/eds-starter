@@ -40,7 +40,7 @@ public class JpaUserDetails implements UserDetails {
 		this.password = user.getPasswordHash();
 		this.email = user.getEmail();
 		this.enabled = user.isEnabled();
-		this.fullName = String.join(" ", user.getFirstName(), user.getName());
+		this.fullName = String.join(" ", user.getFirstName(), user.getLastName());
 
 		if (StringUtils.hasText(user.getLocale())) {
 			this.locale = new Locale(user.getLocale());

@@ -42,7 +42,7 @@ class Startup {
 			User adminUser = new User();
 			adminUser.setEmail("admin@start.com");
 			adminUser.setFirstName("admin");
-			adminUser.setName("admin");
+			adminUser.setLastName("admin");
 			adminUser.setLocale("en");
 			adminUser.setPasswordHash(passwordEncoder.encode("admin"));
 			adminUser.setEnabled(true);
@@ -53,7 +53,7 @@ class Startup {
 			User normalUser = new User();
 			normalUser.setEmail("user@start.com");
 			normalUser.setFirstName("user");
-			normalUser.setName("user");
+			normalUser.setLastName("user");
 			normalUser.setLocale("de");
 			normalUser.setPasswordHash(passwordEncoder.encode("user"));
 			normalUser.setEnabled(true);

@@ -58,7 +58,7 @@ public class UserService extends BaseCRUDService<User> {
 
 			BooleanBuilder bb = new BooleanBuilder();
 			bb.or(QUser.user.email.contains(filter.getValue()));
-			bb.or(QUser.user.name.contains(filter.getValue()));
+			bb.or(QUser.user.lastName.contains(filter.getValue()));
 			bb.or(QUser.user.firstName.contains(filter.getValue()));
 			bb.or(QUser.user.email.contains(filter.getValue()));
 
@@ -70,57 +70,6 @@ public class UserService extends BaseCRUDService<User> {
 
 		return new ExtDirectStoreResult<>(searchResult.getTotal(),
 				searchResult.getResults());
-	}
-
-	@ExtDirectMethod
-	@Transactional
-	@PreAuthorize("isAuthenticated()")
-	public ExtDirectStoreValidationResult<User> updateSettings(User modifiedUser,
-			Locale locale) {
-
-		List<ValidationError> validations = new ArrayList<>();
-		User dbUser = null;
-		Object principal = SecurityContextHolder.getContext().getAuthentication()
-				.getPrincipal();
-		if (principal instanceof JpaUserDetails) {
-			dbUser = entityManager.find(User.class,
-					((JpaUserDetails) principal).getUserDbId());
-			if (dbUser != null) {
-				dbUser.setName(modifiedUser.getName());
-				dbUser.setFirstName(modifiedUser.getFirstName());
-				dbUser.setEmail(modifiedUser.getEmail());
-				dbUser.setLocale(modifiedUser.getLocale());
-				if (StringUtils.hasText(modifiedUser.getPasswordNew())) {
-					if (passwordEncoder.matches(modifiedUser.getOldPassword(),
-							dbUser.getPasswordHash())) {
-						if (modifiedUser.getPasswordNew().equals(
-								modifiedUser.getPasswordNewConfirm())) {
-							dbUser.setPasswordHash(passwordEncoder.encode(modifiedUser
-									.getPasswordNew()));
-						}
-						else {
-							ValidationError error = new ValidationError();
-							error.setField("passwordNew");
-							error.setMessage(messageSource.getMessage(
-									"user_passworddonotmatch", null, locale));
-							validations.add(error);
-						}
-					}
-					else {
-						ValidationError error = new ValidationError();
-						error.setField("oldPassword");
-						error.setMessage(messageSource.getMessage("user_wrongpassword",
-								null, locale));
-						validations.add(error);
-					}
-				}
-			}
-		}
-
-		ExtDirectStoreValidationResult<User> result = new ExtDirectStoreValidationResult<>(
-				dbUser);
-		result.setValidations(validations);
-		return result;
 	}
 
 	@Override

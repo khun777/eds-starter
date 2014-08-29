@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class User extends AbstractPersistable {
 
 	@Size(max = 255)
-	private String name;
+	private String lastName;
 
 	@Size(max = 255)
 	private String firstName;
@@ -71,12 +71,12 @@ public class User extends AbstractPersistable {
 	@JsonIgnore
 	private LocalDateTime passwordResetTokenValidUntil;
 
-	public String getName() {
-		return name;
+	public String getLastName() {
+		return lastName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public String getFirstName() {
