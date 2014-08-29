@@ -6,7 +6,7 @@
 __TODO__:
 
 - [x] ~~Logout~~
-- [ ] Personal Settings
+- [x] ~~Personal Settings~~
 - [ ] Administration
   - [ ] User Management 
 - [ ] System
@@ -17,5 +17,5 @@ __TODO__:
 - [ ] Session Timeout Handling / Access Denied Handling  
 - [ ] History / Back-Button / Routing
 - [ ] Enhance toast windows (color, shadow, ...)
-- [ ] Password reset
+- [x] Password reset
    

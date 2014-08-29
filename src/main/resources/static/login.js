@@ -21,11 +21,16 @@ Ext.onReady(function() {
 		region: 'north',
 		height: 35,
 		layout: {
-			type: 'hbox',
-			align: 'stretch'
+			type: 'hbox'
 		},
 
 		items: [ {
+			xtype: 'image',
+			src: 'resources/images/favicon-32x32.png',
+			width: 32,
+			height: 32
+		}, {
+			xtype: 'container',
 			html: i18n.app_title,
 			cls: 'appHeader'
 		} ]
@@ -237,6 +242,7 @@ Ext.onReady(function() {
 
 	new Ext.container.Container({
 		plugins: 'viewport',
+		cls: 'squarebg',
 		style: {
 			backgroundColor: 'white'
 		},

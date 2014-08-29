@@ -3,11 +3,16 @@ Ext.define('Start.view.main.Header', {
 
 	height: 35,
 	layout: {
-		type: 'hbox',
-		align: 'stretch'
-	},
-
+		type: 'hbox'
+	},	
+	
 	items: [ {
+		xtype: 'image',
+		src: 'resources/images/favicon-32x32.png',
+		width: 32,
+		height: 32
+	}, {
+		xtype: 'container',
 		html: i18n.app_title,
 		cls: 'appHeader'
 	}, {
@@ -20,7 +25,8 @@ Ext.define('Start.view.main.Header', {
 		bind: {
 			text: '{loggedOnUser}'
 		},
-		glyph: 0xe809
+		glyph: 0xe809,
+		handler: 'onUserSettingsClick'
 	}, {
 		xtype: 'button',
 		margin: '2 0 5 5',

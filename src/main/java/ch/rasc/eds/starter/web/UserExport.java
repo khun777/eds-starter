@@ -92,7 +92,7 @@ public class UserExport {
 			BooleanBuilder bb = new BooleanBuilder();
 			if (StringUtils.hasText(filter)) {
 				bb.or(QUser.user.email.contains(filter));
-				bb.or(QUser.user.name.contains(filter));
+				bb.or(QUser.user.lastName.contains(filter));
 				bb.or(QUser.user.firstName.contains(filter));
 				bb.or(QUser.user.email.contains(filter));
 			}
@@ -114,7 +114,7 @@ public class UserExport {
 
 				cell = row.createCell(2);
 				cell.setCellType(Cell.CELL_TYPE_STRING);
-				cell.setCellValue(user.getName());
+				cell.setCellValue(user.getLastName());
 				cell.setCellStyle(normalStyle);
 
 				cell = row.createCell(3);

@@ -1,12 +1,13 @@
 Ext.define('Start.view.main.MainController', {
 	extend: 'Ext.app.ViewController',
+	requires: [ 'Start.view.usersettings.Window' ],
 
 	init: function() {
 		securityService.getLoggedOnUser(this.afterLoggedOnUserReceived, this);
 	},
 
 	afterLoggedOnUserReceived: function(user) {
-		this.getViewModel().set('loggedOnUser', user.firstName + ' ' + user.name);
+		this.getViewModel().set('loggedOnUser', user.firstName + ' ' + user.lastName);
 	},
 
 	onNavigationTreeSelectionchange: function(tree, selections) {
@@ -58,6 +59,10 @@ Ext.define('Start.view.main.MainController', {
 			navigationTree.getSelectionModel().deselectAll();
 		}
 		this.activeTab = null;
+	},
+
+	onUserSettingsClick: function() {
+		new Start.view.usersettings.Window();
 	}
 
 });

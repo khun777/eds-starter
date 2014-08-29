@@ -14,6 +14,8 @@ Ext.define('Start.view.main.Main', {
 		type: 'border',
 		padding: 3
 	},
+	
+	cls: 'squarebg',
 
 	items: [ {
 		xclass: 'Start.view.main.SideBar',

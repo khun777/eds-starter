@@ -89,7 +89,8 @@ Ext.define('Start.view.config.Form', {
 			text: i18n.save,
 			glyph: 0xe80d,
 			formBind: true,
-			handler: 'onSaveButtonClick'
+			handler: 'onSaveButtonClick',
+			ui: 'default-toolbar'
 		}, {
 			xtype: 'tbseparator',
 			width: 100
@@ -115,7 +116,8 @@ Ext.define('Start.view.config.Form', {
 				},
 				columnWidth: 0.4,
 				margin: '0 0 0 10',
-				handler: 'onSendTestEmailClick'
+				handler: 'onSendTestEmailClick',
+				ui: 'default-toolbar'
 			} ]
 		} ]
 	} ]
