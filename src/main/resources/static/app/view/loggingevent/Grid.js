@@ -46,7 +46,7 @@ Ext.define('Start.view.loggingevent.Grid', {
 		expandOnEnter: false,
 		expandOnDblClick: false,
 		selectRowOnExpand: true,
-		rowBodyTpl: [ '<tpl if="stacktrace">', '<p>{stacktrace}</p>', '</tpl>', '<tpl if="!stacktrace">', '<p>{message}</p>', '</tpl>' ]
+		rowBodyTpl: [ '<tpl if="stacktrace">', '<p class="monospace">{stacktrace}</p>', '</tpl>', '<tpl if="!stacktrace">', '<p class="monospace">{message}</p>', '</tpl>' ]
 	} ],
 
 	dockedItems: [ {
