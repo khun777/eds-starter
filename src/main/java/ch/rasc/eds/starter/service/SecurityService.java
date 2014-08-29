@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -41,13 +42,12 @@ public class SecurityService {
 
 	@ExtDirectMethod
 	@PreAuthorize("isAuthenticated()")
-	public User getLoggedOnUser(HttpServletRequest request, HttpSession session) {
-		Object principal = SecurityContextHolder.getContext().getAuthentication()
-				.getPrincipal();
-		if (principal instanceof JpaUserDetails) {
+	public User getLoggedOnUser(HttpServletRequest request, HttpSession session,
+			@AuthenticationPrincipal JpaUserDetails jpaUserDetails) {
 
-			User user = userRepository
-					.findOne(((JpaUserDetails) principal).getUserDbId());
+		if (jpaUserDetails != null) {
+
+			User user = userRepository.findOne(jpaUserDetails.getUserDbId());
 
 			AccessLog accessLog = new AccessLog();
 			accessLog.setEmail(user.getEmail());
