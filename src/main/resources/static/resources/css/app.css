@@ -1,18 +1,12 @@
-.appHeader .x-panel-body {
-	background-image: url(../images/favicon-32x32.png);
-	background-repeat: no-repeat;
-	padding: 8px 0px 0px 40px;
-	font-size: 22px;
-	font-weight: 200;
-	white-space: nowrap;
+.squarebg {
+	background-image: url(../images/square.gif);
 }
 
-.userName {
-	font-size: 12px;
-	font-weight: bold;
-	color: #BFBFBF;
-	text-align: right;
-	padding-right: 5px;
+.appHeader {
+	background-image: url(../images/square.gif);
+	padding: 8px 0px 0px 5px;
+	font-size: 22px;
+	font-weight: 200;
 }
 
 .monospace {
