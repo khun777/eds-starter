@@ -39,18 +39,18 @@ Ext.define('Start.view.usersettings.Window', {
 			bind: '{user.firstName}',
 			name: 'firstName',
 			fieldLabel: i18n.user_firstname,
-			//allowBlank: false
+			allowBlank: false
 		}, {
 			bind: '{user.lastName}',
 			name: 'lastName',
 			fieldLabel: i18n.user_lastname,
-			//allowBlank: false
+			allowBlank: false
 		}, {
 			bind: '{user.email}',
 			name: 'email',
 			fieldLabel: i18n.user_email,
-			//vtype: 'email',
-			//allowBlank: false
+			vtype: 'email',
+			allowBlank: false
 		}, {
 			xtype: 'combobox',
 			fieldLabel: i18n.user_language,
@@ -60,7 +60,7 @@ Ext.define('Start.view.usersettings.Window', {
 			store: [ [ 'de', i18n.user_language_german ], [ 'en', i18n.user_language_english ] ],
 			queryMode: 'local',
 			emptyText: i18n.user_selectlanguage,
-			//allowBlank: false,
+			allowBlank: false,
 			name: 'locale',
 			forceSelection: true
 		}, {
@@ -81,14 +81,14 @@ Ext.define('Start.view.usersettings.Window', {
 			name: 'newPasswordRetype',
 			fieldLabel: i18n.user_newpasswordretype,
 			inputType: 'password',
-//			validator: function() {
-//				var newPassword = this.up('window').getViewModel().get('user.newPassword');
-//				var newPasswordRetype = this.getValue();
-//				if ((Ext.isEmpty(newPassword) && Ext.isEmpty(newPasswordRetype)) || (newPassword === newPasswordRetype)) {
-//					return true;
-//				}
-//				return i18n.user_pwdonotmatch;
-//			}
+			validator: function() {
+				var newPassword = this.up('window').getViewModel().get('user.newPassword');
+				var newPasswordRetype = this.getValue();
+				if ((Ext.isEmpty(newPassword) && Ext.isEmpty(newPasswordRetype)) || (newPassword === newPasswordRetype)) {
+					return true;
+				}
+				return i18n.user_pwdonotmatch;
+			}
 		} ],
 
 		dockedItems: [ {
