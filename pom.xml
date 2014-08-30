@@ -22,7 +22,7 @@
 		<java.version>1.8</java.version>
 		<tomcat.version>8.0.11</tomcat.version>
 		
-		<ext.version>5.0.2.1296-NIGHTLY</ext.version>
+		<ext.version>5.0.2.1309-NIGHTLY</ext.version>
 		<spring-security.version>3.2.5.RELEASE</spring-security.version>
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -180,6 +180,12 @@
 			<artifactId>ext-sencha-charts</artifactId>
 			<version>${ext.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>resources</groupId>
+			<artifactId>ext-sencha-charts-theme-crisp</artifactId>
+			<version>${ext.version}</version>
+		</dependency>		
 
 		<dependency>
 			<groupId>mysql</groupId>

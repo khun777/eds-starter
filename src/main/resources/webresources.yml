@@ -95,8 +95,7 @@
     classpath: /static
     dev: link
     prod: concat_minify    
-  - path: /resources/css/sencha-charts-all.css
-    classpath: /static
+  - path: /resources/ext/{ext.version}/sencha-charts-all.css
     dev: link
     prod: concat_minify    
  
