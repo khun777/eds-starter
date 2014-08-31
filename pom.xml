@@ -45,17 +45,6 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
-		<repository>
-			<id>sonatype</id>
-			<name>sonatype</name>
-			<url>https://oss.sonatype.org/content/groups/public</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-		</repository>
 	</repositories>
 
 	<pluginRepositories>
@@ -141,7 +130,7 @@
 		<dependency>
 			<groupId>ch.ralscha</groupId>
 			<artifactId>extdirectspring</artifactId>
-			<version>1.4.3-SNAPSHOT</version>
+			<version>1.4.3</version>
 		</dependency>
 
 		<dependency>
@@ -207,7 +196,7 @@
 		<dependency>
 			<groupId>net.sf.uadetector</groupId>
 			<artifactId>uadetector-resources</artifactId>
-			<version>2014.07</version>
+			<version>2014.08</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>jsr305</artifactId>
