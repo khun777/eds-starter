@@ -4,7 +4,7 @@ Ext.define('Start.Application', {
 	requires: [ 'Start.ux.form.trigger.Clear' ],
 	
 	stores: [
-	    // add global / shared stores here
+	    
 	],
 
 	constructor: function() {
@@ -16,7 +16,7 @@ Ext.define('Start.Application', {
 			url: Ext.app.POLLING_URLS.heartbeat
 		});
 		Ext.direct.Manager.addProvider(Ext.app.REMOTING_API, heartbeat);
-		//this.setupGlobalErrorHandler();
+		this.setupGlobalErrorHandler();
 
 //		Ext.direct.Manager.on('event', function(e) {
 //			if (e.code && e.code === 'parse') {

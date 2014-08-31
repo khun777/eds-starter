@@ -21,4 +21,7 @@ public class ValidationErrors {
 		this.message = message;
 	}
 
+	public void setMessage(String message) {
+		this.message = new String[] { message };
+	}
 }

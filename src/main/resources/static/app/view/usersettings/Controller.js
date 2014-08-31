@@ -2,7 +2,7 @@ Ext.define('Start.view.usersettings.Controller', {
 	extend: 'Ext.app.ViewController',
 
 	init: function() {
-		userSettingsService.read(function(user) {
+		userService.readSettings(function(user) {
 			this.getViewModel().set('user', user);
 		}, this);
 	},
@@ -10,7 +10,7 @@ Ext.define('Start.view.usersettings.Controller', {
 	save: function() {
 		var vm = this.getViewModel();
 		var form = this.lookupReference('userSettingsForm').getForm();
-		userSettingsService.updateSettings(vm.get('user'), function(validations) {
+		userService.updateSettings(vm.get('user'), function(validations) {
 			if (validations.length > 0) {
 				Ext.toast({
 					html: i18n.inputcontainserrors,

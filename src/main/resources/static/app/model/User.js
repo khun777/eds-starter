@@ -1,11 +1,14 @@
 Ext.define("Start.model.User",
 {
   extend : "Ext.data.Model",
-  requires : [ "Ext.data.proxy.Direct", "Ext.data.validator.Email", "Ext.data.validator.Length", "Ext.data.validator.Presence" ],
+  requires : [ "Ext.data.identifier.Negative", "Ext.data.proxy.Direct", "Ext.data.validator.Email", "Ext.data.validator.Length", "Ext.data.validator.Presence" ],
+  identifier : "negative",
   fields : [ {
     name : "lastName",
     type : "string",
     validators : [ {
+      type : "presence"
+    }, {
       type : "length",
       min : 0,
       max : 255
@@ -14,6 +17,8 @@ Ext.define("Start.model.User",
     name : "firstName",
     type : "string",
     validators : [ {
+      type : "presence"
+    }, {
       type : "length",
       min : 0,
       max : 255
@@ -24,28 +29,27 @@ Ext.define("Start.model.User",
     validators : [ {
       type : "email"
     }, {
+      type : "presence"
+    }, {
       type : "length",
       min : 0,
       max : 255
-    }, {
-      type : "presence"
     } ]
   }, {
     name : "role",
     type : "string"
   }, {
-    name : "passwordNew",
+    name : "newPassword",
     type : "string"
   }, {
-    name : "passwordNewConfirm",
-    type : "string"
-  }, {
-    name : "oldPassword",
+    name : "newPasswordRetype",
     type : "string"
   }, {
     name : "locale",
     type : "string",
     validators : [ {
+      type : "presence"
+    }, {
       type : "length",
       min : 0,
       max : 8

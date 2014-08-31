@@ -20,18 +20,20 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "AppUser")
 @Model(value = "Start.model.User", readMethod = "userService.read",
 		createMethod = "userService.create", updateMethod = "userService.update",
-		destroyMethod = "userService.destroy", paging = true)
+		destroyMethod = "userService.destroy", paging = true, identifier = "negative")
 public class User extends AbstractPersistable {
 
+	@NotEmpty(message = "{fieldrequired}")
 	@Size(max = 255)
 	private String lastName;
 
+	@NotEmpty(message = "{fieldrequired}")
 	@Size(max = 255)
 	private String firstName;
 
-	@Email(message = "{user_missing_email}")
+	@Email(message = "{invalidemail}")
+	@NotEmpty(message = "{fieldrequired}")
 	@Size(max = 255)
-	@NotEmpty(message = "{user_missing_email}")
 	@Column(unique = true)
 	private String email;
 
@@ -42,14 +44,12 @@ public class User extends AbstractPersistable {
 	private String passwordHash;
 
 	@Transient
-	private String passwordNew;
+	private String newPassword;
 
 	@Transient
-	private String passwordNewConfirm;
+	private String newPasswordRetype;
 
-	@Transient
-	private String oldPassword;
-
+	@NotEmpty(message = "{fieldrequired}")
 	@Size(max = 8)
 	private String locale;
 
@@ -167,28 +167,20 @@ public class User extends AbstractPersistable {
 		this.passwordResetTokenValidUntil = passwordResetTokenValidUntil;
 	}
 
-	public String getPasswordNew() {
-		return passwordNew;
+	public String getNewPassword() {
+		return newPassword;
 	}
 
-	public void setPasswordNew(String passwordNew) {
-		this.passwordNew = passwordNew;
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
 	}
 
-	public String getPasswordNewConfirm() {
-		return passwordNewConfirm;
+	public String getNewPasswordRetype() {
+		return newPasswordRetype;
 	}
 
-	public void setPasswordNewConfirm(String passwordNewConfirm) {
-		this.passwordNewConfirm = passwordNewConfirm;
-	}
-
-	public String getOldPassword() {
-		return oldPassword;
-	}
-
-	public void setOldPassword(String oldPassword) {
-		this.oldPassword = oldPassword;
+	public void setNewPasswordRetype(String newPasswordRetype) {
+		this.newPasswordRetype = newPasswordRetype;
 	}
 
 }

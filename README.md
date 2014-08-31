@@ -9,7 +9,7 @@ __TODO__:
 - [x] ~~Personal Settings~~
 - [ ] Administration
   - [ ] User Management 
-- [ ] System
+- [x] ~~System~~
   - [x] ~~Access Log~~
   - [x] ~~Log Events~~
   - [x] ~~Configuration~~
@@ -18,4 +18,7 @@ __TODO__:
 - [ ] History / Back-Button / Routing
 - [ ] Enhance toast windows (color, shadow, ...)
 - [x] Password reset
-   
+- [ ] Configure email server in application.properties. Remove gui for config or replace it with something more useful
+- [ ] Use namespace Starter instead of Start (Start->Starter)
+- [ ] Check for itemId that are no longer needed.
+          

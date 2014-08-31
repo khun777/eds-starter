@@ -37,7 +37,7 @@ public class NavigationService {
 				.addChild(new MenuNode(
 						"chart_title",
 						"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAA50lEQVR4Ab2Qr0vHUBTFxxjDP8AgpgWDGEQMBpNBFgxLYjSZxSSysCYiBoN5UeRz3wTBIMMoQ5aMYhgLhmEwyoKM5+UxvyD2ncE4755zf3oTogjZ4Yxr/c5JzNxfMeCIDktDyQNvyj45MeEoyyLPfHNllmSNnBuJTcQFPS8SOZmGRtaVrVBxwAcDib6WeeVdLVR0suApNCvT/z2W0lWep6X2OGRgfzT0VNiZIeabVAmXDBzf+driy8muBXv0mFvfjUnKwJNs/Q4pq4AlL4LZomxSY+l4pKR1C+/+O5VskLlDnbKtpafDD+DijjGiKOJHAAAAAElFTkSuQmCC",
-						"Start.view.poll.PollChart", Role.USER, Role.ADMIN));
+						"Start.view.poll.PollChart", Role.USER));
 		root.addChild(businessNode);
 
 		MenuNode administrationNode = new MenuNode("navigation_administration", null,
@@ -46,7 +46,7 @@ public class NavigationService {
 				.addChild(new MenuNode(
 						"navigation_administration_users",
 						"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAArklEQVR4Ac2NMQ6CQBREf2HBAaioiScgnIJYcABiOAgXoaKcDx2FMdpScAQOYYyFsSAbnd3faKxNnCn2ZWb4yL8Je9zo6qvQDGUfcXDFk76I9BFKzcSEHI5xS3qEwZ3U8nXIbVCFeCYdAx1IcyD7mabhQkcqfKwFBx3JaSomTFg0GWI04btmiDXBgsnKGic47DD6O2bSyMSxqQWrj4atVea3ZJXzxlvsNX8k8nu9AB/XjIWC18JAAAAAAElFTkSuQmCC",
-						"Start.view.user.Container", Role.ADMIN));
+						"Start.view.user.Grid", Role.ADMIN));
 		root.addChild(administrationNode);
 
 		MenuNode systemNode = new MenuNode("navigation_system", null, true);

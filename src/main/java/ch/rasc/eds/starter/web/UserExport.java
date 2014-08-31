@@ -91,10 +91,10 @@ public class UserExport {
 
 			BooleanBuilder bb = new BooleanBuilder();
 			if (StringUtils.hasText(filter)) {
-				bb.or(QUser.user.email.contains(filter));
-				bb.or(QUser.user.lastName.contains(filter));
-				bb.or(QUser.user.firstName.contains(filter));
-				bb.or(QUser.user.email.contains(filter));
+				bb.or(QUser.user.email.containsIgnoreCase(filter));
+				bb.or(QUser.user.lastName.containsIgnoreCase(filter));
+				bb.or(QUser.user.firstName.containsIgnoreCase(filter));
+				bb.or(QUser.user.email.containsIgnoreCase(filter));
 			}
 
 			int rowNo = 1;
