@@ -73,17 +73,17 @@
     dev: ignore
     prod: script
       
-  - path: /resources/ext/{extjs.version}/ux/BoxReorderer.js
+  - path: /resources/ext/{ext.version}/ux/BoxReorderer.js
     classpath: /META-INF/resources    
     dev: ignore
     prod: concat_minify
       
-  - path: /resources/ext/{extjs.version}/ux/TabCloseMenu.js
+  - path: /resources/ext/{ext.version}/ux/TabCloseMenu.js
     classpath: /META-INF/resources
     dev: ignore
     prod: concat_minify
       
-  - path: /resources/ext/{extjs.version}/ux/TabReorderer.js
+  - path: /resources/ext/{ext.version}/ux/TabReorderer.js
     classpath: /META-INF/resources
     dev: ignore
     prod: concat_minify      
@@ -116,6 +116,7 @@
     dev: link
     prod: concat_minify    
   - path: /resources/ext/{ext.version}/sencha-charts-all.css
+    classpath: /META-INF/resources
     dev: link
     prod: concat_minify    
  
