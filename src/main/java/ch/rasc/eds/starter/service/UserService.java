@@ -216,6 +216,18 @@ public class UserService {
 	}
 
 	@ExtDirectMethod
+	public boolean unlock(Long userId) {
+		User user = userRepository.findOne(userId);
+		if (user != null) {
+			user.setLockedOutUntil(null);
+			user.setFailedLogins(null);
+			userRepository.save(user);
+			return true;
+		}		
+		return false;
+	}
+	
+	@ExtDirectMethod
 	@Transactional(readOnly = true)
 	@PreAuthorize("isAuthenticated()")
 	public UserSettings readSettings(

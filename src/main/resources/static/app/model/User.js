@@ -58,6 +58,17 @@ Ext.define("Starter.model.User",
     name : "enabled",
     type : "boolean"
   }, {
+    name : "failedLogins",
+    type : "integer"
+  }, {
+    name : "lockedOutUntil",
+    type : "date",
+    dateFormat : "c"
+  }, {
+    name : "lastLogin",
+    type : "date",
+    dateFormat : "c"
+  }, {
     name : "id",
     type : "integer",
     allowNull : true,

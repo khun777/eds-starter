@@ -47,6 +47,13 @@ Ext.define('Starter.view.user.Grid', {
 		dataIndex: 'role',
 		flex: 1
 	}, {
+		text: i18n.user_lastlogin,
+		dataIndex: 'lastLogin',
+		flex: 1,
+		width: 150,
+		xtype: 'datecolumn',
+		format: 'Y-m-d H:i:s'		
+	}, {
 		text: i18n.user_enabled,
 		dataIndex: 'enabled',
 		width: 85,
@@ -56,7 +63,17 @@ Ext.define('Starter.view.user.Grid', {
 			}
 			return i18n.no;
 		}
-	} ],
+	}, {
+		text: i18n.user_locked,
+		dataIndex: 'lockedOutUntil',
+		width: 85,
+		renderer: function(value) {
+			if (value) {
+				return i18n.yes;
+			}
+			return i18n.no;
+		}
+	}],
 
 	dockedItems: [ {
 		xtype: 'toolbar',

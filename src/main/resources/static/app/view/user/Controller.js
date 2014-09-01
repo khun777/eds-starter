@@ -70,11 +70,21 @@ Ext.define('Starter.view.user.Controller', {
 
 	switchTo: function(record) {
 		if (record) {
-			securityService.switchUser(record.data.id, function(ok) {
+			securityService.switchUser(record.getId(), function(ok) {
 				if (ok) {
 					window.location.reload();
 				}
 			}, this);
+		}
+	},
+	
+	unlock: function(record) {
+		if (record) {
+			userService.unlock(record.getId(), function(success) {
+				if (success) {
+					record.set('lockedOutUntil', null, {dirty:false});
+				}
+			});
 		}
 	},
 
@@ -113,10 +123,9 @@ Ext.define('Starter.view.user.Controller', {
 			glyph: 0xe803,
 			handler: this.editUser.bind(this, i18n.user_edit, record)
 		}, {
-			text: i18n.show,
-			hidden: true,
-			glyph: 0xe817,
-			handler: this.editUser.bind(this, i18n.user_edit, record)
+			text: i18n.user_unlock,
+			hidden: !record.data.lockedOutUntil,
+			handler: this.unlock.bind(this, record)
 		}, {
 			text: i18n.destroy,
 			glyph: 0xe806,

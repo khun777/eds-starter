@@ -12,9 +12,12 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import ch.rasc.edsutil.entity.AbstractPersistable;
+import ch.rasc.edsutil.jackson.ISO8601LocalDateTimeSerializer;
 import ch.rasc.extclassgenerator.Model;
+import ch.rasc.extclassgenerator.ModelField;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
 @Table(name = "AppUser")
@@ -55,13 +58,14 @@ public class User extends AbstractPersistable {
 
 	private boolean enabled;
 
-	@JsonIgnore
 	private Integer failedLogins;
 
-	@JsonIgnore
+	@ModelField(dateFormat = "c")
+	@JsonSerialize(using = ISO8601LocalDateTimeSerializer.class)	
 	private LocalDateTime lockedOutUntil;
 
-	@JsonIgnore
+	@ModelField(dateFormat = "c")
+	@JsonSerialize(using = ISO8601LocalDateTimeSerializer.class)	
 	private LocalDateTime lastLogin;
 
 	@Size(max = 36)
