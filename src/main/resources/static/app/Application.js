@@ -29,7 +29,7 @@ Ext.define('Starter.Application', {
 //
 //		Ext.direct.Manager.on('exception', function(e) {
 //			if (e.message === 'accessdenied') {
-//              Starter.Util.errorToast(i18n.error_accessdenied);		
+//              Starter.Util.errorToast(i18n.accessdenied);		
 //			} else {
 //				Starter.Util.errorToast(e.message);
 //			}

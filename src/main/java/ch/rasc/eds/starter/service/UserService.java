@@ -27,9 +27,6 @@ import ch.ralscha.extdirectspring.annotation.ExtDirectMethod;
 import ch.ralscha.extdirectspring.bean.ExtDirectStoreReadRequest;
 import ch.ralscha.extdirectspring.bean.ExtDirectStoreResult;
 import ch.ralscha.extdirectspring.filter.StringFilter;
-import ch.rasc.eds.starter.ExtDirectStoreValidationsResult;
-import ch.rasc.eds.starter.Util;
-import ch.rasc.eds.starter.ValidationErrors;
 import ch.rasc.eds.starter.config.security.JpaUserDetails;
 import ch.rasc.eds.starter.dto.UserSettings;
 import ch.rasc.eds.starter.entity.QUser;
@@ -37,6 +34,9 @@ import ch.rasc.eds.starter.entity.Role;
 import ch.rasc.eds.starter.entity.User;
 import ch.rasc.eds.starter.repository.UserRepository;
 import ch.rasc.edsutil.QueryUtil;
+import ch.rasc.edsutil.ValidationUtil;
+import ch.rasc.edsutil.bean.ValidationMessages;
+import ch.rasc.edsutil.bean.ValidationMessagesResult;
 
 import com.mysema.query.BooleanBuilder;
 import com.mysema.query.SearchResults;
@@ -109,16 +109,15 @@ public class UserService {
 
 	@ExtDirectMethod(STORE_MODIFY)
 	@Transactional
-	public ExtDirectStoreValidationsResult<User> create(User newEntity, Locale locale) {
+	public ValidationMessagesResult<User> create(User newEntity, Locale locale) {
 		preModify(newEntity);
-		List<ValidationErrors> violations = validateEntity(newEntity, locale);
+		List<ValidationMessages> violations = validateEntity(newEntity, locale);
 		if (violations.isEmpty()) {
 			User saveUser = userRepository.save(newEntity);
-			return new ExtDirectStoreValidationsResult<>(saveUser);
+			return new ValidationMessagesResult<>(saveUser);
 		}
 
-		ExtDirectStoreValidationsResult<User> result = new ExtDirectStoreValidationsResult<>(
-				newEntity);
+		ValidationMessagesResult<User> result = new ValidationMessagesResult<>(newEntity);
 		result.setValidations(violations);
 		return result;
 
@@ -126,26 +125,26 @@ public class UserService {
 
 	@ExtDirectMethod(STORE_MODIFY)
 	@Transactional
-	public ExtDirectStoreValidationsResult<User> update(User updatedEntity, Locale locale) {
+	public ValidationMessagesResult<User> update(User updatedEntity, Locale locale) {
 		preModify(updatedEntity);
-		List<ValidationErrors> violations = validateEntity(updatedEntity, locale);
+		List<ValidationMessages> violations = validateEntity(updatedEntity, locale);
 		if (violations.isEmpty()) {
 
-			return new ExtDirectStoreValidationsResult<>(
-					userRepository.save(updatedEntity));
+			return new ValidationMessagesResult<>(userRepository.save(updatedEntity));
 		}
 
-		ExtDirectStoreValidationsResult<User> result = new ExtDirectStoreValidationsResult<>(
+		ValidationMessagesResult<User> result = new ValidationMessagesResult<>(
 				updatedEntity);
 		result.setValidations(violations);
 		return result;
 	}
 
-	protected List<ValidationErrors> validateEntity(User user, Locale locale) {
-		List<ValidationErrors> validations = Util.validateObject(validator, user);
+	protected List<ValidationMessages> validateEntity(User user, Locale locale) {
+		List<ValidationMessages> validations = ValidationUtil.validateEntity(validator,
+				user);
 
 		if (emailTaken(user.getId(), user.getEmail())) {
-			ValidationErrors validationError = new ValidationErrors();
+			ValidationMessages validationError = new ValidationMessages();
 			validationError.setField("email");
 			validationError.setMessage(messageSource.getMessage("user_emailtaken", null,
 					locale));
@@ -155,10 +154,10 @@ public class UserService {
 		if (StringUtils.hasText(user.getNewPassword())) {
 			if (!user.getNewPassword().equals(user.getNewPasswordRetype())) {
 				for (String field : new String[] { "newPassword", "newPasswordRetype" }) {
-					ValidationErrors error = new ValidationErrors();
+					ValidationMessages error = new ValidationMessages();
 					error.setField(field);
-					error.setMessage(new String[] { messageSource.getMessage(
-							"user_pwdonotmatch", null, locale) });
+					error.setMessage(messageSource.getMessage(
+							"user_pwdonotmatch", null, locale));
 					validations.add(error);
 				}
 			}
@@ -226,10 +225,10 @@ public class UserService {
 
 	@ExtDirectMethod
 	@PreAuthorize("isAuthenticated()")
-	public List<ValidationErrors> updateSettings(UserSettings modifiedUserSettings,
+	public List<ValidationMessages> updateSettings(UserSettings modifiedUserSettings,
 			@AuthenticationPrincipal JpaUserDetails jpaUserDetails, Locale locale) {
 
-		List<ValidationErrors> validations = Util.validateObject(validator,
+		List<ValidationMessages> validations = ValidationUtil.validateEntity(validator,
 				modifiedUserSettings);
 		User user = userRepository.findOne(jpaUserDetails.getUserDbId());
 
@@ -241,10 +240,10 @@ public class UserService {
 		}
 
 		if (emailTaken(user.getId(), modifiedUserSettings.getEmail())) {
-			ValidationErrors validationError = new ValidationErrors();
+			ValidationMessages validationError = new ValidationMessages();
 			validationError.setField("email");
-			validationError.setMessage(new String[] { messageSource.getMessage(
-					"user_emailtaken", null, locale) });
+			validationError.setMessage(messageSource.getMessage(
+					"user_emailtaken", null, locale));
 			validations.add(validationError);
 		}
 
@@ -258,19 +257,19 @@ public class UserService {
 				}
 				else {
 					for (String field : new String[] { "newPassword", "newPasswordRetype" }) {
-						ValidationErrors error = new ValidationErrors();
+						ValidationMessages error = new ValidationMessages();
 						error.setField(field);
-						error.setMessage(new String[] { messageSource.getMessage(
-								"user_pwdonotmatch", null, locale) });
+						error.setMessage(messageSource.getMessage(
+								"user_pwdonotmatch", null, locale));
 						validations.add(error);
 					}
 				}
 			}
 			else {
-				ValidationErrors error = new ValidationErrors();
+				ValidationMessages error = new ValidationMessages();
 				error.setField("currentPassword");
-				error.setMessage(new String[] { messageSource.getMessage(
-						"user_wrongpassword", null, locale) });
+				error.setMessage(messageSource.getMessage(
+						"user_wrongpassword", null, locale));
 				validations.add(error);
 			}
 		}

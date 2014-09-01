@@ -42,8 +42,11 @@ Ext.define('Starter.view.user.Controller', {
 		var editWin = new Starter.view.user.Window({
 			title: title
 		});
+		var form = editWin.down('form');
+
 		this.getView().add(editWin);
-		editWin.down('form').loadRecord(record);
+		form.loadRecord(record);
+		form.isValid();
 	},
 
 	destroyUser: function(record) {
@@ -69,15 +72,10 @@ Ext.define('Starter.view.user.Controller', {
 		if (record) {
 			securityService.switchUser(record.data.id, function(ok) {
 				if (ok) {
-					// History.pushState({}, i18n.app_title, "?");
 					window.location.reload();
 				}
 			}, this);
 		}
-	},
-
-	onMenuClick: function(grid, rowIndex, colIndex) {
-		var record = grid.getStore().getAt(rowIndex);
 	},
 
 	onItemContextMenu: function(view, record, item, index, e, eOpts) {
@@ -110,7 +108,6 @@ Ext.define('Starter.view.user.Controller', {
 	},
 
 	buildContextMenuItems: function(record) {
-
 		return [ {
 			text: i18n.edit,
 			glyph: 0xe803,
@@ -130,64 +127,6 @@ Ext.define('Starter.view.user.Controller', {
 			text: i18n.user_switchto,
 			handler: this.switchTo.bind(this, record)
 		} ];
-
 	}
-
-// control: {
-// exportButton: true
-// },
-//
-// destroyConfirmMsg: function(record) {
-// return record.get('userName') + ' ' + i18n.reallyDestroy;
-// },
-//
-// destroyFailureCallback: function() {
-// E4ds.ux.window.Notification.error(i18n.error, i18n.user_lastAdminUserError);
-// },
-//
-// formClass: 'E4ds.view.user.Form',
-//
-// createModel: function() {
-// return Ext.create('E4ds.model.User');
-// },
-//
-// buildContextMenuItems: function(record) {
-// var me = this;
-// var items = this.callParent(arguments);
-//
-// items.push({
-// xtype: 'menuseparator'
-// });
-// items.push({
-// text: i18n.user_switchto,
-// handler: Ext.bind(me.switchTo, me, [ record ])
-// });
-//
-// return items;
-// },
-//
-// onFilterField: function(field, newValue) {
-// this.callParent(arguments);
-//
-// if (newValue) {
-// this.getExportButton().setParams({
-// filter: newValue
-// });
-// }
-// else {
-// this.getExportButton().setParams();
-// }
-// },
-//
-// switchTo: function(record) {
-// if (record) {
-// securityService.switchUser(record.data.id, function(ok) {
-// if (ok) {
-// History.pushState({}, i18n.app_title, "?");
-// window.location.reload();
-// }
-// }, this);
-// }
-// }
 
 });

@@ -12,6 +12,7 @@ Ext.define('Starter.view.usersettings.Window', {
 	resizable: true,
 	constrain: true,
 	autoShow: true,
+	shadow: true,
 	modal: true,
 	glyph: 0xe803,
 	defaultFocus: 'firstName',

@@ -7,6 +7,8 @@ Ext.define('Starter.view.user.Window', {
 	constrain: true,
 	modal: true,
 	autoShow: true,
+	shadow: true,
+	ghost: false,
 	glyph: 0xe803,
 	defaultFocus: 'firstName',
 
@@ -36,16 +38,16 @@ Ext.define('Starter.view.user.Window', {
 			itemId: 'firstName',
 			name: 'firstName',
 			fieldLabel: i18n.user_firstname,
-		// allowBlank: false
+			allowBlank: false
 		}, {
 			name: 'lastName',
 			fieldLabel: i18n.user_lastname,
-		// allowBlank: false
+			allowBlank: false
 		}, {
 			name: 'email',
 			fieldLabel: i18n.user_email,
-		// vtype: 'email',
-		// allowBlank: false
+			vtype: 'email',
+			allowBlank: false
 		}, {
 			name: 'newPassword',
 			fieldLabel: i18n.user_newpassword,
@@ -61,7 +63,7 @@ Ext.define('Starter.view.user.Window', {
 			store: [ [ 'de', i18n.user_language_german ], [ 'en', i18n.user_language_english ] ],
 			queryMode: 'local',
 			emptyText: i18n.user_selectlanguage,
-			// allowBlank: false,
+			allowBlank: false,
 			forceSelection: true
 		}, {
 			fieldLabel: i18n.user_enabled,
@@ -82,7 +84,6 @@ Ext.define('Starter.view.user.Window', {
 			delimiter: ',',
 			editable: false,
 			selectOnFocus: false
-
 		} ],
 
 		dockedItems: [ {

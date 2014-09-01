@@ -28,7 +28,6 @@ Ext.define('Starter.view.user.Grid', {
 		width: 30,
 		items: [ {
 			icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAAK0lEQVR4AWMgBBhXyRFQsPI/xQoyCCgg7EgX2jkSYQWZAOFN2jtSjsKQBAD0NQ+N4ZAsdgAAAABJRU5ErkJggg==',
-			tooltip: 'Menu',
 			handler: 'onActionColumnClick'
 		} ]
 	}, {

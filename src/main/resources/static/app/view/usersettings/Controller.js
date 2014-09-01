@@ -16,7 +16,7 @@ Ext.define('Starter.view.usersettings.Controller', {
 
 				validations.forEach(function(validation) {
 					var field = form.findField(validation.field);
-					field.markInvalid(validation.message);
+					field.markInvalid(validation.messages);
 				});
 			}
 			else {

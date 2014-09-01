@@ -43,7 +43,7 @@ Ext.define('Starter.view.user.WindowController', {
 						if (op.getResponse() && op.getResponse().result && op.getResponse().result.validations) {
 							op.getResponse().result.validations.forEach(function(validation) {
 								var field = form.findField(validation.field);
-								field.markInvalid(validation.message);
+								field.markInvalid(validation.messages);
 							});
 						}
 					}

@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class MenuNode {
 
-	private int id;
+	private String id;
 
 	private final String text;
 
@@ -63,7 +63,7 @@ public class MenuNode {
 			Locale locale, MessageSource messageSource, HttpServletRequest request) {
 		MenuNode menuNode = new MenuNode(messageSource.getMessage(source.getText(), null,
 				source.getText(), locale));
-		menuNode.id = nodeId.getAndIncrement();
+		menuNode.id = String.valueOf(nodeId.getAndIncrement());
 		menuNode.view = source.getView();
 		menuNode.expanded = source.isExpanded();
 
@@ -118,7 +118,7 @@ public class MenuNode {
 		return false;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 

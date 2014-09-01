@@ -257,7 +257,20 @@ Ext.onReady(function() {
 
 	Ext.fly('cssloader').destroy();
 	if (location.search === '?error') {
-		Ext.toast(i18n.login_failed, i18n.error, 't');
+		Ext.toast({
+			html: i18n.login_failed,
+			title: i18n.error,
+			align: 't',
+			shadow: true,
+			width: 200,
+			slideInDuration: 100,
+			hideDuration: 100,
+			bodyStyle: {
+				background: 'red',
+				color: 'white',
+				textAlign: 'center'
+			}
+		});
 	}
 
 });
