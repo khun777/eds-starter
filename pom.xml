@@ -18,7 +18,7 @@
 	<properties>
 	    <liquibase.version>3.2.2</liquibase.version>		
 		<hibernate-validator.version>5.1.2.Final</hibernate-validator.version>
-		<querydsl.version>3.4.2</querydsl.version>
+		<querydsl.version>3.4.3</querydsl.version>
 		<java.version>1.8</java.version>
 		<tomcat.version>8.0.11</tomcat.version>
 		
@@ -157,6 +157,12 @@
 			<artifactId>ext-all</artifactId>
 			<version>${ext.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>resources</groupId>
+			<artifactId>ext-ux</artifactId>
+			<version>${ext.version}</version>
+		</dependency>		
 
 		<dependency>
 			<groupId>resources</groupId>
@@ -259,7 +265,8 @@
 								<vars>true</vars>
 								<unparam>true</unparam>
 								<plusplus>true</plusplus>
-								<predef>Ext</predef>
+								<predef>Ext,i18n,Starter,loggingEventService,appConfigurationService,accessLogService,
+								logService</predef>
 							</options>
 						</configuration>
 					</execution>
