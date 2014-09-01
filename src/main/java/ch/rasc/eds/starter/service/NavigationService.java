@@ -35,9 +35,9 @@ public class NavigationService {
 		MenuNode businessNode = new MenuNode("navigation_business", null, true);
 		businessNode
 				.addChild(new MenuNode(
-						"chart_title",
+						"Dashboard",
 						"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAA50lEQVR4Ab2Qr0vHUBTFxxjDP8AgpgWDGEQMBpNBFgxLYjSZxSSysCYiBoN5UeRz3wTBIMMoQ5aMYhgLhmEwyoKM5+UxvyD2ncE4755zf3oTogjZ4Yxr/c5JzNxfMeCIDktDyQNvyj45MeEoyyLPfHNllmSNnBuJTcQFPS8SOZmGRtaVrVBxwAcDib6WeeVdLVR0suApNCvT/z2W0lWep6X2OGRgfzT0VNiZIeabVAmXDBzf+driy8muBXv0mFvfjUnKwJNs/Q4pq4AlL4LZomxSY+l4pKR1C+/+O5VskLlDnbKtpafDD+DijjGiKOJHAAAAAElFTkSuQmCC",
-						"Starter.view.poll.PollChart", Role.USER));
+						"Starter.view.dummy.View", Role.USER));
 		root.addChild(businessNode);
 
 		MenuNode administrationNode = new MenuNode("navigation_administration", null,
