@@ -10,7 +10,7 @@ Ext.define('Starter.view.accesslog.TabPanel', {
 		xclass: 'Starter.view.accesslog.ViewModel'
 	},
 
-	title: i18n.accesslog,
+	title: i18n.navigation_system_accesslog,
 	closable: true,
 	border: false,
 

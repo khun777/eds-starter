@@ -13,7 +13,7 @@ Ext.define('Starter.view.config.Form', {
 	},
 	layout: 'vbox',
 
-	title: i18n.config,
+	title: i18n.navigation_system_config,
 	closable: true,
 
 	fieldDefaults: {
