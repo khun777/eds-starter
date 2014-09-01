@@ -19,6 +19,7 @@ __TODO__:
 - [ ] Enhance toast windows (color, shadow, ...)
 - [x] Password reset
 - [ ] Configure email server in application.properties. Remove gui for config or replace it with something more useful
-- [ ] Use namespace Starter instead of Start (Start->Starter)
-- [ ] Check for itemId that are no longer needed.
+- [x] ~~Use namespace Starter instead of Start (Start->Starter)~~
+- [x] ~~Check for itemId that are no longer needed.~~
+- [ ] German translation
           
