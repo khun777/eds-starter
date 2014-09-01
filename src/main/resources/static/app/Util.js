@@ -12,7 +12,8 @@ Ext.define('Starter.Util', {
 			hideDuration: 100,
 			bodyStyle: {
 				background: 'lime',
-				textAlign: 'center'
+				textAlign: 'center',
+				fontWeight: 'bold'
 			}
 		});
 	},
@@ -29,7 +30,8 @@ Ext.define('Starter.Util', {
 			bodyStyle: {
 				background: 'red',
 				color: 'white',
-				textAlign: 'center'
+				textAlign: 'center',
+				fontWeight: 'bold'
 			}
 		});
 	}
