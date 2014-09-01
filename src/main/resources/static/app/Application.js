@@ -1,7 +1,10 @@
-Ext.define('Start.Application', {
+/* <debug> */
+Ext.Loader.setPath('Ext.ux', 'resources/ext/5.0.2.1309-NIGHTLY/ux');
+/* </debug> */
+Ext.define('Starter.Application', {
 	extend: 'Ext.app.Application',
-	name: 'Start',
-	requires: [ 'Start.ux.form.trigger.Clear' ],
+	name: 'Starter',
+	requires: [ 'Starter.ux.form.trigger.Clear', 'Starter.Util', 'Ext.ux.TabReorderer', 'Ext.ux.TabCloseMenu' ],
 	
 	stores: [
 	    
@@ -26,9 +29,9 @@ Ext.define('Start.Application', {
 //
 //		Ext.direct.Manager.on('exception', function(e) {
 //			if (e.message === 'accessdenied') {
-//				Ext.toast(i18n.error_accessdenied, i18n.error, 't');
+//              Starter.Util.errorToast(i18n.error_accessdenied);		
 //			} else {
-//				Ext.toast(e.message, i18n.error, 't');
+//				Starter.Util.errorToast(e.message);
 //			}
 //		});
 		
@@ -49,9 +52,15 @@ Ext.define('Start.Application', {
 		}
 	},
 
-	globalErrorHandler: function(msg, url, line) {
-		var message = msg + "-->" + url + "::" + line;
-		logService.error(message);
+	globalErrorHandler: function(message, file, line, col, error) {
+		var trace = printStackTrace({e: error});
+		var tracestring = '';
+		
+		if (trace) {
+			tracestring = '\n' + trace.join('\n');
+		}
+		
+		logService.error(message + '-->' + file + '::' + line + tracestring);
 	}
 	
 });

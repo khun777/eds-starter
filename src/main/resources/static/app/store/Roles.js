@@ -1,6 +1,6 @@
-Ext.define('Start.store.Roles', {
+Ext.define('Starter.store.Roles', {
 	extend: 'Ext.data.Store',
-	model: 'Start.model.Role',
+	model: 'Starter.model.Role',
 	storeId: 'roles',
 	autoLoad: true,
 	remoteFilter: false,

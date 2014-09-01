@@ -1,4 +1,4 @@
-Ext.define('Start.view.user.WindowController', {
+Ext.define('Starter.view.user.WindowController', {
 	extend: 'Ext.app.ViewController',
 
 	init: function() {
@@ -34,37 +34,12 @@ Ext.define('Start.view.user.WindowController', {
 			record.save({
 				callback: function(r, op) {
 					if (op.success) {
+						Starter.Util.successToast(i18n.savesuccessful);
 						this.getStore('users').reload();
-						Ext.toast({
-							html: i18n.savesuccessful,
-							title: i18n.successful,
-							align: 't',
-							shadow: true,
-							width: 200,
-							slideInDuration: 100,
-							hideDuration: 100,
-							bodyStyle: {
-								background: 'lime',
-								textAlign: 'center'
-							}
-						});
 						this.close();
 					}
 					else {
-						Ext.toast({
-							html: i18n.inputcontainserrors,
-							title: i18n.error,
-							align: 't',
-							shadow: true,
-							width: 200,
-							slideInDuration: 100,
-							hideDuration: 100,
-							bodyStyle: {
-								background: 'red',
-								color: 'white',
-								textAlign: 'center'
-							}
-						});
+						Starter.Util.errorToast(i18n.inputcontainserrors);
 						if (op.getResponse() && op.getResponse().result && op.getResponse().result.validations) {
 							op.getResponse().result.validations.forEach(function(validation) {
 								var field = form.findField(validation.field);

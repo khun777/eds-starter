@@ -1,4 +1,4 @@
-Ext.define("Start.model.AccessLog",
+Ext.define("Starter.model.AccessLog",
 {
   extend : "Ext.data.Model",
   requires : [ "Ext.data.proxy.Direct", "Ext.data.validator.Length" ],

@@ -1,11 +1,11 @@
-Ext.define('Start.view.user.Controller', {
+Ext.define('Starter.view.user.Controller', {
 	extend: 'Ext.app.ViewController',
-    requires: ['Start.view.user.Window', 'Start.store.Roles'],
-    
-    init: function() {
-        new Start.store.Roles();
-    },
-    
+	requires: [ 'Starter.view.user.Window', 'Starter.store.Roles' ],
+
+	init: function() {
+		new Starter.store.Roles();
+	},
+
 	onFilterSpecialKey: function(tf, e) {
 		if (e.getKey() === e.ENTER) {
 			this.onFilter(tf);
@@ -28,65 +28,42 @@ Ext.define('Start.view.user.Controller', {
 			store.clearFilter();
 		}
 	},
-	
+
 	onItemDoubleClick: function(grid, record) {
 		this.editUser(i18n.user_edit, this.getViewModel().get('selectedUser'));
 	},
-	
+
 	newUser: function() {
 		this.getViewModel().set('selectedUser', null);
-		this.editUser(i18n.user_new, new Start.model.User());
+		this.editUser(i18n.user_new, new Starter.model.User());
 	},
-	
+
 	editUser: function(title, record) {
-		var editWin = new Start.view.user.Window({title: title});
+		var editWin = new Starter.view.user.Window({
+			title: title
+		});
 		this.getView().add(editWin);
 		editWin.down('form').loadRecord(record);
 	},
-	
+
 	destroyUser: function(record) {
 		Ext.Msg.confirm(i18n.attention, Ext.String.format(i18n.destroyConfirmMsg, record.get('email')), function(choice) {
 			if (choice === 'yes') {
 				record.erase({
 					callback: function(records, operation, success) {
 						if (success) {
-							Ext.toast({
-								html: i18n.destroysuccessful,
-								title: i18n.successful,
-								align: 't',
-								shadow: true,
-								width: 200,
-								slideInDuration: 100,
-								hideDuration: 100,
-								bodyStyle: {
-									background: 'lime',
-									textAlign: 'center'
-								}
-							});							
+							Starter.Util.successToast(i18n.destroysuccessful);
 							this.getStore('users').reload();
-						} else {
-							Ext.toast({
-								html: i18n.servererror,
-								title: i18n.error,
-								align: 't',
-								shadow: true,
-								width: 200,
-								slideInDuration: 100,
-								hideDuration: 100,
-								bodyStyle: {
-									background: 'red',
-									color: 'white',
-									textAlign: 'center'
-								}
-							});							
 						}
-					}, scope: this
+						else {
+							Starter.Util.errorToast(i18n.servererror);
+						}
+					},
+					scope: this
 				});
-				
 			}
-		}, this);		
+		}, this);
 	},
-	
 
 	switchTo: function(record) {
 		if (record) {
@@ -97,12 +74,12 @@ Ext.define('Start.view.user.Controller', {
 				}
 			}, this);
 		}
-	},	
-	
+	},
+
 	onMenuClick: function(grid, rowIndex, colIndex) {
-        var record = grid.getStore().getAt(rowIndex);
-    },
-    
+		var record = grid.getStore().getAt(rowIndex);
+	},
+
 	onItemContextMenu: function(view, record, item, index, e, eOpts) {
 		e.stopEvent();
 		this.showContextMenu(record, e.getXY());
@@ -130,9 +107,9 @@ Ext.define('Start.view.user.Controller', {
 		else {
 			this.actionMenu.showBy(item);
 		}
-	},    
-    
-    buildContextMenuItems: function(record) {
+	},
+
+	buildContextMenuItems: function(record) {
 
 		return [ {
 			text: i18n.edit,
@@ -153,66 +130,64 @@ Ext.define('Start.view.user.Controller', {
 			text: i18n.user_switchto,
 			handler: this.switchTo.bind(this, record)
 		} ];
-		
+
 	}
 
-	
-	
-//	control: {
-//		exportButton: true
-//	},
+// control: {
+// exportButton: true
+// },
 //
-//	destroyConfirmMsg: function(record) {
-//		return record.get('userName') + ' ' + i18n.reallyDestroy;
-//	},
+// destroyConfirmMsg: function(record) {
+// return record.get('userName') + ' ' + i18n.reallyDestroy;
+// },
 //
-//	destroyFailureCallback: function() {
-//		E4ds.ux.window.Notification.error(i18n.error, i18n.user_lastAdminUserError);
-//	},
+// destroyFailureCallback: function() {
+// E4ds.ux.window.Notification.error(i18n.error, i18n.user_lastAdminUserError);
+// },
 //
-//	formClass: 'E4ds.view.user.Form',
+// formClass: 'E4ds.view.user.Form',
 //
-//	createModel: function() {
-//		return Ext.create('E4ds.model.User');
-//	},
+// createModel: function() {
+// return Ext.create('E4ds.model.User');
+// },
 //
-//	buildContextMenuItems: function(record) {
-//		var me = this;
-//		var items = this.callParent(arguments);
+// buildContextMenuItems: function(record) {
+// var me = this;
+// var items = this.callParent(arguments);
 //
-//		items.push({
-//			xtype: 'menuseparator'
-//		});
-//		items.push({
-//			text: i18n.user_switchto,
-//			handler: Ext.bind(me.switchTo, me, [ record ])
-//		});
+// items.push({
+// xtype: 'menuseparator'
+// });
+// items.push({
+// text: i18n.user_switchto,
+// handler: Ext.bind(me.switchTo, me, [ record ])
+// });
 //
-//		return items;
-//	},
+// return items;
+// },
 //
-//	onFilterField: function(field, newValue) {
-//		this.callParent(arguments);
+// onFilterField: function(field, newValue) {
+// this.callParent(arguments);
 //
-//		if (newValue) {
-//			this.getExportButton().setParams({
-//				filter: newValue
-//			});
-//		}
-//		else {
-//			this.getExportButton().setParams();
-//		}
-//	},
+// if (newValue) {
+// this.getExportButton().setParams({
+// filter: newValue
+// });
+// }
+// else {
+// this.getExportButton().setParams();
+// }
+// },
 //
-//	switchTo: function(record) {
-//		if (record) {
-//			securityService.switchUser(record.data.id, function(ok) {
-//				if (ok) {
-//					History.pushState({}, i18n.app_title, "?");
-//					window.location.reload();
-//				}
-//			}, this);
-//		}
-//	}
+// switchTo: function(record) {
+// if (record) {
+// securityService.switchUser(record.data.id, function(ok) {
+// if (ok) {
+// History.pushState({}, i18n.app_title, "?");
+// window.location.reload();
+// }
+// }, this);
+// }
+// }
 
 });

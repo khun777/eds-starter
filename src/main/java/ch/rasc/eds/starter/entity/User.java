@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "AppUser")
-@Model(value = "Start.model.User", readMethod = "userService.read",
+@Model(value = "Starter.model.User", readMethod = "userService.read",
 		createMethod = "userService.create", updateMethod = "userService.update",
 		destroyMethod = "userService.destroy", paging = true, identifier = "negative")
 public class User extends AbstractPersistable {

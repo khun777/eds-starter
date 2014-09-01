@@ -1,9 +1,9 @@
-Ext.define('Start.view.config.Form', {
+Ext.define('Starter.view.config.Form', {
 	extend: 'Ext.form.Panel',
-	requires: [ 'Start.view.config.Controller' ],
+	requires: [ 'Starter.view.config.Controller' ],
 
 	controller: {
-		xclass: 'Start.view.config.Controller'
+		xclass: 'Starter.view.config.Controller'
 	},
 
 	viewModel: {

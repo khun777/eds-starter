@@ -1,9 +1,9 @@
-Ext.define('Start.view.usersettings.Window', {
+Ext.define('Starter.view.usersettings.Window', {
 	extend: 'Ext.window.Window',
-	requires: [ 'Start.view.usersettings.Controller' ],
+	requires: [ 'Starter.view.usersettings.Controller' ],
 
 	controller: {
-		xclass: 'Start.view.usersettings.Controller'
+		xclass: 'Starter.view.usersettings.Controller'
 	},
 
 	title: i18n.user_settings,

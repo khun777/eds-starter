@@ -1,4 +1,4 @@
-Ext.define("Start.model.User",
+Ext.define("Starter.model.User",
 {
   extend : "Ext.data.Model",
   requires : [ "Ext.data.identifier.Negative", "Ext.data.proxy.Direct", "Ext.data.validator.Email", "Ext.data.validator.Length", "Ext.data.validator.Presence" ],

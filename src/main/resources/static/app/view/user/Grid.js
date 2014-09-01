@@ -1,16 +1,16 @@
-Ext.define('Start.view.user.Grid', {
+Ext.define('Starter.view.user.Grid', {
 	extend: 'Ext.grid.Panel',
-	requires: [ 'Start.view.user.Controller', 'Start.view.user.ViewModel' ],
+	requires: [ 'Starter.view.user.Controller', 'Starter.view.user.ViewModel' ],
 
 	title: i18n.user_users,
 	closable: true,
 
 	controller: {
-		xclass: 'Start.view.user.Controller'
+		xclass: 'Starter.view.user.Controller'
 	},
 
 	viewModel: {
-		xclass: 'Start.view.user.ViewModel'
+		xclass: 'Starter.view.user.ViewModel'
 	},
 
 	bind: {
@@ -22,14 +22,14 @@ Ext.define('Start.view.user.Grid', {
 		itemdblclick: 'onItemDoubleClick',
 		itemcontextmenu: 'onItemContextMenu'
 	},
-	
+
 	columns: [ {
 		xtype: 'actioncolumn',
 		width: 30,
 		items: [ {
 			icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAAK0lEQVR4AWMgBBhXyRFQsPI/xQoyCCgg7EgX2jkSYQWZAOFN2jtSjsKQBAD0NQ+N4ZAsdgAAAABJRU5ErkJggg==',
 			tooltip: 'Menu',
-            handler: 'onActionColumnClick'
+			handler: 'onActionColumnClick'
 		} ]
 	}, {
 		text: i18n.user_email,
@@ -75,7 +75,7 @@ Ext.define('Start.view.user.Grid', {
 				params: {
 					filter: '{filter}'
 				}
-			}			
+			}
 		}, '->', {
 			fieldLabel: i18n.filter,
 			labelWidth: 40,
@@ -93,7 +93,7 @@ Ext.define('Start.view.user.Grid', {
 			},
 			listeners: {
 				specialKey: 'onFilterSpecialKey'
-			}			
+			}
 		} ]
 	}, {
 		xtype: 'pagingtoolbar',

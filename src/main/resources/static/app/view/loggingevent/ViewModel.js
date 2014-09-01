@@ -1,10 +1,10 @@
-Ext.define('Start.view.loggingevent.ViewModel', {
+Ext.define('Starter.view.loggingevent.ViewModel', {
 	extend: 'Ext.app.ViewModel',
-	requires: [ 'Start.model.LoggingEvent' ],
+	requires: [ 'Starter.model.LoggingEvent' ],
 
 	stores: {
 		loggingEvents: {
-			model: 'Start.model.LoggingEvent',
+			model: 'Starter.model.LoggingEvent',
 			autoLoad: true,
 			remoteSort: true,
 			remoteFilter: true,

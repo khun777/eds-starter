@@ -1,6 +1,6 @@
-Ext.define('Start.view.user.Window', {
+Ext.define('Starter.view.user.Window', {
 	extend: 'Ext.window.Window',
-	requires: [ 'Start.view.user.WindowController' ],
+	requires: [ 'Starter.view.user.WindowController' ],
 	layout: 'fit',
 	width: 500,
 	resizable: true,
@@ -11,14 +11,13 @@ Ext.define('Start.view.user.Window', {
 	defaultFocus: 'firstName',
 
 	controller: {
-		xclass: 'Start.view.user.WindowController'
+		xclass: 'Starter.view.user.WindowController'
 	},
 
-	listeners : {                       
-        afterrender: 'afterrender'
-    },
-	
-	
+	listeners: {
+		afterrender: 'afterrender'
+	},
+
 	items: [ {
 		xtype: 'form',
 		padding: 5,

@@ -1,15 +1,15 @@
-Ext.define('Start.view.loggingevent.Grid', {
+Ext.define('Starter.view.loggingevent.Grid', {
 	extend: 'Ext.grid.Panel',
-	requires: [ 'Start.view.loggingevent.Controller', 'Start.view.loggingevent.ViewModel' ],
+	requires: [ 'Starter.view.loggingevent.Controller', 'Starter.view.loggingevent.ViewModel' ],
 	title: i18n.navigation_system_logevents,
 	closable: true,
 
 	controller: {
-		xclass: 'Start.view.loggingevent.Controller'
+		xclass: 'Starter.view.loggingevent.Controller'
 	},
 
 	viewModel: {
-		xclass: 'Start.view.loggingevent.ViewModel'
+		xclass: 'Starter.view.loggingevent.ViewModel'
 	},
 
 	bind: '{loggingEvents}',
@@ -70,7 +70,6 @@ Ext.define('Start.view.loggingevent.Grid', {
 		/* <debug> */
 		'-', {
 			text: i18n.logevents_addtest,
-			itemId: 'testButton',
 			glyph: 0xe807,
 			handler: 'addTestData'
 		},

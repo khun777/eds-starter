@@ -1,4 +1,4 @@
-Ext.define('Start.view.accesslog.Grid', {
+Ext.define('Starter.view.accesslog.Grid', {
 	extend: 'Ext.grid.Panel',
 
 	title: i18n.accesslog_log,

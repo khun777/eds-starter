@@ -1,4 +1,4 @@
-Ext.define('Start.view.accesslog.UaGraph', {
+Ext.define('Starter.view.accesslog.UaGraph', {
 	extend: 'Ext.panel.Panel',
 
 	layout: {

@@ -1,11 +1,11 @@
-Ext.define('Start.view.main.Header', {
+Ext.define('Starter.view.main.Header', {
 	extend: 'Ext.container.Container',
 
 	height: 35,
 	layout: {
 		type: 'hbox'
-	},	
-	
+	},
+
 	items: [ {
 		xtype: 'image',
 		src: 'resources/images/favicon-32x32.png',

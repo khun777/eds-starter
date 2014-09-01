@@ -14,7 +14,7 @@
  *          href="http://www.apache.org/licenses/LICENSE-2.0.txt">Apache License, Version
  *          2.0</a>.
  */
-Ext.define('Start.ux.form.trigger.Clear', {
+Ext.define('Starter.ux.form.trigger.Clear', {
 	extend: 'Ext.form.trigger.Trigger',
 	alias: 'trigger.clear',
 

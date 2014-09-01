@@ -1,6 +1,6 @@
-Ext.define('Start.view.user.ViewModel', {
+Ext.define('Starter.view.user.ViewModel', {
 	extend: 'Ext.app.ViewModel',
-	requires: [ 'Start.model.User', 'Start.model.Role' ],
+	requires: [ 'Starter.model.User', 'Starter.model.Role' ],
 
 	data: {
 		selectedUser: null
@@ -8,7 +8,7 @@ Ext.define('Start.view.user.ViewModel', {
 
 	stores: {
 		users: {
-			model: 'Start.model.User',
+			model: 'Starter.model.User',
 			autoLoad: true,
 			remoteSort: true,
 			remoteFilter: true,
@@ -17,7 +17,7 @@ Ext.define('Start.view.user.ViewModel', {
 				property: 'lastName',
 				direction: 'ASC'
 			} ]
-		}		
+		}
 	}
 
 });

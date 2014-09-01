@@ -1,4 +1,4 @@
-Ext.define('Start.view.config.Controller', {
+Ext.define('Starter.view.config.Controller', {
 	extend: 'Ext.app.ViewController',
 
 	init: function() {
@@ -12,7 +12,7 @@ Ext.define('Start.view.config.Controller', {
 	onSaveButtonClick: function() {
 		var form = this.getView().getForm();
 		appConfigurationService.save(form.getFieldValues(), function() {
-			Ext.toast(i18n.config_saved, i18n.successful, 't');
+			Starter.Util.successToast(i18n.config_saved);
 		});
 	},
 
@@ -28,7 +28,7 @@ Ext.define('Start.view.config.Controller', {
 	onSendTestEmailClick: function() {
 		var testReceiver = this.getViewModel().get('testEmailReceiver');
 		appConfigurationService.sendTestEmail(testReceiver, function() {
-			Ext.toast(i18n.config_testEmailsent, i18n.successful, 't');
+			Starter.Util.successToast(i18n.config_testEmailsent);
 		});
 	}
 });

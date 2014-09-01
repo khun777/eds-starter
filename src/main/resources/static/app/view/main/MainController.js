@@ -1,6 +1,6 @@
-Ext.define('Start.view.main.MainController', {
+Ext.define('Starter.view.main.MainController', {
 	extend: 'Ext.app.ViewController',
-	requires: [ 'Start.view.usersettings.Window' ],
+	requires: [ 'Starter.view.usersettings.Window' ],
 
 	init: function() {
 		securityService.getLoggedOnUser(this.afterLoggedOnUserReceived, this);
@@ -62,7 +62,7 @@ Ext.define('Start.view.main.MainController', {
 	},
 
 	onUserSettingsClick: function() {
-		new Start.view.usersettings.Window();
+		new Starter.view.usersettings.Window();
 	}
 
 });

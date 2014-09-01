@@ -1,10 +1,10 @@
-Ext.define('Start.view.accesslog.ViewModel', {
+Ext.define('Starter.view.accesslog.ViewModel', {
 	extend: 'Ext.app.ViewModel',
-	requires: [ 'Start.model.AccessLog' ],
+	requires: [ 'Starter.model.AccessLog' ],
 
 	stores: {
 		accessLogs: {
-			model: 'Start.model.AccessLog',
+			model: 'Starter.model.AccessLog',
 			autoLoad: true,
 			remoteSort: true,
 			remoteFilter: true,

@@ -152,7 +152,7 @@ Ext.onReady(function() {
 				handler: function() {
 					var form = this.up('form').getForm();
 					form.setValues({
-						username: 'user@start.com',
+						username: 'user@starter.com',
 						password: 'user'
 					});
 					form.submit();
@@ -163,7 +163,7 @@ Ext.onReady(function() {
 				handler: function() {
 					var form = this.up('form').getForm();
 					form.setValues({
-						username: 'admin@start.com',
+						username: 'admin@starter.com',
 						password: 'admin'
 					});
 					form.submit();

@@ -1,4 +1,4 @@
-Ext.define('Start.view.accesslog.OsGraph', {
+Ext.define('Starter.view.accesslog.OsGraph', {
 	extend: 'Ext.panel.Panel',
 
 	layout: {

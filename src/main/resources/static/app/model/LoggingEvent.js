@@ -1,4 +1,4 @@
-Ext.define("Start.model.LoggingEvent",
+Ext.define("Starter.model.LoggingEvent",
 {
   extend : "Ext.data.Model",
   requires : [ "Ext.data.proxy.Direct" ],

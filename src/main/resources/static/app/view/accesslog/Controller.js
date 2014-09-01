@@ -1,4 +1,4 @@
-Ext.define('Start.view.accesslog.Controller', {
+Ext.define('Starter.view.accesslog.Controller', {
 	extend: 'Ext.app.ViewController',
 
 	onUserFilterSpecialKey: function(tf, e) {
@@ -24,7 +24,7 @@ Ext.define('Start.view.accesslog.Controller', {
 
 	deleteAll: function() {
 		accessLogService.deleteAll(function() {
-			Ext.toast(i18n.accesslog_deleted, i18n.successful, 't');
+			Starter.Util.successToast(i18n.accesslog_deleted);
 			this.getStore('accessLogs').load();
 			this.getStore('accessLogYears').load();
 		}, this);
@@ -49,12 +49,12 @@ Ext.define('Start.view.accesslog.Controller', {
 	onTabChange: function(tabPanel, newCard) {
 		var accessLogYearsStore = this.getStore('accessLogYears');
 		if (accessLogYearsStore.getCount() > 0) {
-			if (newCard.xclass === 'Start.view.accesslog.UaGraph') {
+			if (newCard.xclass === 'Starter.view.accesslog.UaGraph') {
 				Ext.Function.defer(function() {
 					this.lookupReference('uaYearsCombobox').select(accessLogYearsStore.first());
 				}, 1, this);
 			}
-			else if (newCard.xclass === 'Start.view.accesslog.OsGraph') {
+			else if (newCard.xclass === 'Starter.view.accesslog.OsGraph') {
 				Ext.Function.defer(function() {
 					this.lookupReference('osYearsCombobox').select(accessLogYearsStore.first());
 				}, 1, this);

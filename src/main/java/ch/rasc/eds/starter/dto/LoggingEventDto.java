@@ -16,7 +16,7 @@ import ch.rasc.extclassgenerator.ModelField;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-@Model(value = "Start.model.LoggingEvent", readMethod = "loggingEventService.read",
+@Model(value = "Starter.model.LoggingEvent", readMethod = "loggingEventService.read",
 		paging = true)
 public class LoggingEventDto {
 	private final long id;
@@ -41,7 +41,13 @@ public class LoggingEventDto {
 		this.id = event.getEventId();
 		this.dateTime = LocalDateTime.ofInstant(
 				Instant.ofEpochMilli(event.getTimestmp().longValue()), ZoneOffset.UTC);
-		this.message = event.getFormattedMessage();
+		
+		if (event.getFormattedMessage() != null) {
+			this.message = event.getFormattedMessage().replace("\n", "<br>");
+		} else {
+			this.message = null;
+		}
+		
 		this.level = event.getLevelString();
 		this.callerClass = event.getCallerClass();
 		this.callerLine = event.getCallerLine();
@@ -71,7 +77,7 @@ public class LoggingEventDto {
 
 		for (LoggingEventException line : exceptionList) {
 			sb.append(line.getTraceLine());
-			sb.append("<br />");
+			sb.append("<br>");
 		}
 
 		this.stacktrace = sb.toString();

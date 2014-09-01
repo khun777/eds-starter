@@ -225,9 +225,9 @@ public class AccessLogService {
 	public void addTestData() {
 		if (!environment.acceptsProfiles("default")) {
 
-			String[] users = { "admin@start.com", "user1@start.com", "user2@start.com",
-					"user3@start.com", "user4@start.com", "user5@start.com",
-					"user6@start.com" };
+			String[] users = { "admin@starter.com", "user1@starter.com", "user2@starter.com",
+					"user3@starter.com", "user4@starter.com", "user5@starter.com",
+					"user6@starter.com" };
 			String[] userAgent = {
 					"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36",
 					"Mozilla/5.0 (Windows NT 6.3; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0",

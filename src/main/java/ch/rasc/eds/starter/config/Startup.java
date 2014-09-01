@@ -40,7 +40,7 @@ class Startup {
 		if (userRepository.count() == 0) {
 			// admin user
 			User adminUser = new User();
-			adminUser.setEmail("admin@start.com");
+			adminUser.setEmail("admin@starter.com");
 			adminUser.setFirstName("admin");
 			adminUser.setLastName("admin");
 			adminUser.setLocale("en");
@@ -51,7 +51,7 @@ class Startup {
 
 			// normal user
 			User normalUser = new User();
-			normalUser.setEmail("user@start.com");
+			normalUser.setEmail("user@starter.com");
 			normalUser.setFirstName("user");
 			normalUser.setLastName("user");
 			normalUser.setLocale("de");

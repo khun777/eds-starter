@@ -1,13 +1,13 @@
-Ext.define('Start.view.accesslog.TabPanel', {
+Ext.define('Starter.view.accesslog.TabPanel', {
 	extend: 'Ext.tab.Panel',
-	requires: [ 'Start.view.accesslog.Grid', 'Start.view.accesslog.OsGraph', 'Start.view.accesslog.UaGraph', 'Start.view.accesslog.Controller', 'Start.view.accesslog.ViewModel' ],
+	requires: [ 'Starter.view.accesslog.Grid', 'Starter.view.accesslog.OsGraph', 'Starter.view.accesslog.UaGraph', 'Starter.view.accesslog.Controller', 'Starter.view.accesslog.ViewModel' ],
 
 	controller: {
-		xclass: 'Start.view.accesslog.Controller'
+		xclass: 'Starter.view.accesslog.Controller'
 	},
 
 	viewModel: {
-		xclass: 'Start.view.accesslog.ViewModel'
+		xclass: 'Starter.view.accesslog.ViewModel'
 	},
 
 	title: i18n.accesslog,
@@ -21,11 +21,11 @@ Ext.define('Start.view.accesslog.TabPanel', {
 	},
 
 	items: [ {
-		xclass: 'Start.view.accesslog.Grid'
+		xclass: 'Starter.view.accesslog.Grid'
 	}, {
-		xclass: 'Start.view.accesslog.UaGraph'
+		xclass: 'Starter.view.accesslog.UaGraph'
 	}, {
-		xclass: 'Start.view.accesslog.OsGraph'
+		xclass: 'Starter.view.accesslog.OsGraph'
 	} ]
 
 });

@@ -1,6 +1,6 @@
-Ext.define('Start.model.Role', {
+Ext.define('Starter.model.Role', {
 	extend: 'Ext.data.Model',
-	
+
 	fields: [ {
 		name: 'name',
 		type: 'string'

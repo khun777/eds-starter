@@ -1,4 +1,4 @@
-Ext.define('Start.view.main.SideBar', {
+Ext.define('Starter.view.main.SideBar', {
 	extend: 'Ext.tree.Panel',
 	title: i18n.navigation,
 	collapsible: true,

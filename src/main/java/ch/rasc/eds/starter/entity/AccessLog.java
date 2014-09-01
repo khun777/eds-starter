@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
-@Model(value = "Start.model.AccessLog", readMethod = "accessLogService.read",
+@Model(value = "Starter.model.AccessLog", readMethod = "accessLogService.read",
 		paging = true)
 public class AccessLog extends AbstractPersistable {
 

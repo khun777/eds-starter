@@ -1,4 +1,4 @@
-Ext.define('Start.view.loggingevent.Controller', {
+Ext.define('Starter.view.loggingevent.Controller', {
 	extend: 'Ext.app.ViewController',
 
 	filterLogLevel: function(cb, newValue) {
@@ -16,7 +16,7 @@ Ext.define('Start.view.loggingevent.Controller', {
 	deleteAll: function() {
 		var filter = this.getView().getStore().filters.get(0);
 		loggingEventService.deleteAll(filter && filter.value, function() {
-			Ext.toast(i18n.logevents_deleted, i18n.successful, 't');
+			Starter.Util.successToast(i18n.logevents_deleted);
 			this.getStore('loggingEvents').load();
 		}, this);
 	}
