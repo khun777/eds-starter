@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ch.rasc.eds.starter.config.AppProperties;
 import ch.rasc.eds.starter.config.security.JpaUserDetails;
 import ch.rasc.eds.starter.entity.User;
 import ch.rasc.eds.starter.repository.UserRepository;
@@ -32,12 +33,16 @@ public class PasswordResetController {
 
 	private final PasswordEncoder passwordEncoder;
 
+	private final AppProperties appProperties;
+
 	@Autowired
 	public PasswordResetController(UserRepository userRepository,
-			MailService mailService, PasswordEncoder passwordEncoder) {
+			MailService mailService, PasswordEncoder passwordEncoder,
+			AppProperties appProperties) {
 		this.userRepository = userRepository;
 		this.mailService = mailService;
 		this.passwordEncoder = passwordEncoder;
+		this.appProperties = appProperties;
 	}
 
 	@RequestMapping(value = "passwordreset.action", method = RequestMethod.POST)
@@ -79,12 +84,19 @@ public class PasswordResetController {
 			String serverName = request.getServerName();
 			int serverPort = request.getServerPort();
 			String contextPath = request.getContextPath();
-			String passwordResetUrl = scheme + "://" + serverName
-					+ (serverPort != 80 ? ":" + serverPort : "") + contextPath
-					+ "/passwordreset.html?token="
+
+			String passwordResetUrl;
+			if (StringUtils.hasText(appProperties.getUrl())) {
+				passwordResetUrl = appProperties.getUrl();
+			}
+			else {
+				passwordResetUrl = scheme + "://" + serverName
+						+ (serverPort != 80 ? ":" + serverPort : "") + contextPath;
+			}
+			passwordResetUrl += "/passwordreset.html?token="
 					+ Base64.getUrlEncoder().encodeToString(token.getBytes());
 
-			mailService.sendSimpleMessage(email, "Password Reset", passwordResetUrl);
+			mailService.sendSimpleMessage(email, "Starter Password Reset", passwordResetUrl);
 
 			user.setPasswordResetTokenValidUntil(LocalDateTime.now().plusHours(4));
 			user.setPasswordResetToken(token);
