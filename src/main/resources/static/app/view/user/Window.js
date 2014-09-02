@@ -91,7 +91,7 @@ Ext.define('Starter.view.user.Window', {
 			dock: 'bottom',
 			items: [ '->', {
 				xtype: 'button',
-				text: i18n.save,
+				text: Starter.Util.underline(i18n.save, 'S'),
 				action: 'save',
 				glyph: 0xe80d,
 				formBind: true,

@@ -31,3 +31,7 @@ __TODO__:
 - [ ] extjs bug: selectPath. tab switch does not select the corresponding tree node.
 - [ ] Need an email template system. 
 - [ ] Autostart a view after the user logged in
+- [ ] Check language in login and resetpassword page. Looks like this does not work.
+- [ ] Add two factor authentication with google authenticator
+- [ ] GeoIP
+- [x] ~~Underline shortcut char in buttons~~

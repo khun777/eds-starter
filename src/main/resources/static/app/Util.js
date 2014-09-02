@@ -34,6 +34,14 @@ Ext.define('Starter.Util', {
 				fontWeight: 'bold'
 			}
 		});
+	},
+	
+	underline: function(str, char) {
+		var pos = str.indexOf(char);
+		if (pos !== -1) {
+			return str.substring(0, pos) + '<u>' + char + '</u>' + str.substring(pos+1);
+		}
+		return str;
 	}
 
 });
