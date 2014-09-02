@@ -56,7 +56,7 @@ class SecurityConfig {
 			    .headers()
 			      .disable()
 			    .authorizeRequests()
-			      .antMatchers("/login*.js", "/i18n*.js", "/passwordreset.js").permitAll()
+			      .antMatchers("/login*.js", "/i18n*.js", "/passwordreset*.js").permitAll()
 				  .anyRequest().authenticated()
 				  .and()
 				.csrf()
