@@ -59,15 +59,18 @@ Ext.define("Starter.model.User",
     type : "boolean"
   }, {
     name : "failedLogins",
-    type : "integer"
+    type : "integer",
+    persist : false
   }, {
     name : "lockedOutUntil",
     type : "date",
-    dateFormat : "c"
+    dateFormat : "c",
+    persist : false
   }, {
     name : "lastLogin",
     type : "date",
-    dateFormat : "c"
+    dateFormat : "c",
+    persist : false
   }, {
     name : "id",
     type : "integer",
