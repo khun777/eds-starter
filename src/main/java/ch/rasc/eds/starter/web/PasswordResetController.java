@@ -46,7 +46,7 @@ public class PasswordResetController {
 	}
 
 	@RequestMapping(value = "passwordreset.action", method = RequestMethod.POST)
-	public void passwordreset(HttpServletResponse response, String newPassword,
+	public void passwordreset(HttpServletRequest request, HttpServletResponse response, String newPassword,
 			String newPasswordRetype, String token) throws IOException {
 
 		if (StringUtils.hasText(token) && StringUtils.hasText(newPassword)
@@ -69,7 +69,7 @@ public class PasswordResetController {
 			}
 		}
 
-		response.sendRedirect("/index.html");
+		response.sendRedirect(request.getContextPath());
 	}
 
 	@RequestMapping(value = { "/passwordresetEmail" }, method = RequestMethod.POST)
