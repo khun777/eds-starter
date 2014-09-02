@@ -111,6 +111,7 @@ Ext.onReady(function() {
 
 	new Ext.container.Container({
 		plugins: 'viewport',
+		cls: 'squarebg',
 		style: {
 			backgroundColor: 'white'
 		},
