@@ -31,7 +31,7 @@ Ext.define('Starter.view.config.Form', {
 			fieldLabel: i18n.config_loglevel,
 			name: 'logLevel',
 			bind: {
-				store: '{logLevels}',
+				store: '{logLevels}'
 			},
 			valueField: 'level',
 			displayField: 'level',

@@ -236,9 +236,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<addResources>false</addResources>
-				</configuration>
 			</plugin>
 
 			<plugin>
@@ -266,7 +263,7 @@
 								<unparam>true</unparam>
 								<plusplus>true</plusplus>
 								<predef>Ext,i18n,Starter,loggingEventService,appConfigurationService,accessLogService,
-								logService</predef>
+								logService,userService,dummyService,console,printStackTrace,securityService</predef>
 							</options>
 						</configuration>
 					</execution>

@@ -84,7 +84,7 @@ Ext.define('Starter.view.dummy.View', {
 			margin: '0 0 0 0',
 			width: 200,
 			bind: {
-				store: '{radar}',
+				store: '{radar}'
 			},
 
 			insetPadding: '15 30 15 30',

@@ -15,14 +15,7 @@ Ext.define('Starter.view.accesslog.OsGraph', {
 		bind: {
 			store: '{accessLogOs}'
 		},
-		series: [ {
-			type: 'pie',
-			label: {
-				field: 'name',
-				display: 'rotate'
-			},
-			xField: 'value'
-		} ],
+
 		series: [ {
 			type: 'pie',
 			angleField: 'value',
@@ -41,7 +34,7 @@ Ext.define('Starter.view.accesslog.OsGraph', {
 				}
 			}
 		} ],
-		interactions: [ 'rotate', 'itemhighlight' ],
+		interactions: [ 'rotate', 'itemhighlight' ]
 	} ],
 
 	dockedItems: [ {

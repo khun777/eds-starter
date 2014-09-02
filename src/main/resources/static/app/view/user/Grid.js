@@ -81,7 +81,7 @@ Ext.define('Starter.view.user.Grid', {
 		items: [ {
 			text: i18n.create,
 			glyph: 0xe807,
-			handler: 'newUser',
+			handler: 'newUser'
 		}, '-', {
 			text: i18n.excelexport,
 			glyph: 0xe813,

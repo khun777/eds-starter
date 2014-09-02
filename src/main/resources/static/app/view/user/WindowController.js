@@ -1,10 +1,6 @@
 Ext.define('Starter.view.user.WindowController', {
 	extend: 'Ext.app.ViewController',
 
-	init: function() {
-
-	},
-
 	afterrender: function(window, options) {
 		this.keyNav = new Ext.util.KeyMap({
 			target: window.el,
