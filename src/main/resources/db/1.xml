@@ -130,7 +130,7 @@
 			<column name="operatingSystem" type="varchar(20)" />
 			
 			<column name="ipAddress" type="varchar(45)" />
-			<column name="location" type="255" />
+			<column name="location" type="varchar(255)" />
 
 		</createTable>
 	</changeSet>	

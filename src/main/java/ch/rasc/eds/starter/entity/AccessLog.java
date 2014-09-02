@@ -49,10 +49,10 @@ public class AccessLog extends AbstractPersistable {
 
 	@Size(max = 20)
 	private String operatingSystem;
-	
+
 	@Size(max = 45)
 	private String ipAddress;
-		
+
 	@Size(max = 255)
 	private String location;
 
@@ -126,6 +126,22 @@ public class AccessLog extends AbstractPersistable {
 
 	public void setOperatingSystem(String operatingSystem) {
 		this.operatingSystem = operatingSystem;
+	}
+
+	public String getIpAddress() {
+		return ipAddress;
+	}
+
+	public void setIpAddress(String ipAddress) {
+		this.ipAddress = ipAddress;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 }

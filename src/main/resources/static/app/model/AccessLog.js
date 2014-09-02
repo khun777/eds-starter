@@ -46,6 +46,22 @@ Ext.define("Starter.model.AccessLog",
       max : 20
     } ]
   }, {
+    name : "ipAddress",
+    type : "string",
+    validators : [ {
+      type : "length",
+      min : 0,
+      max : 45
+    } ]
+  }, {
+    name : "location",
+    type : "string",
+    validators : [ {
+      type : "length",
+      min : 0,
+      max : 255
+    } ]
+  }, {
     name : "id",
     type : "integer",
     allowNull : true,

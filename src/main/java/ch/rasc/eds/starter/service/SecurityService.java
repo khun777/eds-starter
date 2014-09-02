@@ -53,6 +53,13 @@ public class SecurityService {
 			accessLog.setEmail(user.getEmail());
 			accessLog.setSessionId(session.getId());
 			accessLog.setLogIn(LocalDateTime.now());
+			
+			String ipAddress = request.getHeader("X-Forwarded-For");
+			if (ipAddress == null) {
+			    ipAddress = request.getRemoteAddr();
+			}
+			accessLog.setIpAddress(ipAddress);			
+			
 			String ua = request.getHeader("User-Agent");
 			if (StringUtils.hasText(ua)) {
 				accessLog.setUserAgent(ua);
