@@ -128,6 +128,9 @@
 			<column name="userAgentName" type="varchar(20)" />
 			<column name="userAgentVersion" type="varchar(10)" />
 			<column name="operatingSystem" type="varchar(20)" />
+			
+			<column name="ipAddress" type="varchar(45)" />
+			<column name="location" type="255" />
 
 		</createTable>
 	</changeSet>	
@@ -165,9 +168,8 @@
 	</changeSet>    
 	
 	<changeSet author="dev" id="12">
-	  <sql>insert into Configuration(confKey, confValue) values('SMTP_SENDER', 'test@test.com')</sql>
-	  <sql>insert into Configuration(confKey, confValue) values('SMTP_SERVER', 'localhost')</sql>
-	  <sql>insert into Configuration(confKey, confValue) values('SMTP_PORT', '25')</sql>
+	  <sql>insert into Configuration(confKey, confValue) values('LOGIN_LOCK_ATTEMPTS', '10')</sql>
+	  <sql>insert into Configuration(confKey, confValue) values('LOGIN_LOCK_MINUTES', '30')</sql>
 	</changeSet>	
 	
 </databaseChangeLog>

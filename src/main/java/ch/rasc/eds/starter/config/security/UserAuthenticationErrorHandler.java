@@ -2,35 +2,60 @@ package ch.rasc.eds.starter.config.security;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.AuthenticationFailureBadCredentialsEvent;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
-import ch.rasc.eds.starter.entity.QUser;
+import ch.rasc.eds.starter.entity.Configuration;
+import ch.rasc.eds.starter.entity.ConfigurationKey;
 import ch.rasc.eds.starter.entity.User;
-
-import com.mysema.query.jpa.impl.JPAQuery;
+import ch.rasc.eds.starter.repository.ConfigurationRepository;
+import ch.rasc.eds.starter.repository.UserRepository;
 
 @Component
 public class UserAuthenticationErrorHandler implements
 		ApplicationListener<AuthenticationFailureBadCredentialsEvent> {
 
-	@PersistenceContext
-	private EntityManager entityManager;
+	private final UserRepository userRepository;
+
+	private Integer loginLockAttempts;
+
+	private Integer loginLockMinutes;
+
+	@Autowired
+	public UserAuthenticationErrorHandler(UserRepository userRepository,
+			ConfigurationRepository configurationRepository) {
+		this.userRepository = userRepository;
+		configure(configurationRepository);
+	}
+
+	public void configure(ConfigurationRepository configurationRepository) {
+		Configuration conf = configurationRepository
+				.findByConfKey(ConfigurationKey.LOGIN_LOCK_ATTEMPTS);
+		if (conf != null && conf.getConfValue() != null) {
+			loginLockAttempts = Integer.valueOf(conf.getConfValue());
+		}
+		else {
+			loginLockAttempts = null;
+		}
+
+		conf = configurationRepository.findByConfKey(ConfigurationKey.LOGIN_LOCK_MINUTES);
+		if (conf != null && conf.getConfValue() != null) {
+			loginLockMinutes = Integer.valueOf(conf.getConfValue());
+		}
+		else {
+			loginLockMinutes = null;
+		}
+	}
 
 	@Override
-	@Transactional
 	public void onApplicationEvent(AuthenticationFailureBadCredentialsEvent event) {
 		Object principal = event.getAuthentication().getPrincipal();
-		if (principal instanceof String) {
-			User user = new JPAQuery(entityManager).from(QUser.user)
-					.where(QUser.user.email.eq((String) principal))
-					.singleResult(QUser.user);
+
+		if (loginLockAttempts != null && principal instanceof String) {
+			User user = userRepository.findByEmail((String) principal);
 			if (user != null) {
 				if (user.getFailedLogins() == null) {
 					user.setFailedLogins(1);
@@ -39,15 +64,26 @@ public class UserAuthenticationErrorHandler implements
 					user.setFailedLogins(user.getFailedLogins() + 1);
 				}
 
-				if (user.getFailedLogins() > 10) {
-					user.setLockedOutUntil(LocalDateTime.now().plusMinutes(10));
+				if (user.getFailedLogins() >= loginLockAttempts) {
+					if (loginLockMinutes != null) {
+						user.setLockedOutUntil(LocalDateTime.now().plusMinutes(
+								loginLockMinutes));
+					}
+					else {
+						user.setLockedOutUntil(LocalDateTime.now().plusYears(1000));
+					}
 				}
-
+				userRepository.save(user);
 			}
 			else {
 				LoggerFactory.getLogger(UserAuthenticationErrorHandler.class).warn(
 						"Unknown user login attempt: {}", principal);
 			}
 		}
+		else {
+			LoggerFactory.getLogger(UserAuthenticationErrorHandler.class).warn(
+					"Invalid login attempt: {}", principal);
+		}
+
 	}
 }

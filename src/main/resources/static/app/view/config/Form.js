@@ -41,45 +41,47 @@ Ext.define('Starter.view.config.Form', {
 		} ]
 	}, {
 		xtype: 'fieldset',
-		title: i18n.config_smtp,
+		title: i18n.config_loginlock,
 		collapsible: false,
-		defaultType: 'textfield',
-		defaults: {
-			width: 500
-		},
+
 		items: [ {
-			fieldLabel: i18n.config_sender,
-			name: 'sender',
-			allowBlank: false,
-			vtype: 'email',
-			maxLength: 1024,
-			enforceMaxLength: true
+			xtype: 'fieldcontainer',
+			layout: 'hbox',
+			fieldLabel: i18n.config_loginlock_attempts,
+			labelWidth: 130,
+			items: [ {
+				xtype: 'numberfield',
+				hideLabel: true,
+				fieldLabel: i18n.config_loginlock_attempts,
+				name: 'loginLockAttempts',
+				allowBlank: true,
+				minValue: 0,
+				maxValue: 999999,
+				width: 60
+			}, {
+				xtype: 'displayfield',
+				value: i18n.config_loginlock_attempts2,
+				margin: '0 0 0 10'
+			} ]
 		}, {
-			fieldLabel: i18n.config_server,
-			name: 'server',
-			allowBlank: false,
-			maxLength: 1024,
-			enforceMaxLength: true
-		}, {
-			xtype: 'numberfield',
-			fieldLabel: i18n.config_port,
-			name: 'port',
-			allowBlank: false,
-			width: 200,
-			minValue: 1,
-			maxValue: 65535
-		}, {
-			fieldLabel: i18n.config_username,
-			name: 'username',
-			allowBlank: true,
-			maxLength: 1024,
-			enforceMaxLength: true
-		}, {
-			fieldLabel: i18n.config_password,
-			name: 'password',
-			allowBlank: true,
-			maxLength: 1024,
-			enforceMaxLength: true
+			xtype: 'fieldcontainer',
+			layout: 'hbox',
+			fieldLabel: i18n.config_loginlock_minutes,
+			labelWidth: 130,
+			items: [ {
+				xtype: 'numberfield',
+				hideLabel: true,
+				fieldLabel: i18n.config_loginlock_minutes,
+				name: 'loginLockMinutes',
+				allowBlank: true,
+				minValue: 0,
+				maxValue: 999999,
+				width: 60
+			}, {
+				xtype: 'displayfield',
+				value: i18n.config_loginlock_minutes2,
+				margin: '0 0 0 10'
+			} ]
 		} ]
 	}, {
 		xtype: 'container',

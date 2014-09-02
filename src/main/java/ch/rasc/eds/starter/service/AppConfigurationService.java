@@ -2,38 +2,39 @@ package ch.rasc.eds.starter.service;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
 import ch.ralscha.extdirectspring.annotation.ExtDirectMethod;
+import ch.rasc.eds.starter.config.security.UserAuthenticationErrorHandler;
 import ch.rasc.eds.starter.dto.ConfigurationDto;
 import ch.rasc.eds.starter.entity.Configuration;
 import ch.rasc.eds.starter.entity.ConfigurationKey;
-import ch.rasc.eds.starter.entity.QConfiguration;
-
-import com.mysema.query.jpa.impl.JPAQuery;
+import ch.rasc.eds.starter.repository.ConfigurationRepository;
 
 @Service
 @Lazy
 public class AppConfigurationService {
 
-	private final EntityManager entityManager;
-
 	private final MailService mailService;
 
+	private final ConfigurationRepository configurationRepository;
+
+	private final UserAuthenticationErrorHandler userAuthenticationErrorHandler;
+
 	@Autowired
-	public AppConfigurationService(EntityManager entityManager, MailService mailService) {
-		this.entityManager = entityManager;
+	public AppConfigurationService(ConfigurationRepository configurationRepository,
+			MailService mailService,
+			UserAuthenticationErrorHandler userAuthenticationErrorHandler) {
 		this.mailService = mailService;
+		this.configurationRepository = configurationRepository;
+		this.userAuthenticationErrorHandler = userAuthenticationErrorHandler;
 	}
 
 	@ExtDirectMethod
@@ -44,7 +45,6 @@ public class AppConfigurationService {
 
 	@ExtDirectMethod
 	@PreAuthorize("hasRole('ADMIN')")
-	@Transactional(readOnly = true)
 	public ConfigurationDto read() {
 
 		ConfigurationDto dto = new ConfigurationDto();
@@ -53,23 +53,19 @@ public class AppConfigurationService {
 		ch.qos.logback.classic.Logger logger = lc.getLogger("ch.rasc.eds.starter");
 		String level = logger != null && logger.getEffectiveLevel() != null ? logger
 				.getEffectiveLevel().toString() : "ERROR";
-
 		dto.setLogLevel(level);
 
-		List<Configuration> configurations = new JPAQuery(entityManager).from(
-				QConfiguration.configuration).list(QConfiguration.configuration);
+		List<Configuration> configurations = configurationRepository.findAll();
 
-		dto.setSender(read(ConfigurationKey.SMTP_SENDER, configurations));
-		dto.setServer(read(ConfigurationKey.SMTP_SERVER, configurations));
-		String port = read(ConfigurationKey.SMTP_PORT, configurations);
-		if (port != null) {
-			dto.setPort(Integer.parseInt(port));
+		String value = read(ConfigurationKey.LOGIN_LOCK_ATTEMPTS, configurations);
+		if (value != null) {
+			dto.setLoginLockAttempts(Integer.valueOf(value));
 		}
-		else {
-			dto.setPort(25);
+
+		value = read(ConfigurationKey.LOGIN_LOCK_MINUTES, configurations);
+		if (value != null) {
+			dto.setLoginLockMinutes(Integer.valueOf(value));
 		}
-		dto.setUsername(read(ConfigurationKey.SMTP_USERNAME, configurations));
-		dto.setPassword(read(ConfigurationKey.SMTP_PASSWORD, configurations));
 
 		return dto;
 	}
@@ -85,7 +81,6 @@ public class AppConfigurationService {
 
 	@ExtDirectMethod
 	@PreAuthorize("hasRole('ADMIN')")
-	@Transactional
 	public void save(ConfigurationDto data) {
 		LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
 		ch.qos.logback.classic.Logger logger = lc.getLogger("ch.rasc.eds.starter");
@@ -94,25 +89,23 @@ public class AppConfigurationService {
 			logger.setLevel(level);
 		}
 
-		update(ConfigurationKey.SMTP_SENDER, data.getSender());
-		update(ConfigurationKey.SMTP_SERVER, data.getServer());
-		update(ConfigurationKey.SMTP_PORT, String.valueOf(data.getPort()));
-		update(ConfigurationKey.SMTP_USERNAME, data.getUsername());
-		update(ConfigurationKey.SMTP_PASSWORD, data.getPassword());
+		Integer value = data.getLoginLockAttempts() != null ? Integer.valueOf(data
+				.getLoginLockAttempts()) : null;
+		update(ConfigurationKey.LOGIN_LOCK_ATTEMPTS, value != null ? value.toString()
+				: null);
 
-		mailService.configure();
+		value = data.getLoginLockMinutes() != null ? Integer.valueOf(data
+				.getLoginLockMinutes()) : null;
+		update(ConfigurationKey.LOGIN_LOCK_MINUTES, value != null ? value.toString()
+				: null);
 
+		userAuthenticationErrorHandler.configure(configurationRepository);
 	}
 
 	private void update(ConfigurationKey key, String value) {
-
-		Configuration conf = new JPAQuery(entityManager)
-				.from(QConfiguration.configuration)
-				.where(QConfiguration.configuration.confKey.eq(key))
-				.singleResult(QConfiguration.configuration);
+		Configuration conf = configurationRepository.findByConfKey(key);
 
 		if (StringUtils.hasText(value)) {
-
 			if (conf != null) {
 				conf.setConfValue(value);
 			}
@@ -120,17 +113,16 @@ public class AppConfigurationService {
 				conf = new Configuration();
 				conf.setConfKey(key);
 				conf.setConfValue(value);
-				entityManager.persist(conf);
 			}
 
+			configurationRepository.save(conf);
 		}
 		else {
-
 			if (conf != null) {
-				entityManager.remove(conf);
+				configurationRepository.delete(conf);
 			}
-
 		}
+
 	}
 
 }

@@ -1,21 +1,18 @@
 package ch.rasc.eds.starter.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(Include.NON_NULL)
 public class ConfigurationDto {
 
 	private String logLevel;
 
-	private String sender;
+	private Integer loginLockMinutes;
 
-	private String server;
-
-	private int port;
-
-	private String username;
-
-	private String password;
+	private Integer loginLockAttempts;
 
 	public String getLogLevel() {
 		return logLevel;
@@ -25,44 +22,20 @@ public class ConfigurationDto {
 		this.logLevel = logLevel;
 	}
 
-	public String getSender() {
-		return sender;
+	public Integer getLoginLockMinutes() {
+		return loginLockMinutes;
 	}
 
-	public void setSender(String sender) {
-		this.sender = sender;
+	public void setLoginLockMinutes(Integer loginLockMinutes) {
+		this.loginLockMinutes = loginLockMinutes;
 	}
 
-	public String getServer() {
-		return server;
+	public Integer getLoginLockAttempts() {
+		return loginLockAttempts;
 	}
 
-	public void setServer(String server) {
-		this.server = server;
-	}
-
-	public int getPort() {
-		return port;
-	}
-
-	public void setPort(int port) {
-		this.port = port;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
+	public void setLoginLockAttempts(Integer loginLockAttempts) {
+		this.loginLockAttempts = loginLockAttempts;
 	}
 
 }

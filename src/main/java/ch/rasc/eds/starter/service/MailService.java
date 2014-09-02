@@ -1,7 +1,5 @@
 package ch.rasc.eds.starter.service;
 
-import java.util.List;
-
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
@@ -11,30 +9,23 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
-import ch.rasc.eds.starter.entity.Configuration;
-import ch.rasc.eds.starter.entity.ConfigurationKey;
-import ch.rasc.eds.starter.repository.ConfigurationRepository;
+import ch.rasc.eds.starter.config.EmailProperties;
 
 @Service
 public class MailService {
 
-	private final ConfigurationRepository configurationRepository;
-
-	private String defaultSender = null;
-
-	private JavaMailSenderImpl mailSender = null;
+	private final JavaMailSenderImpl mailSender;
+	private final String defaultSender;
 
 	@Autowired
-	public MailService(ConfigurationRepository configurationRepository) {
-		this.configurationRepository = configurationRepository;
-		configure();
+	public MailService(JavaMailSenderImpl mailSender, EmailProperties emailProperties) {
+		this.mailSender = mailSender;
+		this.defaultSender = emailProperties.getSender();
 	}
 
 	@Async
 	public void sendSimpleMessage(String to, String subject, String text) {
-
 		SimpleMailMessage mailMessage = new SimpleMailMessage();
 		mailMessage.setFrom(defaultSender);
 		mailMessage.setTo(to);
@@ -48,7 +39,6 @@ public class MailService {
 	public void sendHtmlMessage(String from, String to, String subject, String text)
 			throws MessagingException {
 		MimeMessage message = mailSender.createMimeMessage();
-
 		MimeMessageHelper helper = new MimeMessageHelper(message);
 		helper.setFrom(defaultSender);
 		helper.setTo(to);
@@ -57,30 +47,6 @@ public class MailService {
 		helper.setSubject(subject);
 
 		mailSender.send(message);
-	}
-
-	public void configure() {
-		List<Configuration> configurations = configurationRepository.findAll();
-
-		mailSender = new JavaMailSenderImpl();
-		mailSender.setHost(read(ConfigurationKey.SMTP_SERVER, configurations));
-		String portString = read(ConfigurationKey.SMTP_PORT, configurations);
-		if (StringUtils.hasText(portString)) {
-			mailSender.setPort(Integer.parseInt(portString));
-		}
-		mailSender.setUsername(read(ConfigurationKey.SMTP_USERNAME, configurations));
-		mailSender.setPassword(read(ConfigurationKey.SMTP_PASSWORD, configurations));
-
-		defaultSender = read(ConfigurationKey.SMTP_SENDER, configurations);
-	}
-
-	private static String read(ConfigurationKey key, List<Configuration> list) {
-		for (Configuration conf : list) {
-			if (conf.getConfKey() == key) {
-				return conf.getConfValue();
-			}
-		}
-		return null;
 	}
 
 }

@@ -9,11 +9,10 @@ public class EmailProperties {
 
 	private String host;
 	private Integer port;
-	private String user;
+	private String username;
 	private String password;
 	private String protocol;
-	private Boolean tls;
-	private Boolean auth;
+	private Boolean starttls;
 	private String sender;
 
 	public String getHost() {
@@ -32,12 +31,12 @@ public class EmailProperties {
 		this.port = port;
 	}
 
-	public String getUser() {
-		return user;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUser(String user) {
-		this.user = user;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getPassword() {
@@ -56,20 +55,12 @@ public class EmailProperties {
 		this.protocol = protocol;
 	}
 
-	public Boolean getTls() {
-		return tls;
+	public Boolean getStarttls() {
+		return starttls;
 	}
 
-	public void setTls(Boolean tls) {
-		this.tls = tls;
-	}
-
-	public Boolean getAuth() {
-		return auth;
-	}
-
-	public void setAuth(Boolean auth) {
-		this.auth = auth;
+	public void setStarttls(Boolean starttls) {
+		this.starttls = starttls;
 	}
 
 	public String getSender() {

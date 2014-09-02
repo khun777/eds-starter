@@ -49,6 +49,12 @@ public class AccessLog extends AbstractPersistable {
 
 	@Size(max = 20)
 	private String operatingSystem;
+	
+	@Size(max = 45)
+	private String ipAddress;
+		
+	@Size(max = 255)
+	private String location;
 
 	public String getEmail() {
 		return email;
