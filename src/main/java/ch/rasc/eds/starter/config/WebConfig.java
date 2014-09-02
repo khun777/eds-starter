@@ -37,7 +37,7 @@ public class WebConfig {
 				AccessDeniedException.class, "accessdenied"));
 		return config;
 	}
-	
+
 	@Bean
 	public Filter characterEncodingFilter() {
 		CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();

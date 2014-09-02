@@ -17,6 +17,16 @@ Ext.define('Starter.view.dummy.View', {
 		align: 'stretch'
 	},
 
+	dockedItems: [{
+
+		xtype: 'toolbar',
+		dock: 'top',
+		items: [ {
+			text: 'Call secured service',
+			handler: 'callSecuredService'
+		} ]		
+	}],
+	
 	items: [ {
 		xtype: 'container',
 		height: 250,

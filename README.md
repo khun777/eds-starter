@@ -30,3 +30,4 @@ __TODO__:
 - [ ] Improve remember me. Logout should only delete the current remember me token and not all 
 - [ ] extjs bug: selectPath. tab switch does not select the corresponding tree node.
 - [ ] Need an email template system. 
+- [ ] Autostart a view after the user logged in
