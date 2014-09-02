@@ -5,6 +5,7 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.i18n.AbstractLocaleResolver;
@@ -17,7 +18,7 @@ public class AppLocaleResolver extends AbstractLocaleResolver {
 	public Locale resolveLocale(HttpServletRequest request) {
 		Authentication authentication = SecurityContextHolder.getContext()
 				.getAuthentication();
-		if (authentication == null) {
+		if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
 			return request.getLocale();
 		}
 		else if (authentication.getPrincipal() instanceof JpaUserDetails) {
