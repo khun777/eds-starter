@@ -36,10 +36,10 @@ Ext.define('Starter.Util', {
 		});
 	},
 	
-	underline: function(str, char) {
-		var pos = str.indexOf(char);
+	underline: function(str, c) {
+		var pos = str.indexOf(c);
 		if (pos !== -1) {
-			return str.substring(0, pos) + '<u>' + char + '</u>' + str.substring(pos+1);
+			return str.substring(0, pos) + '<u>' + c + '</u>' + str.substring(pos+1);
 		}
 		return str;
 	}
