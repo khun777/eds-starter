@@ -156,8 +156,8 @@ public class UserService {
 				for (String field : new String[] { "newPassword", "newPasswordRetype" }) {
 					ValidationMessages error = new ValidationMessages();
 					error.setField(field);
-					error.setMessage(messageSource.getMessage(
-							"user_pwdonotmatch", null, locale));
+					error.setMessage(messageSource.getMessage("user_pwdonotmatch", null,
+							locale));
 					validations.add(error);
 				}
 			}
@@ -223,10 +223,10 @@ public class UserService {
 			user.setFailedLogins(null);
 			userRepository.save(user);
 			return true;
-		}		
+		}
 		return false;
 	}
-	
+
 	@ExtDirectMethod
 	@Transactional(readOnly = true)
 	@PreAuthorize("isAuthenticated()")
@@ -254,8 +254,8 @@ public class UserService {
 		if (emailTaken(user.getId(), modifiedUserSettings.getEmail())) {
 			ValidationMessages validationError = new ValidationMessages();
 			validationError.setField("email");
-			validationError.setMessage(messageSource.getMessage(
-					"user_emailtaken", null, locale));
+			validationError.setMessage(messageSource.getMessage("user_emailtaken", null,
+					locale));
 			validations.add(validationError);
 		}
 
@@ -271,8 +271,8 @@ public class UserService {
 					for (String field : new String[] { "newPassword", "newPasswordRetype" }) {
 						ValidationMessages error = new ValidationMessages();
 						error.setField(field);
-						error.setMessage(messageSource.getMessage(
-								"user_pwdonotmatch", null, locale));
+						error.setMessage(messageSource.getMessage("user_pwdonotmatch",
+								null, locale));
 						validations.add(error);
 					}
 				}
@@ -280,8 +280,8 @@ public class UserService {
 			else {
 				ValidationMessages error = new ValidationMessages();
 				error.setField("currentPassword");
-				error.setMessage(messageSource.getMessage(
-						"user_wrongpassword", null, locale));
+				error.setMessage(messageSource.getMessage("user_wrongpassword", null,
+						locale));
 				validations.add(error);
 			}
 		}

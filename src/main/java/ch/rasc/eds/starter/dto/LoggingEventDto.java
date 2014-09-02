@@ -41,13 +41,14 @@ public class LoggingEventDto {
 		this.id = event.getEventId();
 		this.dateTime = LocalDateTime.ofInstant(
 				Instant.ofEpochMilli(event.getTimestmp().longValue()), ZoneOffset.UTC);
-		
+
 		if (event.getFormattedMessage() != null) {
 			this.message = event.getFormattedMessage().replace("\n", "<br>");
-		} else {
+		}
+		else {
 			this.message = null;
 		}
-		
+
 		this.level = event.getLevelString();
 		this.callerClass = event.getCallerClass();
 		this.callerLine = event.getCallerLine();
