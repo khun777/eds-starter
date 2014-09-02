@@ -58,13 +58,14 @@ public class User extends AbstractPersistable {
 
 	private boolean enabled;
 
+	@ModelField(persist = false)
 	private Integer failedLogins;
 
-	@ModelField(dateFormat = "c")
+	@ModelField(dateFormat = "c", persist = false)
 	@JsonSerialize(using = ISO8601LocalDateTimeSerializer.class)
 	private LocalDateTime lockedOutUntil;
 
-	@ModelField(dateFormat = "c")
+	@ModelField(dateFormat = "c", persist = false)
 	@JsonSerialize(using = ISO8601LocalDateTimeSerializer.class)
 	private LocalDateTime lastLogin;
 
