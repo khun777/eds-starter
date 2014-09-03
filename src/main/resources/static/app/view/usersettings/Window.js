@@ -98,7 +98,6 @@ Ext.define('Starter.view.usersettings.Window', {
 			items: [ '->', {
 				xtype: 'button',
 				text: i18n.save,
-				action: 'save',
 				glyph: 0xe80d,
 				formBind: true,
 				handler: 'save'
