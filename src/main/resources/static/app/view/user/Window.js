@@ -1,6 +1,6 @@
 Ext.define('Starter.view.user.Window', {
 	extend: 'Ext.window.Window',
-	requires: [ 'Starter.view.user.WindowController' ],
+	requires: [ 'Starter.view.user.WindowController', 'Starter.Util' ],
 	layout: 'fit',
 	width: 500,
 	resizable: true,
