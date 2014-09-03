@@ -9,6 +9,14 @@ Ext.define('Starter.view.accesslog.Grid', {
 		dataIndex: 'email',
 		width: 200
 	}, {
+		text: i18n.accesslog_ip,
+		dataIndex: 'ipAddress',
+		flex: 1
+	}, {
+		text: i18n.accesslog_location,
+		dataIndex: 'location',
+		flex: 1
+	}, {
 		text: i18n.accesslog_userAgent,
 		dataIndex: 'userAgentName',
 		flex: 1

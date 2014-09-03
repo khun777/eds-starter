@@ -32,10 +32,14 @@ public class SecurityService {
 	private final UserRepository userRepository;
 
 	private final AccessLogRepository accessLogRepository;
+	
+	private final GeoIPCityService geoIpCityService;
 
 	@Autowired
 	public SecurityService(UserRepository userRepository,
-			AccessLogRepository accessLogRepository) {
+			AccessLogRepository accessLogRepository,
+			GeoIPCityService geoIpCityService) {
+		this.geoIpCityService = geoIpCityService;
 		this.userRepository = userRepository;
 		this.accessLogRepository = accessLogRepository;
 	}
@@ -46,35 +50,39 @@ public class SecurityService {
 			@AuthenticationPrincipal JpaUserDetails jpaUserDetails) {
 
 		if (jpaUserDetails != null) {
-
 			User user = userRepository.findOne(jpaUserDetails.getUserDbId());
-
-			AccessLog accessLog = new AccessLog();
-			accessLog.setEmail(user.getEmail());
-			accessLog.setSessionId(session.getId());
-			accessLog.setLogIn(LocalDateTime.now());
-			
-			String ipAddress = request.getHeader("X-Forwarded-For");
-			if (ipAddress == null) {
-			    ipAddress = request.getRemoteAddr();
-			}
-			accessLog.setIpAddress(ipAddress);			
-			
-			String ua = request.getHeader("User-Agent");
-			if (StringUtils.hasText(ua)) {
-				accessLog.setUserAgent(ua);
-				ReadableUserAgent agent = UAPARSER.parse(ua);
-				accessLog.setUserAgentName(agent.getName());
-				accessLog.setUserAgentVersion(agent.getVersionNumber().getMajor());
-				accessLog.setOperatingSystem(agent.getOperatingSystem().getFamilyName());
-			}
-
-			accessLogRepository.save(accessLog);
-
+			insertAccessLog(request, session, user);
 			return user;
-
 		}
+
 		return null;
+	}
+
+	private void insertAccessLog(HttpServletRequest request, HttpSession session,
+			User user) {
+		
+		AccessLog accessLog = new AccessLog();
+		accessLog.setEmail(user.getEmail());
+		accessLog.setSessionId(session.getId());
+		accessLog.setLogIn(LocalDateTime.now());
+
+		String ipAddress = request.getHeader("X-Forwarded-For");
+		if (ipAddress == null) {
+			ipAddress = request.getRemoteAddr();
+		}
+		accessLog.setIpAddress(ipAddress);
+		accessLog.setLocation(geoIpCityService.lookupCity(ipAddress));
+		
+		String ua = request.getHeader("User-Agent");
+		if (StringUtils.hasText(ua)) {
+			accessLog.setUserAgent(ua);
+			ReadableUserAgent agent = UAPARSER.parse(ua);
+			accessLog.setUserAgentName(agent.getName());
+			accessLog.setUserAgentVersion(agent.getVersionNumber().getMajor());
+			accessLog.setOperatingSystem(agent.getOperatingSystem().getFamilyName());
+		}
+
+		accessLogRepository.save(accessLog);
 	}
 
 	@ExtDirectMethod
