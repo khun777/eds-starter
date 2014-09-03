@@ -21,12 +21,12 @@ Ext.define('Starter.Application', {
 		Ext.direct.Manager.addProvider(Ext.app.REMOTING_API, heartbeat);
 		this.setupGlobalErrorHandler();
 
-//		Ext.direct.Manager.on('event', function(e) {
-//			if (e.code && e.code === 'parse') {
-//				window.location.reload();
-//			}
-//		});
-//
+		Ext.direct.Manager.on('event', function(e) {
+			if (e.code && e.code === 'parse') {
+				window.location.reload();
+			}
+		});
+
 		Ext.direct.Manager.on('exception', function(e) {
 			if (e.message === 'accessdenied') {
               Starter.Util.errorToast(i18n.accessdenied);		
