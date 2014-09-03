@@ -30,11 +30,8 @@ Ext.define('Starter.view.dummy.Controller', {
 		this.onGridSelect(null, companySelection);
 	},
 	
-	callSecuredService: function() {
-		console.log('dummyService.notAllowedTest'); 
-		dummyService.notAllowedTest(function(flag) {
-			console.log('call to dummyService.notAllowedTest successful', flag);
-		});
+	callSecuredService: function() { 
+		dummyService.notAllowedTest();
 	}
 
 });

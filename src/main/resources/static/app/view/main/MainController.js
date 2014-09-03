@@ -37,23 +37,16 @@ Ext.define('Starter.view.main.MainController', {
 	},
 
 	onTabChange: function(tabPanel, newCard) {
-		console.log(this.activeTab);
-		console.log(newCard);
 		if (!this.activeTab || this.activeTab.getId() !== newCard.getId()) {
 			this.activeTab = newCard;
 			var navigationTree = this.lookupReference('navigationTree');
-			console.log('tab change');
 			navigationTree.suspendEvents();
 			navigationTree.selectPath(newCard.treePath);
 			navigationTree.resumeEvents();
-		}
-		else {
-			console.log('no tab change');
-		}
+		}		
 	},
 
-	onTabRemove: function(tabPanel) {
-		console.log('onTabRemove');
+	onTabRemove: function(tabPanel) {		
 		var navigationTree = this.lookupReference('navigationTree');
 		if (tabPanel.items.length === 0) {
 			navigationTree.getSelectionModel().deselectAll();
