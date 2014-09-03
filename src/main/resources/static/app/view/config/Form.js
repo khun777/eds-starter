@@ -57,7 +57,7 @@ Ext.define('Starter.view.config.Form', {
 				allowBlank: true,
 				minValue: 0,
 				maxValue: 999999,
-				width: 60
+				width: 80
 			}, {
 				xtype: 'displayfield',
 				value: i18n.config_loginlock_attempts2,
@@ -76,7 +76,7 @@ Ext.define('Starter.view.config.Form', {
 				allowBlank: true,
 				minValue: 0,
 				maxValue: 999999,
-				width: 60
+				width: 80
 			}, {
 				xtype: 'displayfield',
 				value: i18n.config_loginlock_minutes2,
