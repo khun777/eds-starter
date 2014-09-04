@@ -252,6 +252,7 @@
 				<directory>src/main/resources</directory>
 				<excludes>
 					<exclude>version.properties</exclude>
+					<exclude>application.properties</exclude>
 				</excludes>
 			</resource>
 			<resource>
@@ -259,6 +260,7 @@
 				<filtering>true</filtering>
 				<includes>
 					<include>version.properties</include>
+					<include>application.properties</include>
 				</includes>
 			</resource>
 		</resources>
