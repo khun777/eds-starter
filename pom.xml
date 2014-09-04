@@ -15,12 +15,12 @@
 		<version>1.2.0.BUILD-SNAPSHOT</version>
 	</parent>
 
-	<properties>		
+	<properties>
 		<hibernate-validator.version>5.1.2.Final</hibernate-validator.version>
 		<querydsl.version>3.4.3</querydsl.version>
 		<java.version>1.8</java.version>
-		<tomcat.version>8.0.11</tomcat.version>
-		
+		<tomcat.version>8.0.12</tomcat.version>
+
 		<ext.version>5.0.2.1309-NIGHTLY</ext.version>
 		<spring-security.version>3.2.5.RELEASE</spring-security.version>
 
@@ -29,6 +29,8 @@
 
 		<maven.build.timestamp.format>yyyy-MM-dd'T'hh:mm:ss.SSSZ</maven.build.timestamp.format>
 		<build.timestamp>${maven.build.timestamp}</build.timestamp>
+		
+        <start-class>ch.rasc.eds.starter.Application</start-class> 
 	</properties>
 
 	<repositories>
@@ -55,13 +57,18 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</pluginRepository>
-	</pluginRepositories>	
+	</pluginRepositories>
 
 	<dependencies>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 
 		<dependency>
@@ -156,12 +163,12 @@
 			<artifactId>ext-all</artifactId>
 			<version>${ext.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>resources</groupId>
 			<artifactId>ext-ux</artifactId>
 			<version>${ext.version}</version>
-		</dependency>		
+		</dependency>
 
 		<dependency>
 			<groupId>resources</groupId>
@@ -174,16 +181,16 @@
 			<artifactId>ext-sencha-charts</artifactId>
 			<version>${ext.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>resources</groupId>
 			<artifactId>ext-sencha-charts-theme-crisp</artifactId>
 			<version>${ext.version}</version>
-		</dependency>		
+		</dependency>
 
 		<dependency>
 			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>			
+			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 
 		<dependency>
@@ -228,6 +235,12 @@
 					<groupId>org.apache.httpcomponents</groupId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.ocpsoft.prettytime</groupId>
+			<artifactId>prettytime</artifactId>
+			<version>3.2.5.Final</version>
 		</dependency>
 
 	</dependencies>
@@ -282,7 +295,7 @@
 								<unparam>true</unparam>
 								<plusplus>true</plusplus>
 								<predef>Ext,i18n,Starter,loggingEventService,appConfigurationService,accessLogService,
-								logService,userService,dummyService,console,printStackTrace,securityService</predef>
+									logService,userService,dummyService,console,printStackTrace,securityService</predef>
 							</options>
 						</configuration>
 					</execution>
