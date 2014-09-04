@@ -1,6 +1,7 @@
 package ch.rasc.eds.starter;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.actuate.system.ApplicationPidListener;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
@@ -24,7 +25,9 @@ public class Application extends SpringBootServletInitializer {
 
 	// -Dspring.profiles.active=development
 	public static void main(String[] args) throws Exception {
-		SpringApplication.run(Application.class, args);
+		SpringApplication app = new SpringApplication(Application.class);
+		app.addListeners(new ApplicationPidListener());		
+		app.run(args);
 	}
 
 	@Override
