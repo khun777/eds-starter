@@ -99,8 +99,10 @@ Ext.define('Starter.view.config.Form', {
 		}, {
 			xtype: 'fieldcontainer',
 			layout: 'hbox',
+			width: 400,
 			items: [ {
 				xtype: 'textfield',
+				vtype: 'email',
 				bind: {
 					value: '{testEmailReceiver}'
 				},
