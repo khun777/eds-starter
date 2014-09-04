@@ -32,13 +32,12 @@ public class SecurityService {
 	private final UserRepository userRepository;
 
 	private final AccessLogRepository accessLogRepository;
-	
+
 	private final GeoIPCityService geoIpCityService;
 
 	@Autowired
 	public SecurityService(UserRepository userRepository,
-			AccessLogRepository accessLogRepository,
-			GeoIPCityService geoIpCityService) {
+			AccessLogRepository accessLogRepository, GeoIPCityService geoIpCityService) {
 		this.geoIpCityService = geoIpCityService;
 		this.userRepository = userRepository;
 		this.accessLogRepository = accessLogRepository;
@@ -60,7 +59,7 @@ public class SecurityService {
 
 	private void insertAccessLog(HttpServletRequest request, HttpSession session,
 			User user) {
-		
+
 		AccessLog accessLog = new AccessLog();
 		accessLog.setEmail(user.getEmail());
 		accessLog.setSessionId(session.getId());
@@ -72,7 +71,7 @@ public class SecurityService {
 		}
 		accessLog.setIpAddress(ipAddress);
 		accessLog.setLocation(geoIpCityService.lookupCity(ipAddress));
-		
+
 		String ua = request.getHeader("User-Agent");
 		if (StringUtils.hasText(ua)) {
 			accessLog.setUserAgent(ua);

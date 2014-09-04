@@ -33,38 +33,27 @@ public class NavigationService {
 		root = new MenuNode("root");
 
 		MenuNode businessNode = new MenuNode("navigation_business", null, true);
-		businessNode
-				.addChild(new MenuNode(
-						"Dashboard",
-						"resources/images/eye.png",
-						"Starter.view.dummy.View", Role.USER));
+		businessNode.addChild(new MenuNode("Dashboard", "resources/images/eye.png",
+				"Starter.view.dummy.View", Role.USER));
 		root.addChild(businessNode);
 
 		MenuNode administrationNode = new MenuNode("navigation_administration", null,
 				true);
-		administrationNode
-				.addChild(new MenuNode(
-						"navigation_administration_users",
-						"resources/images/users.png",
-						"Starter.view.user.Grid", Role.ADMIN));
+		administrationNode.addChild(new MenuNode("navigation_administration_users",
+				"resources/images/users.png", "Starter.view.user.Grid", Role.ADMIN));
 		root.addChild(administrationNode);
 
 		MenuNode systemNode = new MenuNode("navigation_system", null, true);
+		systemNode.addChild(new MenuNode("navigation_system_accesslog",
+				"resources/images/data_scroll.png", "Starter.view.accesslog.TabPanel",
+				Role.ADMIN));
+		systemNode.addChild(new MenuNode("navigation_system_logevents",
+				"resources/images/data_scroll.png", "Starter.view.loggingevent.Grid",
+				Role.ADMIN));
 		systemNode
-				.addChild(new MenuNode(
-						"navigation_system_accesslog",
-						"resources/images/data_scroll.png",
-						"Starter.view.accesslog.TabPanel", Role.ADMIN));
-		systemNode
-				.addChild(new MenuNode(
-						"navigation_system_logevents",
-						"resources/images/data_scroll.png",
-						"Starter.view.loggingevent.Grid", Role.ADMIN));
-		systemNode
-				.addChild(new MenuNode(
-						"navigation_system_config",
-						"resources/images/gearwheels.png",
-						"Starter.view.config.Form", Role.ADMIN));
+				.addChild(new MenuNode("navigation_system_config",
+						"resources/images/gearwheels.png", "Starter.view.config.Form",
+						Role.ADMIN));
 		root.addChild(systemNode);
 	}
 

@@ -18,7 +18,8 @@ public class AppLocaleResolver extends AbstractLocaleResolver {
 	public Locale resolveLocale(HttpServletRequest request) {
 		Authentication authentication = SecurityContextHolder.getContext()
 				.getAuthentication();
-		if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+		if (authentication == null
+				|| authentication instanceof AnonymousAuthenticationToken) {
 			return request.getLocale();
 		}
 		else if (authentication.getPrincipal() instanceof JpaUserDetails) {

@@ -46,8 +46,9 @@ public class PasswordResetController {
 	}
 
 	@RequestMapping(value = "passwordreset.action", method = RequestMethod.POST)
-	public void passwordreset(HttpServletRequest request, HttpServletResponse response, String newPassword,
-			String newPasswordRetype, String token) throws IOException {
+	public void passwordreset(HttpServletRequest request, HttpServletResponse response,
+			String newPassword, String newPasswordRetype, String token)
+			throws IOException {
 
 		if (StringUtils.hasText(token) && StringUtils.hasText(newPassword)
 				&& StringUtils.hasText(newPasswordRetype)
@@ -96,7 +97,8 @@ public class PasswordResetController {
 			passwordResetUrl += "/passwordreset.html?token="
 					+ Base64.getUrlEncoder().encodeToString(token.getBytes());
 
-			mailService.sendSimpleMessage(email, "Starter Password Reset", passwordResetUrl);
+			mailService.sendSimpleMessage(email, "Starter Password Reset",
+					passwordResetUrl);
 
 			user.setPasswordResetTokenValidUntil(LocalDateTime.now().plusHours(4));
 			user.setPasswordResetToken(token);
