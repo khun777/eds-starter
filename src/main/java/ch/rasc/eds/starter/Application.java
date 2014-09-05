@@ -26,7 +26,7 @@ public class Application extends SpringBootServletInitializer {
 	// -Dspring.profiles.active=development
 	public static void main(String[] args) throws Exception {
 		SpringApplication app = new SpringApplication(Application.class);
-		app.addListeners(new ApplicationPidListener());		
+		app.addListeners(new ApplicationPidListener());
 		app.run(args);
 	}
 
