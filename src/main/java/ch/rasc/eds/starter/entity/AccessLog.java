@@ -3,7 +3,6 @@ package ch.rasc.eds.starter.entity;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
-import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 import ch.rasc.edsutil.entity.AbstractPersistable;
@@ -29,14 +28,6 @@ public class AccessLog extends AbstractPersistable {
 	@ModelField(dateFormat = "c")
 	@JsonSerialize(using = ISO8601LocalDateTimeSerializer.class)
 	private LocalDateTime logIn;
-
-	@ModelField(dateFormat = "c")
-	@JsonSerialize(using = ISO8601LocalDateTimeSerializer.class)
-	private LocalDateTime logOut;
-
-	@ModelField
-	@Transient
-	private String duration;
 
 	@JsonIgnore
 	private String userAgent;
@@ -72,14 +63,6 @@ public class AccessLog extends AbstractPersistable {
 		this.logIn = logIn;
 	}
 
-	public LocalDateTime getLogOut() {
-		return logOut;
-	}
-
-	public void setLogOut(LocalDateTime logOut) {
-		this.logOut = logOut;
-	}
-
 	public String getSessionId() {
 		return sessionId;
 	}
@@ -94,14 +77,6 @@ public class AccessLog extends AbstractPersistable {
 
 	public void setUserAgent(String userAgent) {
 		this.userAgent = userAgent;
-	}
-
-	public String getDuration() {
-		return duration;
-	}
-
-	public void setDuration(String duration) {
-		this.duration = duration;
 	}
 
 	public String getUserAgentName() {

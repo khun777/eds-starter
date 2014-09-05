@@ -15,13 +15,6 @@ Ext.define("Starter.model.AccessLog",
     type : "date",
     dateFormat : "c"
   }, {
-    name : "logOut",
-    type : "date",
-    dateFormat : "c"
-  }, {
-    name : "duration",
-    type : "string"
-  }, {
     name : "userAgentName",
     type : "string",
     validators : [ {

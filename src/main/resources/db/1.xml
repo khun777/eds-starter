@@ -122,7 +122,6 @@
 			<column name="sessionId" type="varchar(100)" />
 			<column name="email" type="varchar(255)" />
 			<column name="logIn" type="DATETIME" />
-			<column name="logOut" type="DATETIME" />
 			<column name="userAgent" type="varchar(255)" />
 			
 			<column name="userAgentName" type="varchar(20)" />

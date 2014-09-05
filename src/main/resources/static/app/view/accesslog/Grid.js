@@ -34,17 +34,6 @@ Ext.define('Starter.view.accesslog.Grid', {
 		width: 150,
 		xtype: 'datecolumn',
 		format: 'Y-m-d H:i:s'
-	}, {
-		text: i18n.accesslog_logout,
-		dataIndex: 'logOut',
-		width: 150,
-		xtype: 'datecolumn',
-		format: 'Y-m-d H:i:s'
-	}, {
-		text: i18n.accesslog_duration,
-		dataIndex: 'duration',
-		width: 200,
-		sortable: false
 	} ],
 
 	dockedItems: [ {

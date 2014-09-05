@@ -4,7 +4,6 @@ import static ch.ralscha.extdirectspring.annotation.ExtDirectMethodType.STORE_RE
 import static ch.rasc.eds.starter.entity.QAccessLog.accessLog;
 
 import java.math.BigDecimal;
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,7 +11,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -24,7 +22,6 @@ import net.sf.uadetector.UserAgentStringParser;
 import net.sf.uadetector.service.UADetectorServiceFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -35,6 +32,7 @@ import ch.ralscha.extdirectspring.bean.ExtDirectStoreReadRequest;
 import ch.ralscha.extdirectspring.bean.ExtDirectStoreResult;
 import ch.ralscha.extdirectspring.filter.StringFilter;
 import ch.rasc.eds.starter.entity.AccessLog;
+import ch.rasc.eds.starter.repository.AccessLogRepository;
 import ch.rasc.edsutil.QueryUtil;
 
 import com.google.common.collect.ImmutableMap;
@@ -55,21 +53,20 @@ public class AccessLogService {
 
 	private final EntityManager entityManager;
 
-	private final MessageSource messageSource;
+	private final AccessLogRepository accessLogRepository;
 
 	@Autowired
 	public AccessLogService(Environment environment, EntityManager entityManager,
-			MessageSource messageSource) {
+			AccessLogRepository accessLogRepository) {
 		this.environment = environment;
 		this.entityManager = entityManager;
-		this.messageSource = messageSource;
+		this.accessLogRepository = accessLogRepository;
 	}
 
 	@ExtDirectMethod(STORE_READ)
 	@PreAuthorize("hasRole('ADMIN')")
 	@Transactional(readOnly = true)
-	public ExtDirectStoreResult<AccessLog> read(ExtDirectStoreReadRequest request,
-			Locale locale) {
+	public ExtDirectStoreResult<AccessLog> read(ExtDirectStoreReadRequest request) {
 
 		JPQLQuery query = new JPAQuery(entityManager).from(accessLog);
 
@@ -86,19 +83,6 @@ public class AccessLogService {
 						Collections.singleton("browser"));
 
 		SearchResults<AccessLog> searchResult = query.listResults(accessLog);
-
-		String minutesText = messageSource.getMessage("accesslog_minutes", null, locale);
-		String andText = messageSource.getMessage("accesslog_and", null, locale);
-		String secondsText = messageSource.getMessage("accesslog_seconds", null, locale);
-
-		for (AccessLog log : searchResult.getResults()) {
-			if (log.getLogIn() != null && log.getLogOut() != null) {
-				Duration duration = Duration.between(log.getLogIn(), log.getLogOut());
-				log.setDuration(duration.toMinutes() + " " + minutesText + " " + andText
-						+ " " + duration.getSeconds() % 60 + " " + secondsText);
-			}
-
-		}
 
 		return new ExtDirectStoreResult<>(searchResult.getTotal(),
 				searchResult.getResults());
@@ -221,7 +205,6 @@ public class AccessLogService {
 
 	@ExtDirectMethod
 	@PreAuthorize("hasRole('ADMIN')")
-	@Transactional
 	public void addTestData() {
 		if (!environment.acceptsProfiles("default")) {
 
@@ -229,48 +212,52 @@ public class AccessLogService {
 					"user2@starter.com", "user3@starter.com", "user4@starter.com",
 					"user5@starter.com", "user6@starter.com" };
 			String[] userAgent = {
-					"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36",
-					"Mozilla/5.0 (Windows NT 6.3; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0",
+					"Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.103 Safari/537.36",
+					"Mozilla/5.0 (Windows NT 6.3; WOW64; rv:32.0) Gecko/20100101 Firefox/32.0Mozilla/5.0 (Windows NT 6.3; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0",
 					"Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko",
 					"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.52 Safari/537.36 OPR/15.0.1147.100",
 					"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1664.3 Safari/537.36",
 					"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.9 Safari/536.5",
 					"Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5355d Safari/8536.25" };
+			String[] ipAddresses = { "64.4.11.42", "173.194.113.145", "31.13.93.129",
+					"23.67.141.15", "54.225.87.37" };
+			String[] locations = { "Redmond,United States",
+					"Mountain View,United States", "Ireland", "Amsterdam,Netherlands",
+					"Ashburn,United States" };
 
 			Random random = new Random();
 			int currentYear = LocalDateTime.now().getYear();
 			UserAgentStringParser parser = UADetectorServiceFactory
 					.getResourceModuleParser();
 
+			List<AccessLog> accessLogs = new ArrayList<>();
 			for (int i = 0; i < 1000; i++) {
-				try {
-					AccessLog log = new AccessLog();
-					int rnd = random.nextInt(users.length);
-					log.setEmail(users[rnd]);
+				AccessLog log = new AccessLog();
+				int rnd = random.nextInt(users.length);
+				log.setEmail(users[rnd]);
 
-					String ua = userAgent[rnd];
-					log.setUserAgent(ua);
-					ReadableUserAgent agent = parser.parse(ua);
-					log.setUserAgentName(agent.getName());
-					log.setUserAgentVersion(agent.getVersionNumber().getMajor());
-					log.setOperatingSystem(agent.getOperatingSystem().getFamilyName());
+				String ua = userAgent[rnd];
+				log.setUserAgent(ua);
+				ReadableUserAgent agent = parser.parse(ua);
+				log.setUserAgentName(agent.getName());
+				log.setUserAgentVersion(agent.getVersionNumber().getMajor());
+				log.setOperatingSystem(agent.getOperatingSystem().getFamilyName());
 
-					log.setSessionId(String.valueOf(i));
+				log.setSessionId(String.valueOf(i));
 
-					LocalDateTime logIn = LocalDateTime.of(
-							currentYear - random.nextInt(2), random.nextInt(12) + 1,
-							random.nextInt(28) + 1, random.nextInt(24),
-							random.nextInt(60), random.nextInt(60));
-					log.setLogIn(logIn);
-					log.setLogOut(logIn.plusMinutes(random.nextInt(120)).plusSeconds(
-							random.nextInt(60)));
+				LocalDateTime logIn = LocalDateTime.of(currentYear - random.nextInt(2),
+						random.nextInt(12) + 1, random.nextInt(28) + 1,
+						random.nextInt(24), random.nextInt(60), random.nextInt(60));
+				log.setLogIn(logIn);
 
-					entityManager.persist(log);
-				}
-				catch (IllegalArgumentException iae) {
-					// do nothing here
-				}
+				int l = random.nextInt(ipAddresses.length);
+				log.setIpAddress(ipAddresses[l]);
+				log.setLocation(locations[l]);
+
+				accessLogs.add(log);
 			}
+
+			accessLogRepository.save(accessLogs);
 		}
 	}
 
