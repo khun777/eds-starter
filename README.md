@@ -23,7 +23,7 @@ _nice-to-have_
 - [ ] Loading masks. 
 
 _extjs bugs_
-- [ ] tree selectPath. tab switch does not select the corresponding tree node
+- [x] tree selectPath. tab switch does not select the corresponding tree node
 - [ ] msgTarget:'side' bug
 
  
