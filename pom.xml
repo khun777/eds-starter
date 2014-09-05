@@ -21,7 +21,7 @@
 		<java.version>1.8</java.version>
 		<tomcat.version>8.0.12</tomcat.version>
 
-		<ext.version>5.0.2.1309-NIGHTLY</ext.version>
+		<ext.version>5.0.2.1323-NIGHTLY</ext.version>
 		<spring-security.version>3.2.5.RELEASE</spring-security.version>
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
