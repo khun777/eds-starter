@@ -5,6 +5,9 @@ import java.net.InetAddress;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,11 +55,10 @@ public class GeoIPCityService {
 					return null;
 				}
 				if (response != null) {
-					String location = response.getCity().getName();
-					if (location == null) {
-						location = response.getCountry().getName();
-					}
-					return location;
+					String city = response.getCity().getName();
+					String country = response.getCountry().getName();
+					return Arrays.asList(city, country).stream().filter(Objects::nonNull)
+							.collect(Collectors.joining(","));
 				}
 			}
 			catch (IOException | GeoIp2Exception e) {
