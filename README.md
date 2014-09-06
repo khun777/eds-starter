@@ -20,7 +20,8 @@ _nice-to-have_
 - [ ] Currently logged on users view
 - [ ] Two factor authentication with TOTP RFC 6238 (Google Authenticator)
 - [ ] Minify javascript in a role specific way. A normal user should not get the javascript code for admin
-- [ ] Loading masks. 
+- [ ] Loading masks
+- [ ] Do not save if there are no changes (isDirty). Save server round trip
 
 _extjs bugs_
 - [x] tree selectPath. tab switch does not select the corresponding tree node
