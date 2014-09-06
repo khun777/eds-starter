@@ -50,6 +50,11 @@ public class SecurityService {
 
 		if (jpaUserDetails != null) {
 			User user = userRepository.findOne(jpaUserDetails.getUserDbId());
+			if (jpaUserDetails.hasRole("ADMIN")) {
+				user.setAutoOpenView("Starter.view.accesslog.TabPanel");
+			} else if (jpaUserDetails.hasRole("USER")) {
+				user.setAutoOpenView("Starter.view.dummy.View");
+			}			
 			insertAccessLog(request, session, user);
 			return user;
 		}

@@ -6,13 +6,13 @@
 	<version>1.0.0</version>
 
 	<prerequisites>
-		<maven>3.1.0</maven>
+		<maven>3.2.0</maven>
 	</prerequisites>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.2.0.M1</version>
+		<version>1.2.0.BUILD-SNAPSHOT</version>
 	</parent>
 
 	<properties>
@@ -20,7 +20,8 @@
 		<querydsl.version>3.4.3</querydsl.version>
 		<java.version>1.8</java.version>
 		<tomcat.version>8.0.12</tomcat.version>
-
+		<spring-data-releasetrain.version>Evans-RELEASE</spring-data-releasetrain.version>
+		
 		<ext.version>5.0.2.1323-NIGHTLY</ext.version>
 		<spring-security.version>3.2.5.RELEASE</spring-security.version>
 
@@ -29,8 +30,8 @@
 
 		<maven.build.timestamp.format>yyyy-MM-dd'T'hh:mm:ss.SSSZ</maven.build.timestamp.format>
 		<build.timestamp>${maven.build.timestamp}</build.timestamp>
-		
-        <start-class>ch.rasc.eds.starter.Application</start-class> 
+
+		<start-class>ch.rasc.eds.starter.Application</start-class>
 	</properties>
 
 	<repositories>
@@ -41,8 +42,11 @@
 		<repository>
 			<id>spring-milestones</id>
 			<name>Spring Milestones</name>
-			<url>https://repo.spring.io/milestone</url>
-		</repository>		
+			<url>http://repo.spring.io/milestone</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
 		<repository>
 			<id>spring-snapshots</id>
 			<name>Spring Snapshots</name>
@@ -66,7 +70,7 @@
 			<id>spring-milestones</id>
 			<name>Spring Milestones</name>
 			<url>https://repo.spring.io/milestone</url>
-		</pluginRepository>			
+		</pluginRepository>
 	</pluginRepositories>
 
 	<dependencies>

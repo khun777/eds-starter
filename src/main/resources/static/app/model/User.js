@@ -72,6 +72,10 @@ Ext.define("Starter.model.User",
     dateFormat : "c",
     persist : false
   }, {
+    name : "autoOpenView",
+    type : "string",
+    persist : false
+  }, {
     name : "id",
     type : "integer",
     allowNull : true,

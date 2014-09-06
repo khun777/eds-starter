@@ -6,8 +6,18 @@ Ext.define('Starter.view.main.MainController', {
 		securityService.getLoggedOnUser(this.afterLoggedOnUserReceived, this);
 	},
 
+	onNavigationStoreLoad: function(store) {
+		if (this.autoOpenView) {
+			var rec = store.findRecord('view', this.autoOpenView);
+			if (rec) {
+				this.onNavigationTreeSelectionchange(null, [rec]);
+			}
+		}
+	},
+	
 	afterLoggedOnUserReceived: function(user) {
 		this.getViewModel().set('loggedOnUser', user.firstName + ' ' + user.lastName);
+		this.autoOpenView = user.autoOpenView;
 	},
 
 	onNavigationTreeSelectionchange: function(tree, selections) {

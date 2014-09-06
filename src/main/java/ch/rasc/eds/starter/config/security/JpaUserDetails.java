@@ -107,4 +107,16 @@ public class JpaUserDetails implements UserDetails {
 		return enabled;
 	}
 
+	public boolean hasRole(String role) {
+	    if (getAuthorities() != null) {	    
+		    for (GrantedAuthority authority : getAuthorities()) {
+		        String userRole = authority.getAuthority();
+		        if (role.equals(userRole)) {
+		        	return true;
+		        }
+		    }
+	    }
+	    
+	    return false;
+	}
 }

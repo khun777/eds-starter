@@ -12,6 +12,9 @@ Ext.define('Starter.view.main.MainModel', {
 			proxy: {
 				type: 'direct',
 				directFn: 'navigationService.getNavigation'
+			},
+			listeners: {
+				load: 'onNavigationStoreLoad'
 			}
 		},
 

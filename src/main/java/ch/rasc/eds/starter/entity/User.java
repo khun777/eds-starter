@@ -76,6 +76,10 @@ public class User extends AbstractPersistable {
 	@JsonIgnore
 	private LocalDateTime passwordResetTokenValidUntil;
 
+	@Transient
+	@ModelField(persist = false)
+	private String autoOpenView;
+	
 	public String getLastName() {
 		return lastName;
 	}
@@ -186,6 +190,14 @@ public class User extends AbstractPersistable {
 
 	public void setNewPasswordRetype(String newPasswordRetype) {
 		this.newPasswordRetype = newPasswordRetype;
+	}
+
+	public String getAutoOpenView() {
+		return autoOpenView;
+	}
+
+	public void setAutoOpenView(String autoOpenView) {
+		this.autoOpenView = autoOpenView;
 	}
 
 }

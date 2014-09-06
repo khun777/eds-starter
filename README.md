@@ -16,7 +16,7 @@ _must-have_
 - [ ] Email template system. Need a nice password reset email.
 
 _nice-to-have_
-- [ ] Autostart a view after the user logged in
+- [x] Autostart a view after the user logged in
 - [ ] Currently logged on users view
 - [ ] Two factor authentication with TOTP RFC 6238 (Google Authenticator)
 - [ ] Minify javascript in a role specific way. A normal user should not get the javascript code for admin
