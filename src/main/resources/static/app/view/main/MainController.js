@@ -12,6 +12,11 @@ Ext.define('Starter.view.main.MainController', {
 	},
 
 	onNavigationRoute: function(navigationId) {
+		if (this.ignoreHashChange) {
+			this.ignoreHashChange = false;
+			return;
+		}
+		
 		var record = this.getStore('navigationStore').getById(navigationId);
 		if (record) {
 			var view = record.data.view;
@@ -66,13 +71,14 @@ Ext.define('Starter.view.main.MainController', {
 	},
 
 	onTabChange: function(tabPanel, newCard) {
-		//TODO: need a way to change the hash in the url
 		if (!this.activeTab || this.activeTab.getId() !== newCard.getId()) {
 			this.activeTab = newCard;
 			var navigationTree = this.lookupReference('navigationTree');
 			navigationTree.suspendEvents();
 			navigationTree.selectPath(newCard.treePath);
 			navigationTree.resumeEvents();
+			this.ignoreHashChange = true;
+			this.redirectTo('' + newCard.navigationId);
 		}
 	},
 

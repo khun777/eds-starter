@@ -9,7 +9,7 @@ __TODO__:
 
 _must-have_
 - [x] Session Timeout Handling
-- [ ] History / Back-Button / Routing
+- [x] History / Back-Button / Routing
 - [ ] Improve remember me. Logout should only delete the current remember me token and not all
 - [x] Enhance accesslog. Show city and ip. With GeoIP
 - [ ] View for all users that shows 10 last logins
