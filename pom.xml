@@ -20,7 +20,6 @@
 		<querydsl.version>3.4.3</querydsl.version>
 		<java.version>1.8</java.version>
 		<tomcat.version>8.0.12</tomcat.version>
-		<spring-data-releasetrain.version>Evans-RELEASE</spring-data-releasetrain.version>
 		
 		<ext.version>5.0.2.1323-NIGHTLY</ext.version>
 		<spring-security.version>3.2.5.RELEASE</spring-security.version>
