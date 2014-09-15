@@ -7,7 +7,6 @@ Ext.define('Starter.view.user.Window', {
 	constrain: true,
 	modal: true,
 	autoShow: true,
-	shadow: true,
 	ghost: false,
 	glyph: 0xe803,
 	defaultFocus: 'firstName',
