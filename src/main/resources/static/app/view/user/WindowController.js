@@ -30,6 +30,7 @@ Ext.define('Starter.view.user.WindowController', {
 			record.save({
 				callback: function(r, op) {
 					if (op.success) {
+						this.getViewModel().set('selectedUser', null);
 						Starter.Util.successToast(i18n.savesuccessful);
 						this.getStore('users').reload();
 						this.close();

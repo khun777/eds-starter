@@ -56,6 +56,7 @@ Ext.define('Starter.view.user.Controller', {
 					callback: function(records, operation, success) {
 						if (success) {
 							Starter.Util.successToast(i18n.destroysuccessful);
+							this.getViewModel().set('selectedUser', null);
 							this.getStore('users').reload();
 						}
 						else {
