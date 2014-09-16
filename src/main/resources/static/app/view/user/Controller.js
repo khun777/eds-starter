@@ -42,9 +42,10 @@ Ext.define('Starter.view.user.Controller', {
 		var editWin = new Starter.view.user.Window({
 			title: title
 		});
+		this.getView().add(editWin);		
+		editWin.show();
+		
 		var form = editWin.down('form');
-
-		this.getView().add(editWin);
 		form.loadRecord(record);
 		form.isValid();
 	},
