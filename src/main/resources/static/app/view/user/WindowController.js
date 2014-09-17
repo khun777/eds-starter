@@ -25,6 +25,8 @@ Ext.define('Starter.view.user.WindowController', {
 
 		if (form.isValid()) {
 			var record = form.getRecord().copy();
+			record.phantom = form.getRecord().phantom;
+			
 			form.updateRecord(record);
 
 			record.save({
