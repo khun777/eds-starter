@@ -129,7 +129,6 @@ public class UserService {
 		preModify(updatedEntity);
 		List<ValidationMessages> violations = validateEntity(updatedEntity, locale);
 		if (violations.isEmpty()) {
-
 			return new ValidationMessagesResult<>(userRepository.save(updatedEntity));
 		}
 
@@ -172,7 +171,7 @@ public class UserService {
 			entity.setPasswordHash(passwordEncoder.encode(entity.getNewPassword()));
 		}
 		else {
-			if (entity.getId() != null) {
+			if (entity.getId() != null && entity.getId() > 0) {
 				String dbPassword = new JPAQuery(entityManager).from(QUser.user)
 						.where(QUser.user.id.eq(entity.getId()))
 						.singleResult(QUser.user.passwordHash);
