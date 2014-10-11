@@ -17,11 +17,11 @@
 
 	<properties>
 		<hibernate-validator.version>5.1.2.Final</hibernate-validator.version>
-		<querydsl.version>3.4.3</querydsl.version>
+		<querydsl.version>3.5.0</querydsl.version>
 		<java.version>1.8</java.version>
-		<tomcat.version>8.0.12</tomcat.version>
+		<tomcat.version>8.0.14</tomcat.version>
 		
-		<ext.version>5.0.2.1367-NIGHTLY</ext.version>
+		<ext.version>5.0.2.1372-NIGHTLY</ext.version>
 		<spring-security.version>3.2.5.RELEASE</spring-security.version>
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -41,7 +41,7 @@
 		<repository>
 			<id>spring-milestones</id>
 			<name>Spring Milestones</name>
-			<url>http://repo.spring.io/milestone</url>
+			<url>https://repo.spring.io/milestone</url>
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
@@ -209,7 +209,7 @@
 		<dependency>
 			<groupId>com.yahoo.platform.yui</groupId>
 			<artifactId>yuicompressor</artifactId>
-			<version>2.4.7</version>
+			<version>2.4.8</version>
 			<exclusions>
 				<exclusion>
 					<groupId>rhino</groupId>
@@ -221,7 +221,7 @@
 		<dependency>
 			<groupId>net.sf.uadetector</groupId>
 			<artifactId>uadetector-resources</artifactId>
-			<version>2014.08</version>
+			<version>2014.09</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>jsr305</artifactId>
@@ -233,7 +233,7 @@
 		<dependency>
 			<groupId>com.maxmind.geoip2</groupId>
 			<artifactId>geoip2</artifactId>
-			<version>0.9.0</version>
+			<version>2.0.0</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>google-http-client</artifactId>

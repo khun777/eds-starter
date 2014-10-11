@@ -1,5 +1,5 @@
 /* <debug> */
-Ext.Loader.setPath('Ext.ux', 'resources/ext/5.0.2.1367-NIGHTLY/ux');
+Ext.Loader.setPath('Ext.ux', 'resources/ext/5.0.2.1372-NIGHTLY/ux');
 /* </debug> */
 Ext.define('Starter.Application', {
 	extend: 'Ext.app.Application',
