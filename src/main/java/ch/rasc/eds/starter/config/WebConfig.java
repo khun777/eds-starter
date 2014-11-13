@@ -1,7 +1,6 @@
 package ch.rasc.eds.starter.config;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Locale;
 
@@ -20,7 +19,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
-import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.LocaleResolver;
 
 import ch.rasc.eds.starter.Application;
