@@ -39,14 +39,6 @@ public class WebConfig {
 	}
 
 	@Bean
-	public Filter characterEncodingFilter() {
-		CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
-		characterEncodingFilter.setEncoding(StandardCharsets.UTF_8.name());
-		characterEncodingFilter.setForceEncoding(false);
-		return characterEncodingFilter;
-	}
-
-	@Bean
 	public Filter mdcFilter() {
 		return new MdcFilter();
 	}
