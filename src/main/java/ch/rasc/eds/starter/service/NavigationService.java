@@ -64,8 +64,10 @@ public class NavigationService {
 
 		MenuNode copy = MenuNode.copyOf(root, jpaUserDetails.getAuthorities(),
 				new AtomicInteger(0), locale, messageSource, request);
-
+		if (copy != null) {
 		return copy.getChildren();
+	}
+		return null;
 	}
 
 }

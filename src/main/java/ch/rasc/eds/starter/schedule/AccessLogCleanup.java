@@ -29,7 +29,7 @@ public class AccessLogCleanup {
 		// Delete all access logs that are older than 6 months
 		LocalDateTime sixMonthAgo = LocalDateTime.now().minusMonths(6);
 		new JPADeleteClause(entityManager, QAccessLog.accessLog).where(
-				QAccessLog.accessLog.logIn.loe(sixMonthAgo)).execute();
+				QAccessLog.accessLog.loginTimestamp.loe(sixMonthAgo)).execute();
 	}
 
 }

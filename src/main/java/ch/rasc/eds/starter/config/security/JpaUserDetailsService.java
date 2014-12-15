@@ -1,33 +1,41 @@
 package ch.rasc.eds.starter.config.security;
 
+import javax.persistence.EntityManager;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
+import ch.rasc.eds.starter.entity.QUser;
 import ch.rasc.eds.starter.entity.User;
-import ch.rasc.eds.starter.repository.UserRepository;
+
+import com.mysema.query.jpa.impl.JPAQuery;
 
 @Component
 public class JpaUserDetailsService implements UserDetailsService {
 
-	private final UserRepository userRepository;
+	private final EntityManager entityManager;
 
 	@Autowired
-	public JpaUserDetailsService(UserRepository userRepository) {
-		this.userRepository = userRepository;
+	public JpaUserDetailsService(EntityManager entityManager) {
+		this.entityManager = entityManager;
 	}
 
 	@Override
-	public UserDetails loadUserByUsername(String username)
-			throws UsernameNotFoundException {
-		User user = userRepository.findByEmail(username);
+	@Transactional(readOnly = true)
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		User user = new JPAQuery(entityManager).from(QUser.user)
+				.where(QUser.user.email.eq(email).and(QUser.user.deleted.isFalse()))
+				.singleResult(QUser.user);
+		
 		if (user != null) {
 			return new JpaUserDetails(user);
 		}
 
-		throw new UsernameNotFoundException(username);
+		throw new UsernameNotFoundException(email);
 	}
 
 }

@@ -48,7 +48,7 @@ Ext.define('Starter.view.config.Form', {
 			xtype: 'fieldcontainer',
 			layout: 'hbox',
 			fieldLabel: i18n.config_loginlock_attempts,
-			labelWidth: 130,
+			labelWidth: 155,
 			items: [ {
 				xtype: 'numberfield',
 				hideLabel: true,
@@ -67,7 +67,7 @@ Ext.define('Starter.view.config.Form', {
 			xtype: 'fieldcontainer',
 			layout: 'hbox',
 			fieldLabel: i18n.config_loginlock_minutes,
-			labelWidth: 130,
+			labelWidth: 155,
 			items: [ {
 				xtype: 'numberfield',
 				hideLabel: true,
@@ -110,7 +110,6 @@ Ext.define('Starter.view.config.Form', {
 				listeners: {
 					change: 'onTestEmailReceiverChange'
 				}
-
 			}, {
 				xtype: 'button',
 				text: i18n.config_sendTestEmail,
@@ -118,7 +117,6 @@ Ext.define('Starter.view.config.Form', {
 				bind: {
 					disabled: '{!testEmailButtonEnabled}'
 				},
-				columnWidth: 0.4,
 				margin: '0 0 0 10',
 				handler: 'onSendTestEmailClick',
 				ui: 'default-toolbar'

@@ -12,14 +12,14 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.2.0.RC1</version>
+		<version>1.2.0.RELEASE</version>
 	</parent>
 
 	<properties>		
-		<querydsl.version>3.5.1</querydsl.version>
+		<querydsl.version>3.6.0</querydsl.version>
 		<java.version>1.8</java.version>
 		
-		<ext.version>5.0.2.1552-NIGHTLY</ext.version>
+		<ext.version>5.1.1.116-NIGHTLY</ext.version>
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.debug>true</maven.compiler.debug>
@@ -35,23 +35,7 @@
 			<id>rasc</id>
 			<url>https://repo.rasc.ch</url>
 		</repository>
-		<repository>
-			<id>spring-milestones</id>
-			<name>Spring Milestones</name>
-			<url>https://repo.spring.io/milestone</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
 	</repositories>
-
-	<pluginRepositories>
-		<pluginRepository>
-			<id>spring-milestones</id>
-			<name>Spring Milestones</name>
-			<url>https://repo.spring.io/milestone</url>
-		</pluginRepository>
-	</pluginRepositories>
 
 	<dependencies>
 
@@ -72,6 +56,17 @@
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>activation</artifactId>
+					<groupId>javax.activation</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 			<exclusions>
 				<exclusion>
@@ -82,38 +77,21 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context-support</artifactId>
-		</dependency>
-
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
-			<groupId>com.sun.mail</groupId>
-			<artifactId>javax.mail</artifactId>
-			<version>1.5.2</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>activation</artifactId>
-					<groupId>javax.activation</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
-			<version>3.11-beta2</version>
+			<version>3.11-beta3</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
-			<version>3.11-beta2</version>
+			<version>3.11-beta3</version>
 		</dependency>
 
 		<dependency>
@@ -136,7 +114,7 @@
 		<dependency>
 			<groupId>ch.rasc</groupId>
 			<artifactId>edsutil</artifactId>
-			<version>2.0.5</version>
+			<version>2.0.6</version>
 		</dependency>
 
 		<dependency>
@@ -160,7 +138,7 @@
 
 		<dependency>
 			<groupId>resources</groupId>
-			<artifactId>ext-ux</artifactId>
+			<artifactId>ext-ux-examples</artifactId>
 			<version>${ext.version}</version>
 		</dependency>
 
@@ -229,6 +207,12 @@
 					<groupId>org.apache.httpcomponents</groupId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.unbescape</groupId>
+			<artifactId>unbescape</artifactId>
+			<version>1.1.0.RELEASE</version>
 		</dependency>
 
 		<dependency>

@@ -25,6 +25,8 @@ Ext.define('Starter.view.user.Grid', {
 
 	columns: [ {
 		xtype: 'actioncolumn',
+		sortable: false,
+		hideable: false,
 		width: 30,
 		items: [ {
 			icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAAK0lEQVR4AWMgBBhXyRFQsPI/xQoyCCgg7EgX2jkSYQWZAOFN2jtSjsKQBAD0NQ+N4ZAsdgAAAABJRU5ErkJggg==',
@@ -49,10 +51,8 @@ Ext.define('Starter.view.user.Grid', {
 	}, {
 		text: i18n.user_lastlogin,
 		dataIndex: 'lastLogin',
-		flex: 1,
 		width: 150,
-		xtype: 'datecolumn',
-		format: 'Y-m-d H:i:s'		
+		sortable: false
 	}, {
 		text: i18n.user_enabled,
 		dataIndex: 'enabled',
@@ -66,7 +66,7 @@ Ext.define('Starter.view.user.Grid', {
 	}, {
 		text: i18n.user_locked,
 		dataIndex: 'lockedOutUntil',
-		width: 85,
+		width: 95,
 		renderer: function(value) {
 			if (value) {
 				return i18n.yes;

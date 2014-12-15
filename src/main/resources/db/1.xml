@@ -89,50 +89,51 @@
 	</changeSet>
 
 	<changeSet author="dev" id="8">
-		<createTable tableName="AppUser">
+		<createTable tableName="app_user">
 			<column autoIncrement="true" name="id" type="BIGINT">
-				<constraints nullable="false" primaryKey="true" primaryKeyName="PK_AppUser" />
+				<constraints nullable="false" primaryKey="true" primaryKeyName="PK_app_user" />
 			</column>
 
-			<column name="lastName" type="varchar(255)" />
-			<column name="firstName" type="varchar(255)" />
+			<column name="last_name" type="varchar(255)" />
+			<column name="first_name" type="varchar(255)" />
 
 			<column name="email" type="varchar(255)">
 				<constraints nullable="false" unique="true" />
 			</column>
 			
-			<column name="passwordHash" type="varchar(255)" />
+			<column name="password_hash" type="varchar(255)" />
 			<column name="role" type="varchar(255)" />
 			<column name="locale" type="varchar(8)" />
 			<column name="enabled" type="BOOLEAN" />
-            <column name="failedLogins" type="INT" />            
-            <column name="lockedOutUntil" type="datetime" />
-            <column name="lastLogin" type="datetime" />
-            <column name="passwordResetToken" type="varchar(36)" />
-            <column name="passwordResetTokenValidUntil" type="datetime" />
+            <column name="failed_logins" type="INT" />            
+            <column name="locked_out_until" type="datetime" />
+            <column name="password_reset_token" type="varchar(36)" />
+            <column name="password_reset_token_valid_until" type="datetime" />
+            <column name="is_deleted" type="BOOLEAN" />
+            
 		</createTable>
 	</changeSet>
-
+	
 	<changeSet author="dev" id="9">
-		<createTable tableName="AccessLog">
+		<createTable tableName="access_log">
 			<column autoIncrement="true" name="id" type="BIGINT">
-				<constraints nullable="false" primaryKey="true" primaryKeyName="PK_AccessLog" />
+				<constraints nullable="false" primaryKey="true" primaryKeyName="PK_access_log" />
 			</column>	
 			
-			<column name="sessionId" type="varchar(100)" />
+			<column name="session_id" type="varchar(100)" />
 			<column name="email" type="varchar(255)" />
-			<column name="logIn" type="DATETIME" />
-			<column name="userAgent" type="varchar(255)" />
+			<column name="login_timestamp" type="DATETIME" />
+			<column name="user_agent" type="varchar(255)" />
 			
-			<column name="userAgentName" type="varchar(20)" />
-			<column name="userAgentVersion" type="varchar(10)" />
-			<column name="operatingSystem" type="varchar(20)" />
+			<column name="user_agent_name" type="varchar(20)" />
+			<column name="user_agent_version" type="varchar(10)" />
+			<column name="operating_system" type="varchar(20)" />
 			
-			<column name="ipAddress" type="varchar(45)" />
+			<column name="ip_address" type="varchar(45)" />
 			<column name="location" type="varchar(255)" />
 
 		</createTable>
-	</changeSet>	
+	</changeSet>
 	
 	<changeSet author="dev" id="10">
 		<createTable tableName="persistent_logins">
@@ -155,20 +156,37 @@
 	</changeSet>	
 	
 	<changeSet author="dev" id="11">
-		<createTable tableName="Configuration">
+		<createTable tableName="configuration">
 			<column autoIncrement="true" name="id" type="BIGINT">
-				<constraints nullable="false" primaryKey="true" primaryKeyName="PK_Configuration" />
+				<constraints nullable="false" primaryKey="true" primaryKeyName="PK_configuration" />
 			</column>	
 						
-			<column name="confKey" type="varchar(256)" />
-			<column name="confValue" type="varchar(1024)" />
+			<column name="conf_key" type="varchar(256)" />
+			<column name="conf_value" type="varchar(1024)" />
 
 		</createTable>
 	</changeSet>    
 	
 	<changeSet author="dev" id="12">
-	  <sql>insert into Configuration(confKey, confValue) values('LOGIN_LOCK_ATTEMPTS', '10')</sql>
-	  <sql>insert into Configuration(confKey, confValue) values('LOGIN_LOCK_MINUTES', '30')</sql>
+	  <sql>insert into configuration(conf_key, conf_value) values('LOGIN_LOCK_ATTEMPTS', '10')</sql>
+	  <sql>insert into configuration(conf_key, conf_value) values('LOGIN_LOCK_MINUTES', '30')</sql>
+	</changeSet>	
+	
+	<changeSet author="dev" id="13">
+		<createTable tableName="client_state">
+			<column autoIncrement="true" name="id" type="INT(10)">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="user_id" type="INT(10)" />
+			<column name="name" type="VARCHAR(255)" />
+			<column name="value" type="text" />
+		</createTable>
+	</changeSet>
+	
+	<changeSet author="dev" id="14">
+		<createIndex indexName="index_client_state" tableName="client_state" unique="false">
+			<column name="user_id" />
+		</createIndex>
 	</changeSet>	
 	
 </databaseChangeLog>

@@ -1,11 +1,14 @@
 Ext.define('Starter.view.user.Window', {
 	extend: 'Ext.window.Window',
 	requires: [ 'Starter.view.user.WindowController', 'Starter.Util' ],
+	stateId: 'Starter.view.user.Window',
+	stateful: true,	
 	layout: 'fit',
 	width: 500,
 	resizable: true,
-	constrain: true,
+	constrain: false,
 	modal: true,
+	autoShow: false,
 	ghost: false,
 	glyph: 0xe803,
 	defaultFocus: 'firstName',
@@ -46,14 +49,6 @@ Ext.define('Starter.view.user.Window', {
 			fieldLabel: i18n.user_email,
 			vtype: 'email',
 			allowBlank: false
-		}, {
-			name: 'newPassword',
-			fieldLabel: i18n.user_newpassword,
-			inputType: 'password'
-		}, {
-			name: 'newPasswordRetype',
-			fieldLabel: i18n.user_newpasswordretype,
-			inputType: 'password'
 		}, {
 			xtype: 'combobox',
 			fieldLabel: i18n.user_language,

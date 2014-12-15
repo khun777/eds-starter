@@ -124,6 +124,7 @@ Ext.onReady(function() {
 		}, {
 			fieldLabel: i18n.login_rememberme,
 			name: 'remember-me',
+			labelWidth: 130,
 			xtype: 'checkbox'
 		} ],
 
@@ -182,10 +183,9 @@ Ext.onReady(function() {
 
 	var passwordResetPanel = new Ext.form.Panel({
 		frame: true,
-		title: i18n.login_passwordreset,
-		width: 400,
+		title: i18n.login_passwordreset,		
 		hidden: true,
-		padding: 5,
+		padding: 7,
 		layout: {
 			type: 'vbox',
 			align: 'stretch'
@@ -235,7 +235,7 @@ Ext.onReady(function() {
 		items: [ {
 			xtype: 'container',
 			layout: 'vbox',
-			width: 400,
+			width: 500,
 			items: [ loginPanel, passwordResetPanel ]
 		} ]
 	});

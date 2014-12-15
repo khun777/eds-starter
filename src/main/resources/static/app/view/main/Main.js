@@ -30,8 +30,9 @@ Ext.define('Starter.view.main.Main', {
 		xtype: 'tabpanel',
 		region: 'center',
 		reference: 'centerTabPanel',
+		plain: true,
 		split: true,
-		plugins: [ 'tabreorderer', {
+		plugins: [ /*'tabreorderer',*/ {
 			ptype: 'tabclosemenu',
 			closeTabText: i18n.tabclosemenu_close,
 			closeOthersTabsText: i18n.tabclosemenu_closeother,

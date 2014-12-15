@@ -27,7 +27,7 @@ public class AccessLog extends AbstractPersistable {
 
 	@ModelField(dateFormat = "c")
 	@JsonSerialize(using = ISO8601LocalDateTimeSerializer.class)
-	private LocalDateTime logIn;
+	private LocalDateTime loginTimestamp;
 
 	@JsonIgnore
 	private String userAgent;
@@ -55,12 +55,12 @@ public class AccessLog extends AbstractPersistable {
 		this.email = email;
 	}
 
-	public LocalDateTime getLogIn() {
-		return logIn;
+	public LocalDateTime getLoginTimestamp() {
+		return loginTimestamp;
 	}
 
-	public void setLogIn(LocalDateTime logIn) {
-		this.logIn = logIn;
+	public void setLoginTimestamp(LocalDateTime loginTimestamp) {
+		this.loginTimestamp = loginTimestamp;
 	}
 
 	public String getSessionId() {

@@ -84,7 +84,9 @@ Ext.define('Starter.view.user.Controller', {
 		if (record) {
 			userService.unlock(record.getId(), function(success) {
 				if (success) {
-					record.set('lockedOutUntil', null, {dirty:false});
+					record.set('lockedOutUntil', null, {
+						dirty: false
+					});
 				}
 			});
 		}

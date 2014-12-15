@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
+import javax.persistence.EntityManager;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -73,6 +75,10 @@ public class JpaUserDetails implements UserDetails {
 	@Override
 	public String getUsername() {
 		return email;
+	}
+
+	public User getUser(EntityManager entityManager) {
+		return entityManager.find(User.class, getUserDbId());
 	}
 
 	public Long getUserDbId() {

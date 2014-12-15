@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 public class AppProperties {
 	private String url;
 
+	private String defaultEmailSender;
+	
 	private String geoIp2CityDatabaseFile;
 
 	public String getUrl() {
@@ -16,6 +18,14 @@ public class AppProperties {
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	public String getDefaultEmailSender() {
+		return defaultEmailSender;
+	}
+
+	public void setDefaultEmailSender(String defaultEmailSender) {
+		this.defaultEmailSender = defaultEmailSender;
 	}
 
 	public String getGeoIp2CityDatabaseFile() {

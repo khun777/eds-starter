@@ -9,7 +9,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.NotBlank;
 
 import ch.rasc.edsutil.entity.AbstractPersistable;
 import ch.rasc.edsutil.jackson.ISO8601LocalDateTimeSerializer;
@@ -22,20 +22,20 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @Entity
 @Table(name = "AppUser")
 @Model(value = "Starter.model.User", readMethod = "userService.read",
-		createMethod = "userService.create", updateMethod = "userService.update",
+		createMethod = "userService.update", updateMethod = "userService.update",
 		destroyMethod = "userService.destroy", paging = true, identifier = "negative")
 public class User extends AbstractPersistable {
 
-	@NotEmpty(message = "{fieldrequired}")
+	@NotBlank(message = "{fieldrequired}")
 	@Size(max = 255)
 	private String lastName;
 
-	@NotEmpty(message = "{fieldrequired}")
+	@NotBlank(message = "{fieldrequired}")
 	@Size(max = 255)
 	private String firstName;
 
 	@Email(message = "{invalidemail}")
-	@NotEmpty(message = "{fieldrequired}")
+	@NotBlank(message = "{fieldrequired}")
 	@Size(max = 255)
 	@Column(unique = true)
 	private String email;
@@ -52,11 +52,14 @@ public class User extends AbstractPersistable {
 	@Transient
 	private String newPasswordRetype;
 
-	@NotEmpty(message = "{fieldrequired}")
+	@NotBlank(message = "{fieldrequired}")
 	@Size(max = 8)
 	private String locale;
 
 	private boolean enabled;
+
+	@Transient
+	private boolean passwordReset;
 
 	@ModelField(persist = false)
 	private Integer failedLogins;
@@ -65,9 +68,9 @@ public class User extends AbstractPersistable {
 	@JsonSerialize(using = ISO8601LocalDateTimeSerializer.class)
 	private LocalDateTime lockedOutUntil;
 
-	@ModelField(dateFormat = "c", persist = false)
-	@JsonSerialize(using = ISO8601LocalDateTimeSerializer.class)
-	private LocalDateTime lastLogin;
+	@ModelField(persist = false)
+	@Transient
+	private String lastLogin;
 
 	@Size(max = 36)
 	@JsonIgnore
@@ -76,10 +79,14 @@ public class User extends AbstractPersistable {
 	@JsonIgnore
 	private LocalDateTime passwordResetTokenValidUntil;
 
+	@JsonIgnore
+	@Column(name = "is_deleted")
+	private boolean deleted;
+
 	@Transient
 	@ModelField(persist = false)
 	private String autoOpenView;
-	
+
 	public String getLastName() {
 		return lastName;
 	}
@@ -136,6 +143,15 @@ public class User extends AbstractPersistable {
 		this.locale = locale;
 	}
 
+	public boolean isPasswordReset() {
+		return passwordReset;
+	}
+
+	public void setPasswordReset(boolean passwordReset) {
+		this.passwordReset = passwordReset;
+	}
+
+
 	public Integer getFailedLogins() {
 		return failedLogins;
 	}
@@ -152,11 +168,11 @@ public class User extends AbstractPersistable {
 		this.lockedOutUntil = lockedOutUntil;
 	}
 
-	public LocalDateTime getLastLogin() {
+	public String getLastLogin() {
 		return lastLogin;
 	}
 
-	public void setLastLogin(LocalDateTime lastLogin) {
+	public void setLastLogin(String lastLogin) {
 		this.lastLogin = lastLogin;
 	}
 
@@ -200,4 +216,11 @@ public class User extends AbstractPersistable {
 		this.autoOpenView = autoOpenView;
 	}
 
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
 }

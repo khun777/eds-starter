@@ -24,6 +24,7 @@ import net.sf.uadetector.service.UADetectorServiceFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,8 +32,8 @@ import ch.ralscha.extdirectspring.annotation.ExtDirectMethod;
 import ch.ralscha.extdirectspring.bean.ExtDirectStoreReadRequest;
 import ch.ralscha.extdirectspring.bean.ExtDirectStoreResult;
 import ch.ralscha.extdirectspring.filter.StringFilter;
+import ch.rasc.eds.starter.config.security.JpaUserDetails;
 import ch.rasc.eds.starter.entity.AccessLog;
-import ch.rasc.eds.starter.repository.AccessLogRepository;
 import ch.rasc.edsutil.QueryUtil;
 
 import com.google.common.collect.ImmutableMap;
@@ -53,14 +54,10 @@ public class AccessLogService {
 
 	private final EntityManager entityManager;
 
-	private final AccessLogRepository accessLogRepository;
-
 	@Autowired
-	public AccessLogService(Environment environment, EntityManager entityManager,
-			AccessLogRepository accessLogRepository) {
+	public AccessLogService(Environment environment, EntityManager entityManager) {
 		this.environment = environment;
 		this.entityManager = entityManager;
-		this.accessLogRepository = accessLogRepository;
 	}
 
 	@ExtDirectMethod(STORE_READ)
@@ -93,7 +90,7 @@ public class AccessLogService {
 	@Transactional(readOnly = true)
 	public Collection<Map<String, Integer>> readAccessLogYears() {
 		JPQLQuery query = new JPAQuery(entityManager).from(accessLog);
-		List<Integer> years = query.distinct().list(accessLog.logIn.year());
+		List<Integer> years = query.distinct().list(accessLog.loginTimestamp.year());
 		return years.stream().map(year -> Collections.singletonMap("year", year))
 				.collect(Collectors.toList());
 	}
@@ -110,12 +107,14 @@ public class AccessLogService {
 	@Transactional(readOnly = true)
 	public List<Map<String, Object>> readUserAgentsStats(int queryYear) {
 		JPQLQuery query = new JPAQuery(entityManager).from(accessLog);
-		query.where(accessLog.logIn.year().eq(queryYear));
-		query.groupBy(accessLog.logIn.year(), accessLog.logIn.month(),
+		query.where(accessLog.loginTimestamp.year().eq(queryYear));
+		query.groupBy(accessLog.loginTimestamp.year(), accessLog.loginTimestamp.month(),
 				accessLog.userAgentName);
-		query.orderBy(accessLog.logIn.year().asc(), accessLog.logIn.month().asc());
-		List<Tuple> queryResult = query.list(accessLog.logIn.year(),
-				accessLog.logIn.month(), accessLog.userAgentName, accessLog.count());
+		query.orderBy(accessLog.loginTimestamp.year().asc(), accessLog.loginTimestamp
+				.month().asc());
+		List<Tuple> queryResult = query.list(accessLog.loginTimestamp.year(),
+				accessLog.loginTimestamp.month(), accessLog.userAgentName,
+				accessLog.count());
 
 		String[] browsers = new String[] { "Chrome", "Firefox", "IE", "Opera", "Safari" };
 
@@ -123,8 +122,8 @@ public class AccessLogService {
 		Map<String, AtomicLongMap<String>> monthYearUACount = Maps.newTreeMap();
 
 		for (Tuple tuple : queryResult) {
-			Integer year = tuple.get(accessLog.logIn.year());
-			Integer month = tuple.get(accessLog.logIn.month());
+			Integer year = tuple.get(accessLog.loginTimestamp.year());
+			Integer month = tuple.get(accessLog.loginTimestamp.month());
 			Long count = tuple.get(accessLog.count());
 			String userAgentName = tuple.get(accessLog.userAgentName);
 			String key = year + "/" + (month < 10 ? "0" : "") + month;
@@ -174,7 +173,7 @@ public class AccessLogService {
 	@Transactional(readOnly = true)
 	public List<Map<String, Object>> readOsStats(int queryYear) {
 		JPQLQuery query = new JPAQuery(entityManager).from(accessLog);
-		query.where(accessLog.logIn.year().eq(queryYear));
+		query.where(accessLog.loginTimestamp.year().eq(queryYear));
 		query.groupBy(accessLog.operatingSystem);
 		List<Tuple> queryResult = query
 				.list(accessLog.operatingSystem, accessLog.count());
@@ -203,8 +202,19 @@ public class AccessLogService {
 		return result;
 	}
 
+	@ExtDirectMethod(STORE_READ)
+	@PreAuthorize("isAuthenticated()")
+	@Transactional(readOnly = true)
+	public List<AccessLog> last10Logs(
+			@AuthenticationPrincipal JpaUserDetails jpaUserDetails) {
+		return new JPAQuery(entityManager).from(accessLog)
+				.where(accessLog.email.eq(jpaUserDetails.getUsername()))
+				.orderBy(accessLog.loginTimestamp.desc()).limit(10).list(accessLog);
+	}
+
 	@ExtDirectMethod
 	@PreAuthorize("hasRole('ADMIN')")
+@Transactional
 	public void addTestData() {
 		if (!environment.acceptsProfiles("default")) {
 
@@ -230,7 +240,6 @@ public class AccessLogService {
 			UserAgentStringParser parser = UADetectorServiceFactory
 					.getResourceModuleParser();
 
-			List<AccessLog> accessLogs = new ArrayList<>();
 			for (int i = 0; i < 1000; i++) {
 				AccessLog log = new AccessLog();
 				int rnd = random.nextInt(users.length);
@@ -245,19 +254,18 @@ public class AccessLogService {
 
 				log.setSessionId(String.valueOf(i));
 
-				LocalDateTime logIn = LocalDateTime.of(currentYear - random.nextInt(2),
-						random.nextInt(12) + 1, random.nextInt(28) + 1,
-						random.nextInt(24), random.nextInt(60), random.nextInt(60));
-				log.setLogIn(logIn);
+				LocalDateTime loginTimestamp = LocalDateTime.of(
+						currentYear - random.nextInt(2), random.nextInt(12) + 1,
+						random.nextInt(28) + 1, random.nextInt(24), random.nextInt(60),
+						random.nextInt(60));
+				log.setLoginTimestamp(loginTimestamp);
 
 				int l = random.nextInt(ipAddresses.length);
 				log.setIpAddress(ipAddresses[l]);
 				log.setLocation(locations[l]);
 
-				accessLogs.add(log);
+				entityManager.persist(log);
 			}
-
-			accessLogRepository.save(accessLogs);
 		}
 	}
 

@@ -3,24 +3,29 @@ package ch.rasc.eds.starter.service;
 import static ch.ralscha.extdirectspring.annotation.ExtDirectMethodType.STORE_MODIFY;
 import static ch.ralscha.extdirectspring.annotation.ExtDirectMethodType.STORE_READ;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.validation.Validator;
 
+import org.ocpsoft.prettytime.PrettyTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.util.StringUtils;
 
 import ch.ralscha.extdirectspring.annotation.ExtDirectMethod;
@@ -29,10 +34,10 @@ import ch.ralscha.extdirectspring.bean.ExtDirectStoreResult;
 import ch.ralscha.extdirectspring.filter.StringFilter;
 import ch.rasc.eds.starter.config.security.JpaUserDetails;
 import ch.rasc.eds.starter.dto.UserSettings;
+import ch.rasc.eds.starter.entity.QAccessLog;
 import ch.rasc.eds.starter.entity.QUser;
 import ch.rasc.eds.starter.entity.Role;
 import ch.rasc.eds.starter.entity.User;
-import ch.rasc.eds.starter.repository.UserRepository;
 import ch.rasc.edsutil.QueryUtil;
 import ch.rasc.edsutil.ValidationUtil;
 import ch.rasc.edsutil.bean.ValidationMessages;
@@ -48,30 +53,27 @@ import com.mysema.query.jpa.impl.JPAQuery;
 @PreAuthorize("hasRole('ADMIN')")
 public class UserService {
 
-	private final UserRepository userRepository;
-
 	private final MessageSource messageSource;
-
-	private final PasswordEncoder passwordEncoder;
 
 	private final Validator validator;
 
 	private final EntityManager entityManager;
 
+	private final MailService mailService;
+
 	@Autowired
-	public UserService(EntityManager entityManager, UserRepository userRepository,
-			PasswordEncoder passwordEncoder, Validator validator,
-			MessageSource messageSource) {
+	public UserService(EntityManager entityManager, Validator validator,
+			MessageSource messageSource, MailService mailService) {
 		this.entityManager = entityManager;
-		this.userRepository = userRepository;
-		this.passwordEncoder = passwordEncoder;
 		this.messageSource = messageSource;
 		this.validator = validator;
+		this.mailService = mailService;
 	}
 
 	@ExtDirectMethod(STORE_READ)
 	@Transactional(readOnly = true)
-	public ExtDirectStoreResult<User> read(ExtDirectStoreReadRequest request) {
+	public ExtDirectStoreResult<User> read(ExtDirectStoreReadRequest request,
+			Locale locale) {
 
 		JPQLQuery query = new JPAQuery(entityManager).from(QUser.user);
 		if (!request.getFilters().isEmpty()) {
@@ -85,9 +87,27 @@ public class UserService {
 
 			query.where(bb);
 		}
+		query.where(QUser.user.deleted.isFalse());
 
 		QueryUtil.addPagingAndSorting(query, request, User.class, QUser.user);
 		SearchResults<User> searchResult = query.listResults(QUser.user);
+
+		PrettyTime prettyTime = new PrettyTime(locale);
+		for (User u : searchResult.getResults()) {
+
+			LocalDateTime lastAccess = new JPAQuery(entityManager)
+					.from(QAccessLog.accessLog)
+					.where(QAccessLog.accessLog.email.eq(u.getEmail()))
+					.orderBy(QAccessLog.accessLog.loginTimestamp.desc()).limit(1)
+					.singleResult(QAccessLog.accessLog.loginTimestamp);
+			if (lastAccess != null) {
+				u.setLastLogin(prettyTime.format(Date.from(lastAccess.atZone(
+						ZoneId.systemDefault()).toInstant())));
+			}
+			else {
+				u.setLastLogin(null);
+			}
+		}
 
 		return new ExtDirectStoreResult<>(searchResult.getTotal(),
 				searchResult.getResults());
@@ -95,10 +115,11 @@ public class UserService {
 
 	@ExtDirectMethod(STORE_MODIFY)
 	@Transactional
-	public ExtDirectStoreResult<User> destroy(Long id) {
+	public ExtDirectStoreResult<User> destroy(User destroyUser) {
 		ExtDirectStoreResult<User> result = new ExtDirectStoreResult<>();
-		if (!isLastAdmin(id)) {
-			userRepository.delete(id);
+		if (!isLastAdmin(destroyUser.getId())) {
+			User user = entityManager.find(User.class, destroyUser.getId());
+			user.setDeleted(true);
 			result.setSuccess(Boolean.TRUE);
 		}
 		else {
@@ -109,27 +130,16 @@ public class UserService {
 
 	@ExtDirectMethod(STORE_MODIFY)
 	@Transactional
-	public ValidationMessagesResult<User> create(User newEntity, Locale locale) {
-		preModify(newEntity);
-		List<ValidationMessages> violations = validateEntity(newEntity, locale);
-		if (violations.isEmpty()) {
-			User saveUser = userRepository.save(newEntity);
-			return new ValidationMessagesResult<>(saveUser);
-		}
-
-		ValidationMessagesResult<User> result = new ValidationMessagesResult<>(newEntity);
-		result.setValidations(violations);
-		return result;
-
-	}
-
-	@ExtDirectMethod(STORE_MODIFY)
-	@Transactional
 	public ValidationMessagesResult<User> update(User updatedEntity, Locale locale) {
 		preModify(updatedEntity);
 		List<ValidationMessages> violations = validateEntity(updatedEntity, locale);
 		if (violations.isEmpty()) {
-			return new ValidationMessagesResult<>(userRepository.save(updatedEntity));
+			User merged = entityManager.merge(updatedEntity);
+			if (updatedEntity.isPasswordReset()) {
+				sendPassordResetEmail(merged);
+			}
+
+			return new ValidationMessagesResult<>(merged);
 		}
 
 		ValidationMessagesResult<User> result = new ValidationMessagesResult<>(
@@ -138,7 +148,16 @@ public class UserService {
 		return result;
 	}
 
-	protected List<ValidationMessages> validateEntity(User user, Locale locale) {
+	private void sendPassordResetEmail(User user) {
+		String token = UUID.randomUUID().toString();
+		mailService.sendPasswortResetEmail(user.getEmail(), token);
+
+		user.setPasswordResetTokenValidUntil(LocalDateTime.now().plusHours(4));
+		user.setPasswordResetToken(token);
+		entityManager.merge(user);
+	}
+
+	private List<ValidationMessages> validateEntity(User user, Locale locale) {
 		List<ValidationMessages> validations = ValidationUtil.validateEntity(validator,
 				user);
 
@@ -150,34 +169,17 @@ public class UserService {
 			validations.add(validationError);
 		}
 
-		if (StringUtils.hasText(user.getNewPassword())) {
-			if (!user.getNewPassword().equals(user.getNewPasswordRetype())) {
-				for (String field : new String[] { "newPassword", "newPasswordRetype" }) {
-					ValidationMessages error = new ValidationMessages();
-					error.setField(field);
-					error.setMessage(messageSource.getMessage("user_pwdonotmatch", null,
-							locale));
-					validations.add(error);
-				}
-			}
-		}
-
 		return validations;
 	}
 
 	private void preModify(User entity) {
+		if (entity.getId() != null && entity.getId() > 0) {
+			String dbPassword = new JPAQuery(entityManager).from(QUser.user)
+					.where(QUser.user.id.eq(entity.getId()))
+					.singleResult(QUser.user.passwordHash);
+			entity.setPasswordHash(dbPassword);
+		}
 
-		if (StringUtils.hasText(entity.getNewPassword())) {
-			entity.setPasswordHash(passwordEncoder.encode(entity.getNewPassword()));
-		}
-		else {
-			if (entity.getId() != null && entity.getId() > 0) {
-				String dbPassword = new JPAQuery(entityManager).from(QUser.user)
-						.where(QUser.user.id.eq(entity.getId()))
-						.singleResult(QUser.user.passwordHash);
-				entity.setPasswordHash(dbPassword);
-			}
-		}
 	}
 
 	private boolean isLastAdmin(Long id) {
@@ -188,7 +190,7 @@ public class UserService {
 		bb.or(QUser.user.role.contains("," + Role.ADMIN.name() + ","));
 		bb.or(QUser.user.role.startsWith(Role.ADMIN.name() + ","));
 
-		query.where(QUser.user.id.ne(id).and(bb));
+		query.where(QUser.user.id.ne(id).and(QUser.user.deleted.isFalse()).and(bb));
 		return query.notExists();
 	}
 
@@ -200,6 +202,7 @@ public class UserService {
 			if (userId != null) {
 				bb.and(QUser.user.id.ne(userId));
 			}
+			bb.and(QUser.user.deleted.isFalse());
 			return new JPAQuery(entityManager).from(QUser.user).where(bb).exists();
 		}
 
@@ -215,12 +218,13 @@ public class UserService {
 	}
 
 	@ExtDirectMethod
+	@Transactional
 	public boolean unlock(Long userId) {
-		User user = userRepository.findOne(userId);
+		User user = entityManager.find(User.class, userId);
 		if (user != null) {
 			user.setLockedOutUntil(null);
 			user.setFailedLogins(null);
-			userRepository.save(user);
+			entityManager.persist(user);
 			return true;
 		}
 		return false;
@@ -231,17 +235,19 @@ public class UserService {
 	@PreAuthorize("isAuthenticated()")
 	public UserSettings readSettings(
 			@AuthenticationPrincipal JpaUserDetails jpaUserDetails) {
-		return new UserSettings(userRepository.findOne(jpaUserDetails.getUserDbId()));
+		return new UserSettings(entityManager.find(User.class,
+				jpaUserDetails.getUserDbId()));
 	}
 
 	@ExtDirectMethod
 	@PreAuthorize("isAuthenticated()")
+	@Transactional
 	public List<ValidationMessages> updateSettings(UserSettings modifiedUserSettings,
 			@AuthenticationPrincipal JpaUserDetails jpaUserDetails, Locale locale) {
 
 		List<ValidationMessages> validations = ValidationUtil.validateEntity(validator,
 				modifiedUserSettings);
-		User user = userRepository.findOne(jpaUserDetails.getUserDbId());
+		User user = entityManager.find(User.class, jpaUserDetails.getUserDbId());
 
 		if (validations.isEmpty()) {
 			user.setLastName(modifiedUserSettings.getLastName());
@@ -250,6 +256,7 @@ public class UserService {
 			user.setLocale(modifiedUserSettings.getLocale());
 		}
 
+		// todo is this neccessary
 		if (emailTaken(user.getId(), modifiedUserSettings.getEmail())) {
 			ValidationMessages validationError = new ValidationMessages();
 			validationError.setField("email");
@@ -258,35 +265,13 @@ public class UserService {
 			validations.add(validationError);
 		}
 
-		if (StringUtils.hasText(modifiedUserSettings.getNewPassword())) {
-			if (passwordEncoder.matches(modifiedUserSettings.getCurrentPassword(),
-					user.getPasswordHash())) {
-				if (modifiedUserSettings.getNewPassword().equals(
-						modifiedUserSettings.getNewPasswordRetype())) {
-					user.setPasswordHash(passwordEncoder.encode(modifiedUserSettings
-							.getNewPassword()));
-				}
-				else {
-					for (String field : new String[] { "newPassword", "newPasswordRetype" }) {
-						ValidationMessages error = new ValidationMessages();
-						error.setField(field);
-						error.setMessage(messageSource.getMessage("user_pwdonotmatch",
-								null, locale));
-						validations.add(error);
-					}
-				}
-			}
-			else {
-				ValidationMessages error = new ValidationMessages();
-				error.setField("currentPassword");
-				error.setMessage(messageSource.getMessage("user_wrongpassword", null,
-						locale));
-				validations.add(error);
-			}
+		if (!validations.isEmpty()) {
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 		}
-
-		if (validations.isEmpty()) {
-			userRepository.save(user);
+		else {
+			if (modifiedUserSettings.isPasswordReset()) {
+				sendPassordResetEmail(user);
+			}
 		}
 
 		return validations;

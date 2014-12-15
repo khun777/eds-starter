@@ -1,5 +1,6 @@
 package ch.rasc.eds.starter.config;
 
+import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 
 import org.slf4j.Logger;
@@ -7,37 +8,51 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallbackWithoutResult;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.db.DBAppender;
 import ch.qos.logback.core.db.DataSourceConnectionSource;
+import ch.rasc.eds.starter.entity.QUser;
 import ch.rasc.eds.starter.entity.Role;
 import ch.rasc.eds.starter.entity.User;
-import ch.rasc.eds.starter.repository.UserRepository;
+
+import com.mysema.query.jpa.impl.JPAQuery;
 
 @Component
 class Startup {
 
-	private final UserRepository userRepository;
+	private final EntityManager entityManager;
 
 	private final DataSource dataSource;
 
 	private final PasswordEncoder passwordEncoder;
 
 	@Autowired
-	public Startup(UserRepository userRepository, DataSource dataSource,
-			PasswordEncoder passwordEncoder) {
-		this.userRepository = userRepository;
+	public Startup(EntityManager entityManager, DataSource dataSource,
+			PasswordEncoder passwordEncoder, PlatformTransactionManager transactionManager) {
+		this.entityManager = entityManager;
 		this.dataSource = dataSource;
 		this.passwordEncoder = passwordEncoder;
-		init();
+
+		new TransactionTemplate(transactionManager)
+				.execute(new TransactionCallbackWithoutResult() {
+					@Override
+					protected void doInTransactionWithoutResult(TransactionStatus status) {
+						init();
+					}
+				});
+
 	}
 
-	public void init() {
+	private void init() {
 
 		configureLog();
 
-		if (userRepository.count() == 0) {
+		if (new JPAQuery(entityManager).from(QUser.user).count() == 0) {
 			// admin user
 			User adminUser = new User();
 			adminUser.setEmail("admin@starter.com");
@@ -46,8 +61,9 @@ class Startup {
 			adminUser.setLocale("en");
 			adminUser.setPasswordHash(passwordEncoder.encode("admin"));
 			adminUser.setEnabled(true);
+			adminUser.setDeleted(false);
 			adminUser.setRole(Role.ADMIN.name());
-			userRepository.save(adminUser);
+			entityManager.persist(adminUser);
 
 			// normal user
 			User normalUser = new User();
@@ -57,8 +73,9 @@ class Startup {
 			normalUser.setLocale("de");
 			normalUser.setPasswordHash(passwordEncoder.encode("user"));
 			normalUser.setEnabled(true);
+			adminUser.setDeleted(false);
 			normalUser.setRole(Role.USER.name());
-			userRepository.save(normalUser);
+			entityManager.persist(normalUser);
 		}
 
 	}

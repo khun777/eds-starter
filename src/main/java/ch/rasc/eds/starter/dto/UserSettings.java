@@ -1,27 +1,28 @@
 package ch.rasc.eds.starter.dto;
 
+import javax.persistence.Transient;
+
 import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.NotBlank;
 
 import ch.rasc.eds.starter.entity.User;
 
 public class UserSettings {
-	@NotEmpty(message = "{fieldrequired}")
+	@NotBlank(message = "{fieldrequired}")
 	public String firstName;
 
-	@NotEmpty(message = "{fieldrequired}")
+	@NotBlank(message = "{fieldrequired}")
 	public String lastName;
 
-	@NotEmpty(message = "{fieldrequired}")
+	@NotBlank(message = "{fieldrequired}")
 	public String locale;
 
 	@Email(message = "{invalidemail}")
-	@NotEmpty(message = "{fieldrequired}")
+	@NotBlank(message = "{fieldrequired}")
 	public String email;
 
-	public String currentPassword;
-	public String newPassword;
-	public String newPasswordRetype;
+	@Transient
+	private boolean passwordReset;
 
 	public UserSettings() {
 		// default constructor
@@ -66,28 +67,12 @@ public class UserSettings {
 		this.email = email;
 	}
 
-	public String getCurrentPassword() {
-		return currentPassword;
+	public boolean isPasswordReset() {
+		return passwordReset;
 	}
 
-	public void setCurrentPassword(String currentPassword) {
-		this.currentPassword = currentPassword;
-	}
-
-	public String getNewPassword() {
-		return newPassword;
-	}
-
-	public void setNewPassword(String newPassword) {
-		this.newPassword = newPassword;
-	}
-
-	public String getNewPasswordRetype() {
-		return newPasswordRetype;
-	}
-
-	public void setNewPasswordRetype(String newPasswordRetype) {
-		this.newPasswordRetype = newPasswordRetype;
+	public void setPasswordReset(boolean passwordReset) {
+		this.passwordReset = passwordReset;
 	}
 
 }

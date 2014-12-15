@@ -30,7 +30,7 @@ Ext.define('Starter.view.accesslog.Grid', {
 		width: 200
 	}, {
 		text: i18n.accesslog_login,
-		dataIndex: 'logIn',
+		dataIndex: 'loginTimestamp',
 		width: 150,
 		xtype: 'datecolumn',
 		format: 'Y-m-d H:i:s'

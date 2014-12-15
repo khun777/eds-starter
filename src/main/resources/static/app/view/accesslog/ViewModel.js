@@ -10,7 +10,7 @@ Ext.define('Starter.view.accesslog.ViewModel', {
 			remoteFilter: true,
 			pageSize: 30,
 			sorters: [ {
-				property: 'logIn',
+				property: 'loginTimestamp',
 				direction: 'DESC'
 			} ]
 		},

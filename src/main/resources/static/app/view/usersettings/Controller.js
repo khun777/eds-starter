@@ -5,6 +5,17 @@ Ext.define('Starter.view.usersettings.Controller', {
 		userService.readSettings(function(user) {
 			this.getViewModel().set('user', user);
 		}, this);
+		this.getStore('last10logs').load();
+	},
+
+	clearState: function() {
+		var store = Ext.state.Manager.getProvider().store;
+		store.removeAll();
+		store.sync({
+			callback: function() {
+				location.reload();
+			}
+		});
 	},
 
 	save: function() {

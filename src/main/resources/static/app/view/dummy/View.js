@@ -18,11 +18,10 @@ Ext.define('Starter.view.dummy.View', {
 	},
 
 	dockedItems: [{
-
 		xtype: 'toolbar',
 		dock: 'top',
 		items: [ {
-			text: 'Call secured service',
+			text: i18n.dummy_callSecuredService,
 			handler: 'callSecuredService'
 		} ]		
 	}],

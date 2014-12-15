@@ -1,14 +1,12 @@
 Ext.define("Starter.model.User",
 {
   extend : "Ext.data.Model",
-  requires : [ "Ext.data.identifier.Negative", "Ext.data.proxy.Direct", "Ext.data.validator.Email", "Ext.data.validator.Length", "Ext.data.validator.Presence" ],
+  requires : [ "Ext.data.identifier.Negative", "Ext.data.proxy.Direct", "Ext.data.validator.Email", "Ext.data.validator.Length" ],
   identifier : "negative",
   fields : [ {
     name : "lastName",
     type : "string",
     validators : [ {
-      type : "presence"
-    }, {
       type : "length",
       min : 0,
       max : 255
@@ -17,8 +15,6 @@ Ext.define("Starter.model.User",
     name : "firstName",
     type : "string",
     validators : [ {
-      type : "presence"
-    }, {
       type : "length",
       min : 0,
       max : 255
@@ -28,8 +24,6 @@ Ext.define("Starter.model.User",
     type : "string",
     validators : [ {
       type : "email"
-    }, {
-      type : "presence"
     }, {
       type : "length",
       min : 0,
@@ -48,14 +42,15 @@ Ext.define("Starter.model.User",
     name : "locale",
     type : "string",
     validators : [ {
-      type : "presence"
-    }, {
       type : "length",
       min : 0,
       max : 8
     } ]
   }, {
     name : "enabled",
+    type : "boolean"
+  }, {
+    name : "passwordReset",
     type : "boolean"
   }, {
     name : "failedLogins",
@@ -68,8 +63,7 @@ Ext.define("Starter.model.User",
     persist : false
   }, {
     name : "lastLogin",
-    type : "date",
-    dateFormat : "c",
+    type : "string",
     persist : false
   }, {
     name : "autoOpenView",
@@ -85,7 +79,7 @@ Ext.define("Starter.model.User",
     type : "direct",
     api : {
       read : "userService.read",
-      create : "userService.create",
+      create : "userService.update",
       update : "userService.update",
       destroy : "userService.destroy"
     },

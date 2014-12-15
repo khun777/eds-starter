@@ -2,11 +2,14 @@ package ch.rasc.eds.starter.service;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import ch.qos.logback.classic.Level;
@@ -16,7 +19,9 @@ import ch.rasc.eds.starter.config.security.UserAuthenticationErrorHandler;
 import ch.rasc.eds.starter.dto.ConfigurationDto;
 import ch.rasc.eds.starter.entity.Configuration;
 import ch.rasc.eds.starter.entity.ConfigurationKey;
-import ch.rasc.eds.starter.repository.ConfigurationRepository;
+import ch.rasc.eds.starter.entity.QConfiguration;
+
+import com.mysema.query.jpa.impl.JPAQuery;
 
 @Service
 @Lazy
@@ -24,16 +29,15 @@ public class AppConfigurationService {
 
 	private final MailService mailService;
 
-	private final ConfigurationRepository configurationRepository;
+	private final EntityManager entityManager;
 
 	private final UserAuthenticationErrorHandler userAuthenticationErrorHandler;
 
 	@Autowired
-	public AppConfigurationService(ConfigurationRepository configurationRepository,
-			MailService mailService,
+	public AppConfigurationService(EntityManager entityManager, MailService mailService,
 			UserAuthenticationErrorHandler userAuthenticationErrorHandler) {
 		this.mailService = mailService;
-		this.configurationRepository = configurationRepository;
+		this.entityManager = entityManager;
 		this.userAuthenticationErrorHandler = userAuthenticationErrorHandler;
 	}
 
@@ -45,6 +49,7 @@ public class AppConfigurationService {
 
 	@ExtDirectMethod
 	@PreAuthorize("hasRole('ADMIN')")
+	@Transactional(readOnly = true)
 	public ConfigurationDto read() {
 
 		ConfigurationDto dto = new ConfigurationDto();
@@ -55,7 +60,8 @@ public class AppConfigurationService {
 				.getEffectiveLevel().toString() : "ERROR";
 		dto.setLogLevel(level);
 
-		List<Configuration> configurations = configurationRepository.findAll();
+		List<Configuration> configurations = new JPAQuery(entityManager).from(
+				QConfiguration.configuration).list(QConfiguration.configuration);
 
 		String value = read(ConfigurationKey.LOGIN_LOCK_ATTEMPTS, configurations);
 		if (value != null) {
@@ -81,9 +87,10 @@ public class AppConfigurationService {
 
 	@ExtDirectMethod
 	@PreAuthorize("hasRole('ADMIN')")
+	@Transactional
 	public void save(ConfigurationDto data) {
 		LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
-		ch.qos.logback.classic.Logger logger = lc.getLogger("ch.rasc.eds.starter");
+		ch.qos.logback.classic.Logger logger = lc.getLogger("ch.rasc");
 		Level level = Level.toLevel(data.getLogLevel());
 		if (level != null) {
 			logger.setLevel(level);
@@ -99,11 +106,14 @@ public class AppConfigurationService {
 		update(ConfigurationKey.LOGIN_LOCK_MINUTES, value != null ? value.toString()
 				: null);
 
-		userAuthenticationErrorHandler.configure(configurationRepository);
+		userAuthenticationErrorHandler.configure();
 	}
 
 	private void update(ConfigurationKey key, String value) {
-		Configuration conf = configurationRepository.findByConfKey(key);
+		Configuration conf = new JPAQuery(entityManager)
+				.from(QConfiguration.configuration)
+				.where(QConfiguration.configuration.confKey.eq(key))
+				.singleResult(QConfiguration.configuration);
 
 		if (StringUtils.hasText(value)) {
 			if (conf != null) {
@@ -115,11 +125,11 @@ public class AppConfigurationService {
 				conf.setConfValue(value);
 			}
 
-			configurationRepository.save(conf);
+			entityManager.merge(conf);
 		}
 		else {
 			if (conf != null) {
-				configurationRepository.delete(conf);
+				entityManager.remove(conf);
 			}
 		}
 

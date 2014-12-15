@@ -58,10 +58,17 @@ public class I18nMessageController {
 	}
 
 	private byte[] buildResponse(Locale locale) throws JsonProcessingException {
-		ResourceBundle rb = ResourceBundle.getBundle("messages", locale);
-
 		Map<String, String> messages = new HashMap<>();
+
+		ResourceBundle rb = ResourceBundle.getBundle("messages", locale);
 		Enumeration<String> e = rb.getKeys();
+		while (e.hasMoreElements()) {
+			String key = e.nextElement();
+			messages.put(key, rb.getString(key));
+		}
+
+		rb = ResourceBundle.getBundle("ValidationMessages", locale);
+		e = rb.getKeys();
 		while (e.hasMoreElements()) {
 			String key = e.nextElement();
 			messages.put(key, rb.getString(key));

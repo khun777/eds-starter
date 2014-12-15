@@ -11,7 +11,7 @@ Ext.define("Starter.model.AccessLog",
       max : 255
     } ]
   }, {
-    name : "logIn",
+    name : "loginTimestamp",
     type : "date",
     dateFormat : "c"
   }, {

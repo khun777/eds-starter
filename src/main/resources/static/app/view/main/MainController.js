@@ -91,7 +91,8 @@ Ext.define('Starter.view.main.MainController', {
 	},
 
 	onUserSettingsClick: function() {
-		new Starter.view.usersettings.Window();
+		var win = new Starter.view.usersettings.Window();
+		win.show();
 	}
 
 });

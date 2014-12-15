@@ -45,7 +45,8 @@ Ext.onReady(function() {
 		standardSubmit: true,
 
 		defaults: {
-			anchor: '100%'
+			anchor: '100%',
+			msgTarget: 'side'
 		},
 
 		defaultType: 'textfield',

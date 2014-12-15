@@ -1,36 +1,36 @@
 package ch.rasc.eds.starter.config.security;
 
-import java.time.LocalDateTime;
+import javax.persistence.EntityManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.InteractiveAuthenticationSuccessEvent;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import ch.rasc.eds.starter.entity.User;
-import ch.rasc.eds.starter.repository.UserRepository;
 
 @Component
 public class UserAuthenticationSuccessfulHandler implements
 		ApplicationListener<InteractiveAuthenticationSuccessEvent> {
 
-	private final UserRepository userRepository;
+	private final EntityManager entityManager;
 
 	@Autowired
-	public UserAuthenticationSuccessfulHandler(UserRepository userRepository) {
-		this.userRepository = userRepository;
+	public UserAuthenticationSuccessfulHandler(EntityManager entityManager) {
+		this.entityManager = entityManager;
 	}
 
 	@Override
+	@Transactional
 	public void onApplicationEvent(InteractiveAuthenticationSuccessEvent event) {
 		Object principal = event.getAuthentication().getPrincipal();
 		if (principal instanceof JpaUserDetails) {
-			User user = userRepository
-					.findOne(((JpaUserDetails) principal).getUserDbId());
+			User user = entityManager.find(User.class,
+					((JpaUserDetails) principal).getUserDbId());
 			user.setLockedOutUntil(null);
 			user.setFailedLogins(null);
-			user.setLastLogin(LocalDateTime.now());
-			userRepository.save(user);
+			entityManager.merge(user);
 		}
 	}
 }

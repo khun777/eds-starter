@@ -92,9 +92,13 @@ public class HtmlController {
 	private static String createExtJSLocale(Environment environment, Locale locale) {
 		String extjsLocale = "";
 		if (locale != null && locale.getLanguage().toLowerCase().equals("de")) {
+			String debug = "";
+			if (environment.acceptsProfiles("development")) {
+				debug = "-debug";
+			}
 			String extVersion = environment.getProperty("ext.version");
 			extjsLocale = "<script src=\"resources/ext/" + extVersion
-					+ "/locale/ext-locale-de.js\"></script>";
+					+ "/locale/ext-locale-de" + debug + ".js\"></script>";
 		}
 		return extjsLocale;
 	}

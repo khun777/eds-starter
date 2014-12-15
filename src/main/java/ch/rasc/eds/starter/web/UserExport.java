@@ -3,6 +3,7 @@ package ch.rasc.eds.starter.web;
 import java.io.OutputStream;
 import java.util.Locale;
 
+import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -26,21 +27,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import ch.rasc.eds.starter.entity.QUser;
 import ch.rasc.eds.starter.entity.User;
-import ch.rasc.eds.starter.repository.UserRepository;
 
 import com.mysema.query.BooleanBuilder;
+import com.mysema.query.jpa.impl.JPAQuery;
 
 @Controller
 @Lazy
 public class UserExport {
 
-	private final UserRepository userRepository;
+	private final EntityManager entityManager;
 
 	private final MessageSource messageSource;
 
 	@Autowired
-	public UserExport(UserRepository userRepository, MessageSource messageSource) {
-		this.userRepository = userRepository;
+	public UserExport(EntityManager entityManager, MessageSource messageSource) {
+		this.entityManager = entityManager;
 		this.messageSource = messageSource;
 	}
 
@@ -96,9 +97,12 @@ public class UserExport {
 				bb.or(QUser.user.firstName.containsIgnoreCase(filter));
 				bb.or(QUser.user.email.containsIgnoreCase(filter));
 			}
+			bb.and(QUser.user.deleted.isFalse());
+
+			JPAQuery query = new JPAQuery(entityManager).from(QUser.user);
 
 			int rowNo = 1;
-			for (User user : userRepository.findAll(bb)) {
+			for (User user : query.where(bb).list(QUser.user)) {
 				row = sheet.createRow(rowNo);
 				rowNo++;
 
