@@ -150,7 +150,7 @@ public class UserService {
 
 	private void sendPassordResetEmail(User user) {
 		String token = UUID.randomUUID().toString();
-		mailService.sendPasswortResetEmail(user.getEmail(), token);
+		mailService.sendPasswortResetEmail(user, token);
 
 		user.setPasswordResetTokenValidUntil(LocalDateTime.now().plusHours(4));
 		user.setPasswordResetToken(token);

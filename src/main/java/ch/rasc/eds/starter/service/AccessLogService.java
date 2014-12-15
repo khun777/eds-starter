@@ -214,7 +214,7 @@ public class AccessLogService {
 
 	@ExtDirectMethod
 	@PreAuthorize("hasRole('ADMIN')")
-@Transactional
+	@Transactional
 	public void addTestData() {
 		if (!environment.acceptsProfiles("default")) {
 

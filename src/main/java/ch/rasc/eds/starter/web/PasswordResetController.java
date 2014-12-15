@@ -59,10 +59,9 @@ public class PasswordResetController {
 					.where(QUser.user.passwordResetToken.eq(decodedToken))
 					.singleResult(QUser.user);
 			if (user != null && user.getPasswordResetTokenValidUntil() != null) {
-				if (user.getPasswordResetTokenValidUntil().isAfter(
-						LocalDateTime.now())) {
+				if (user.getPasswordResetTokenValidUntil().isAfter(LocalDateTime.now())) {
 					user.setPasswordHash(passwordEncoder.encode(newPassword));
-					
+
 					JpaUserDetails principal = new JpaUserDetails(user);
 					UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
 							principal, null, principal.getAuthorities());
@@ -89,17 +88,16 @@ public class PasswordResetController {
 		if (users.size() > 1) {
 			user = new JPAQuery(entityManager).from(QUser.user)
 					.where(QUser.user.email.eq(email)).singleResult(QUser.user);
-			}
+		}
 		else if (users.size() == 1) {
 			user = users.iterator().next();
-			}
+		}
 
 		if (user != null) {
 			String token = UUID.randomUUID().toString();
-			mailService.sendPasswortResetEmail(user.getEmail(), token);
+			mailService.sendPasswortResetEmail(user, token);
 
-			user.setPasswordResetTokenValidUntil(LocalDateTime.now()
-					.plusHours(4));
+			user.setPasswordResetTokenValidUntil(LocalDateTime.now().plusHours(4));
 			user.setPasswordResetToken(token);
 		}
 
