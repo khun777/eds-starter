@@ -151,7 +151,6 @@ public class User extends AbstractPersistable {
 		this.passwordReset = passwordReset;
 	}
 
-
 	public Integer getFailedLogins() {
 		return failedLogins;
 	}

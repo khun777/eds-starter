@@ -30,7 +30,7 @@ public class JpaUserDetailsService implements UserDetailsService {
 		User user = new JPAQuery(entityManager).from(QUser.user)
 				.where(QUser.user.email.eq(email).and(QUser.user.deleted.isFalse()))
 				.singleResult(QUser.user);
-		
+
 		if (user != null) {
 			return new JpaUserDetails(user);
 		}

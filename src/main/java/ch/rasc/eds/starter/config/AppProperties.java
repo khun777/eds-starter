@@ -9,7 +9,7 @@ public class AppProperties {
 	private String url;
 
 	private String defaultEmailSender;
-	
+
 	private String geoIp2CityDatabaseFile;
 
 	public String getUrl() {

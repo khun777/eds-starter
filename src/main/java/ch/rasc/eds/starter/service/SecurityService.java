@@ -34,8 +34,7 @@ public class SecurityService {
 	private final GeoIPCityService geoIpCityService;
 
 	@Autowired
-	public SecurityService(EntityManager entityManager,
-			GeoIPCityService geoIpCityService) {
+	public SecurityService(EntityManager entityManager, GeoIPCityService geoIpCityService) {
 		this.entityManager = entityManager;
 		this.geoIpCityService = geoIpCityService;
 	}
