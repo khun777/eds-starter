@@ -32,6 +32,7 @@ Ext.define('Starter.view.main.Main', {
 		reference: 'centerTabPanel',
 		plain: true,
 		split: true,
+		//todo
 		plugins: [ /*'tabreorderer',*/ {
 			ptype: 'tabclosemenu',
 			closeTabText: i18n.tabclosemenu_close,
